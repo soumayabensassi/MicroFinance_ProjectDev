@@ -3,11 +3,9 @@ package com.example.microgrowth.DAO.Entities;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,5 +19,7 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idrole;
     String name;
+    @OneToMany(mappedBy = "roles")
+    List<User> userList;
 
 }

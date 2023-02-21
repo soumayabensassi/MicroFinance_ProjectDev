@@ -20,5 +20,6 @@ import java.util.Date;
         int idIntreview;
         @Temporal(TemporalType.TIME)
         Date dateIntreview;
-
+    @OneToOne(mappedBy = "intreviews")
+    Credit credits;
 }

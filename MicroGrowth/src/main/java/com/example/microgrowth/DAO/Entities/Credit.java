@@ -28,6 +28,15 @@ public class Credit implements Serializable {
     float intrestRaiting;
     float monthlyAmount;
     boolean state;
+    @ManyToOne
 
+    User users;
+
+    @ManyToOne
+    ActivitySector activiteSecteurs;
+     @OneToOne (cascade = CascadeType.ALL)
+     Intreview intreviews;
+    @OneToOne (cascade = CascadeType.ALL)
+    Inssurance inssurances;
 
 }

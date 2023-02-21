@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +27,8 @@ public class Training implements Serializable {
     float price;
     int nbrOfPlace;
     String subject;
+
+
+    @ManyToMany
+    List<User> userList;
 }

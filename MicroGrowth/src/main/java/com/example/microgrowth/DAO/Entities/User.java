@@ -3,11 +3,9 @@ package com.example.microgrowth.DAO.Entities;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +28,19 @@ public class User implements Serializable {
     String profession;
     long cin;
 
+    @OneToMany(mappedBy = "users")
+    List<Investment> investmentList;
 
-
+    @OneToMany(mappedBy = "users")
+    List<Credit> creditList;
+    @OneToMany(mappedBy = "users")
+    List<Transaction> transactionList;
+    @ManyToOne
+    Role roles;
+    @ManyToMany(mappedBy = "userList")
+    List<Training> trainingList;
+    @OneToMany(mappedBy = "users")
+    List<Complaint> complaintList;
+    @OneToMany(mappedBy = "users")
+    List<Publication> publicationList;
 }

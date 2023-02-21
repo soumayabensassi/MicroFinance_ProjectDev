@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,4 +20,8 @@ public class Publication implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idPublication;
     String text;
+    @ManyToOne
+    User users;
+    @OneToMany(mappedBy = "publications")
+    List<Comment> commentList;
 }

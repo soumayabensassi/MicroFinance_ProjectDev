@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
     @Getter
@@ -24,7 +25,8 @@ import java.util.Date;
         Date dateAcount;
         @Enumerated(EnumType.STRING)
         Type_account typeAccount;
-
+        @ManyToMany(mappedBy = "bankAcountList")
+        List<Transaction> transactionList;
 
 
 }

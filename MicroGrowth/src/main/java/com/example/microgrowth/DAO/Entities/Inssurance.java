@@ -23,4 +23,6 @@ public class Inssurance implements Serializable {
     Date startDate;
     @Temporal(TemporalType.DATE)
     Date endDate;
+    @OneToOne(mappedBy = "inssurances")
+    Credit credits;
 }

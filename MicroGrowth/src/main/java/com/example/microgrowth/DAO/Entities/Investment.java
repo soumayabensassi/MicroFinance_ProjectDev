@@ -21,6 +21,7 @@ import java.io.Serializable;
         float amountInves;
         @Enumerated(EnumType.STRING)
         MethodInvestissement methodInvestissement;
-
+        @ManyToOne
+        User users;
 
 }

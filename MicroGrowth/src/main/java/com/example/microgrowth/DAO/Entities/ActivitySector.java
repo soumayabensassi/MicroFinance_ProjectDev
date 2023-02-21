@@ -6,7 +6,9 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-    @Entity
+import java.util.List;
+
+@Entity
     @Getter
     @Setter
     @NoArgsConstructor
@@ -18,4 +20,6 @@ import java.util.Date;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idSecteur;
         String name;
+    @OneToMany(mappedBy = "activiteSecteurs")
+    List<Credit> creditList;
 }

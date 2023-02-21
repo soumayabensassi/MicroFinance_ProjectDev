@@ -23,5 +23,7 @@ public class Complaint implements Serializable {
     String subject;
     String text;
     boolean state;
+    @ManyToOne
+    User users;
 
 }

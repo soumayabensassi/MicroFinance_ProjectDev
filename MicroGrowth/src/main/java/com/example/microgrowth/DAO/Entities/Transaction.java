@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +26,10 @@ public class Transaction implements Serializable {
     float amountTransaction;
     String ribSource;
     String ribReceiver;
+    @ManyToOne
+    User users;
+    @ManyToMany
+    List<BankAcount> bankAcountList;
 
 
 
