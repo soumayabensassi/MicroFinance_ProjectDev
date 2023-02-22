@@ -27,7 +27,7 @@ public class UserRestControllers {
     public User update(@RequestBody User user)
     {return iUser.edit(user);
     }
-    @GetMapping("/ajouterUserbyID/{id}")
+    @GetMapping("/afficherUserbyID/{id}")
     public User AfficherByID(@PathVariable int id)
     {
         return iUser.SelectById(id);

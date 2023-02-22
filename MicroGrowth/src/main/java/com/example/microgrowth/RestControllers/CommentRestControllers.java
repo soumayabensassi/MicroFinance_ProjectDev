@@ -28,7 +28,7 @@ public class CommentRestControllers {
     public Comment update(@RequestBody Comment comment)
     {return iComment.edit(comment);
     }
-    @GetMapping("/ajouterCommentbyID/{id}")
+    @GetMapping("/AfficherCommentbyID/{id}")
     public Comment AfficherByID(@PathVariable int id)
     {
         return iComment.SelectById(id);

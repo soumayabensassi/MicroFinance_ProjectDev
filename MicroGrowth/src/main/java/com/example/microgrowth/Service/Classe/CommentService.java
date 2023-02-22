@@ -3,9 +3,12 @@ package com.example.microgrowth.Service.Classe;
 import com.example.microgrowth.DAO.Entities.Comment;
 import com.example.microgrowth.DAO.Repositories.CommentRepository;
 import com.example.microgrowth.Service.Interfaces.IComment;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@AllArgsConstructor
+@Service
 public class CommentService implements IComment {
 
     private CommentRepository commentRepository;
