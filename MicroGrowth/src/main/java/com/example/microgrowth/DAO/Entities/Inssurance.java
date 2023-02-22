@@ -23,6 +23,9 @@ public class Inssurance implements Serializable {
     Date startDate;
     @Temporal(TemporalType.DATE)
     Date endDate;
-    @OneToOne(mappedBy = "inssurances")
-    Credit credits;
+
+    @ManyToOne
+    User users;
+    @ManyToOne(cascade = CascadeType.ALL)
+    ActivitySector activitySector;
 }

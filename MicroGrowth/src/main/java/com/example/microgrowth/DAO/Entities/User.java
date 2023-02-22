@@ -34,6 +34,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "users")
     List<Credit> creditList;
     @OneToMany(mappedBy = "users")
+    List<Inssurance> inssuranceList;
+    @OneToMany(mappedBy = "users")
     List<Transaction> transactionList;
     @ManyToOne
     Role roles;
