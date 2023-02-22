@@ -28,9 +28,4 @@ import java.util.List;
         @ManyToMany(mappedBy = "bankAcountList")
         List<Transaction> transactionList;
 
-
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 }
