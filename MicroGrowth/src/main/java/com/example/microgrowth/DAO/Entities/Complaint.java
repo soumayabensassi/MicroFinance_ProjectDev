@@ -25,5 +25,5 @@ public class Complaint implements Serializable {
     boolean state;
     @ManyToOne
     User users;
-//test
+
 }
