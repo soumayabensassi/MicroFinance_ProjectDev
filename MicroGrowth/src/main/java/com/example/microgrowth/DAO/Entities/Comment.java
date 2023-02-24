@@ -18,7 +18,7 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idComment;
     String text;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     User users;
     @ManyToOne
     Publication publications;
