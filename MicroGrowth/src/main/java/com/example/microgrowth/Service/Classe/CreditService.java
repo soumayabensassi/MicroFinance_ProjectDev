@@ -2,7 +2,6 @@ package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
-import com.example.microgrowth.DAO.Repositories.PublicationRepository;
 import com.example.microgrowth.Service.Interfaces.ICredit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
