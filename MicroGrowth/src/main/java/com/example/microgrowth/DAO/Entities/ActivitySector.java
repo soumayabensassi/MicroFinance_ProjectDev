@@ -20,6 +20,7 @@ import java.util.List;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idSecteur;
         String name;
+        String image_sector;
     @OneToMany(mappedBy = "activiteSecteurs")
     List<Credit> creditList;
 }
