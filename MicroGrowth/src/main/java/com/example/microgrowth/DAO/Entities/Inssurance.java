@@ -17,7 +17,7 @@ import java.util.Date;
 public class Inssurance implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int idInssurace;
+    int idInsurance;
     float amount;
     @Temporal(TemporalType.DATE)
     Date startDate;
