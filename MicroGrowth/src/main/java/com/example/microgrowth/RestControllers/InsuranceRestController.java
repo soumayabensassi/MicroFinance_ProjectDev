@@ -38,6 +38,7 @@ public class InsuranceRestController {
     @DeleteMapping("/deleteInsurance/{id}")
     public void delete(@PathVariable int idInsurance)
     {
+
         iInsuranceService.deleteById(idInsurance);
     }
 

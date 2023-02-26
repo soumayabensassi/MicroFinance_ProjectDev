@@ -9,7 +9,7 @@ public interface IInsuranceService {
     Inssurance edit(Inssurance inssurance);
     List<Inssurance> selectAll();
     Inssurance selectById(int idInsurance);
-    void deletedById (int idInsurance);
+
     void delete (Inssurance inssurance);
     List<Inssurance> addAll(List<Inssurance> inssuranceList);
 
@@ -17,4 +17,5 @@ public interface IInsuranceService {
     void deleteAll(List<Inssurance> inssuranceList);
 
 
+    void deleteById(int idInsurance);
 }

@@ -35,11 +35,6 @@ public class InsuranceService implements IInsuranceService {
     }
 
     @Override
-    public void deletedById(int idInsurance) {
-        insuranceRepository.deleteById(idInsurance);
-    }
-
-    @Override
     public void delete(Inssurance inssurance) {
         insuranceRepository.delete(inssurance);
     }
@@ -52,6 +47,11 @@ public class InsuranceService implements IInsuranceService {
     @Override
     public void deleteAll(List<Inssurance> inssuranceList) {
         insuranceRepository.deleteAll(inssuranceList);
+    }
+
+    @Override
+    public void deleteById(int idInsurance) {
+        insuranceRepository.deleteById(idInsurance);
     }
 
 }
