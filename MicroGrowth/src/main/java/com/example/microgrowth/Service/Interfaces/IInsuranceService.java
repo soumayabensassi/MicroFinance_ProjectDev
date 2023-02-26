@@ -16,4 +16,5 @@ public interface IInsuranceService {
 
     void deleteAll(List<Inssurance> inssuranceList);
 
+
 }
