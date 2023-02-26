@@ -33,11 +33,6 @@ public class InvestmentService implements IInvestment {
     }
 
 
-
-
-
-
-
     @Override
     public Investment modif(Investment inv) {
         return  investmentRepository.save(inv);
