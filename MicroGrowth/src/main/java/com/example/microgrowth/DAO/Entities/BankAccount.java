@@ -15,7 +15,7 @@ import java.util.List;
     @AllArgsConstructor
     @Builder
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public class BankAcount implements Serializable {
+    public class BankAccount implements Serializable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idBank;
@@ -25,7 +25,7 @@ import java.util.List;
         Date dateAcount;
         @Enumerated(EnumType.STRING)
         Type_account typeAccount;
-        @ManyToMany(mappedBy = "bankAcountList")
+        @ManyToMany(mappedBy = "bankAccountList")
         List<Transaction> transactionList;
 
 }
