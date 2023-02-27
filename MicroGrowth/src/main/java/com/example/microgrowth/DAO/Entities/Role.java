@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +21,7 @@ public class Role implements Serializable {
     int idrole;
     String name;
     @OneToMany(mappedBy = "roles")
+    @JsonIgnore
     List<User> userList;
 
 }
