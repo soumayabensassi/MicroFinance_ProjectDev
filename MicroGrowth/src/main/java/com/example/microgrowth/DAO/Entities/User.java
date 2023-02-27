@@ -24,8 +24,10 @@ public class User implements Serializable {
     String password;
     String verifPassword;
     long phone;
+    @Column(unique = true)
     String email;
     String profession;
+    @Column(unique = true)
     long cin;
 
     @OneToMany(mappedBy = "users")
