@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class InvestmentRestControllers  {
     private IInvestment IInvestment;
-    @GetMapping("/afficher")
+    @GetMapping("/afficherInvestment")
     public List<Investment> afficher (){
         return IInvestment.selectAll();
     }
