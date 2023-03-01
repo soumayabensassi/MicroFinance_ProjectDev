@@ -20,8 +20,5 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idrole;
     String name;
-    @OneToMany(mappedBy = "roles")
-    @JsonIgnore
-    List<User> userList;
 
 }

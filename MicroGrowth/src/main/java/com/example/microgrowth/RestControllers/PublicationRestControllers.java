@@ -28,7 +28,7 @@ public class PublicationRestControllers {
     public Publication update(@RequestBody Publication publication)
     {return iPublication.edit(publication);
     }
-    @GetMapping("/ajouterPublicationbyID/{id}")
+    @GetMapping("/afficherPublicationbyID/{id}")
     public Publication AfficherByID(@PathVariable int id)
     {
         return iPublication.SelectById(id);

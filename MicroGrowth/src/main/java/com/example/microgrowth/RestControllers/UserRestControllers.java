@@ -3,6 +3,9 @@ package com.example.microgrowth.RestControllers;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,14 +26,26 @@ public class UserRestControllers {
     }
     @PostMapping("/ajouteruser")
 
-    public User ajouter(@RequestBody User user)
+    public ResponseEntity<String> ajouter(@RequestBody User user)
     {
         boolean test = hasEightDigits(user.getPhone());
-        if (user.getEmail().matches("^.+@.+\\..+$") && user.getVerifPassword().matches(user.getPassword()) && test==true )
-        return iUser.add(user);
+        if(!test)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le numèro de téléphone doit contenir 8 chiffres");
+        } else if (!user.getEmail().matches("^.+@.+\\..+$")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("un problème au niveau de saise du mail");
 
+        } else if (!user.getVerifPassword().matches(user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("verifiez le mot de passe ");
+
+        }
         else
-            return iUser.SelectById(user.getIdUser());
+            //(user.getEmail().matches("^.+@.+\\..+$") && user.getVerifPassword().matches(user.getPassword()) && test==true )
+        {iUser.add(user);
+        return  ResponseEntity.status(HttpStatus.OK).body("ajout done");
+        }
+
+
     }
     @PutMapping("/updateuser")
     public User update(@RequestBody User user)
