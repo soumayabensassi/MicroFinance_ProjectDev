@@ -29,7 +29,7 @@ public class Transaction implements Serializable {
     @ManyToOne
     User users;
     @ManyToMany
-    List<BankAcount> bankAcountList;
+    List<BankAccount> bankAccountList;
 
 
 

@@ -19,7 +19,9 @@ public class Publication implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idPublication;
+    @Column(nullable = false)
     String text;
+    Boolean state = false;
     @ManyToOne
     User users;
     @OneToMany(mappedBy = "publications")

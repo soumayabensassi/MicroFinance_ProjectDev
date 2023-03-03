@@ -27,8 +27,6 @@ public class Training implements Serializable {
     float price;
     int nbrOfPlace;
     String subject;
-
-
     @ManyToMany
     List<User> userList;
 }

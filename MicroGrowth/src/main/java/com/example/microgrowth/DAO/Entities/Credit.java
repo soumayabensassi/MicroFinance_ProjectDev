@@ -28,6 +28,7 @@ public class Credit implements Serializable {
     float intrestRaiting;
     float monthlyAmount;
     boolean state;
+    boolean pack;
     @ManyToOne
 
     User users;
