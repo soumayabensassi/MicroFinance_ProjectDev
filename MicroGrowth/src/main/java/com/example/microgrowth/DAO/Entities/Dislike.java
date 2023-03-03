@@ -20,4 +20,13 @@ public class Dislike implements Serializable {
     int nbr;
     @ManyToOne
     User users;
+    @ManyToOne
+    Publication publications;
+
+    public Dislike(User userByEmail, Publication selectById) {
+        this.users=userByEmail;
+
+        this.publications=selectById;
+
+    }
 }

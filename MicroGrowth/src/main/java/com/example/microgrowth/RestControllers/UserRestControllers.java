@@ -1,6 +1,7 @@
 package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.Response;
@@ -13,8 +14,10 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/MicroGrowth/user")
 public class UserRestControllers {
     private IUser iUser;
+    private IMicroGrowth iMicroGrowth;
     @GetMapping("/afficheruser")
     public List<User> afficher()
     {

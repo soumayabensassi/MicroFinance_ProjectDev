@@ -37,10 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/MicroGrowth/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeHttpRequests().antMatchers("/MicroGrowth/login/**","/MicroGrowth/token/refresh/**").permitAll();
+        http.authorizeHttpRequests().antMatchers("/MicroGrowth/login/**","/MicroGrowth/user/token/refresh/**").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/user/add/**").hasAnyAuthority("ROLE_ADMIN");
-        http.authorizeHttpRequests().anyRequest().authenticated();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/**").hasAnyAuthority("ROLE_ADMIN");
+
+        http.authorizeHttpRequests().anyRequest().permitAll();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

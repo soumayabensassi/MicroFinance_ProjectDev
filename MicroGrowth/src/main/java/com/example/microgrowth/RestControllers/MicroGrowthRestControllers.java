@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.microgrowth.DAO.Entities.Role;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.Service.Classe.MicroGrowthService;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,31 +30,31 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/MicroGrowth")
 public class MicroGrowthRestControllers {
     @Autowired
-    MicroGrowthService microGrowthService ;
+    IMicroGrowth iMicroGrowth ;
 
 
 
     @GetMapping("/users")
     List<User> getUsers(){
-        return microGrowthService.getUsers();
+        return iMicroGrowth.getUsers();
     }
 
-    @PostMapping("/user/add")
+    @PostMapping("/add")
     User saveUser(@RequestBody User user){
-        return microGrowthService.saveUser(user);
+        return iMicroGrowth.saveUser(user);
     }
     @PostMapping("/role/add")
     Role saveRole(@RequestBody Role role){
-        return microGrowthService.saveRole(role);
+        return iMicroGrowth.saveRole(role);
 
     }
-    @PostMapping("/role/addtouser")
-    void AddRoleToUser(@RequestBody RoleToUserForm form){
-        microGrowthService.AddRoleToUser(form.getEmail(), form.getRoleName());
+//    @PostMapping("/role/addtouser")
+//    void AddRoleToUser(@RequestBody RoleToUserForm form){
+//        iMicroGrowth.AddRoleToUser(form.getEmail(), form.getRoleName());
+//
+//    }
 
-    }
-
-    @GetMapping ("/token/refresh")
+    @GetMapping ("/user/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -63,12 +64,12 @@ public class MicroGrowthRestControllers {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
-                User user = microGrowthService.getUser(username);
+                User user = iMicroGrowth.getUser(username);
                 String access_token = JWT.create()
                         .withSubject(user.getEmail())
                         .withExpiresAt(new Date(System.currentTimeMillis() +10*60*1000))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles",user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles",user.getRoles().getName())
                         .sign(algorithm);
                 String refresh_token = JWT.create()
                         .withSubject(user.getEmail())

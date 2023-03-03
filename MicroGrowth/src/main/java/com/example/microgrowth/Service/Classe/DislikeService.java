@@ -1,6 +1,7 @@
 package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Dislike;
+import com.example.microgrowth.DAO.Entities.Likes;
 import com.example.microgrowth.DAO.Repositories.DislikeRepository;
 import com.example.microgrowth.Service.Interfaces.IDislike;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ public class DislikeService implements IDislike {
 
     @Override
     public Dislike add(Dislike a) {
-
+        a.setNbr(1);
         return dislikeRepository.save(a);
     }
 
@@ -21,4 +22,8 @@ public class DislikeService implements IDislike {
     public void deleteById(int id) {
 dislikeRepository.deleteById(id);
     }
+
+    @Override
+    public Dislike verifDislike(String email,int i) {
+        return dislikeRepository.findByUsersEmailAndPublicationsIdPublication(email,i);    }
 }

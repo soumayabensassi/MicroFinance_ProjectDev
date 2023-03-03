@@ -41,8 +41,10 @@ public class User implements Serializable {
     List<Inssurance> inssuranceList;
     @OneToMany(mappedBy = "users")
     List<Transaction> transactionList;
-    @ManyToMany(fetch = FetchType.EAGER) // load the user and load their roles in the db
-    private Collection<Role> roles = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.EAGER) // load the user and load their roles in the db
+//    private Collection<Role> roles = new ArrayList<>();
+    @ManyToOne
+    Role roles;
     @ManyToMany(mappedBy = "userList")
     List<Training> trainingList;
     @OneToMany(mappedBy = "users")
@@ -50,15 +52,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "users")
     List<Publication> publicationList;
 
-    public User(String sbs, String sbs1, String s, String s1, long i, String s2, String etude, long i1) {
-        this.firstName=sbs;
-        this.lasttName=sbs;
-        this.password=s;
-        this.verifPassword=s1;
-        this.phone=i;
-        this.email=s2;
-        this.profession=etude;
-        this.cin=i1;
 
-    }
+
 }

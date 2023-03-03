@@ -19,4 +19,13 @@ public class Likes implements Serializable {
     int nbr;
     @ManyToOne
     User users;
+    @ManyToOne
+    Publication publications;
+
+    public Likes(User userByEmail, Publication selectById) {
+        this.users=userByEmail;
+
+        this.publications=selectById;
+
+    }
 }

@@ -44,9 +44,10 @@ public class MicroGrowthService implements IMicroGrowth,UserDetailsService {
             log.info("user found in the database: {}",email);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(roles -> {
-            authorities.add(new SimpleGrantedAuthority(roles.getName()));
-        });
+//        user.getRoles().forEach(roles -> {
+//            authorities.add(new SimpleGrantedAuthority(roles.getName()));
+//        });
+        authorities.add(new SimpleGrantedAuthority(user.getRoles().getName()));
         return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
     }
 
@@ -61,12 +62,12 @@ public class MicroGrowthService implements IMicroGrowth,UserDetailsService {
         return rolesRepo.save(role);
     }
 
-    @Override
-    public void AddRoleToUser(String username, String roleName) {
-        User user = userRepo.findByEmail(username);
-        Role role= rolesRepo.findByName(roleName);
-        user.getRoles().add(role);
-    }
+//    @Override
+//    public void AddRoleToUser(String username, String roleName) {
+//        User user = userRepo.findByEmail(username);
+//        Role role= rolesRepo.findByName(roleName);
+//        user.getRoles().add(role);
+//    }
 
 
     @Override
