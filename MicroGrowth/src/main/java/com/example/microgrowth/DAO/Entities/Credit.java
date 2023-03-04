@@ -20,12 +20,15 @@ public class Credit implements Serializable {
     int idCredit;
     @Enumerated(EnumType.STRING)
     Type_Credit typeCredit;
-    float amount;
+    @Column(nullable = false)
+    float amount_credit;
+    float amount_garant;
     @Temporal(TemporalType.DATE)
     Date demandDate;
     @Temporal(TemporalType.DATE)
     Date obtainingDate;
     float intrestRaiting;
+    @Column(nullable = false)
     float monthlyAmount;
     boolean state;
     boolean pack;
