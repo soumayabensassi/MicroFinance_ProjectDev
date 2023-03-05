@@ -5,6 +5,8 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -39,6 +41,8 @@ public class User implements Serializable {
     List<Inssurance> inssuranceList;
     @OneToMany(mappedBy = "users")
     List<Transaction> transactionList;
+    //    @ManyToMany(fetch = FetchType.EAGER) // load the user and load their roles in the db
+//    private Collection<Role> roles = new ArrayList<>();
     @ManyToOne
     Role roles;
     @ManyToMany(mappedBy = "userList")
@@ -47,4 +51,7 @@ public class User implements Serializable {
     List<Complaint> complaintList;
     @OneToMany(mappedBy = "users")
     List<Publication> publicationList;
+
+
+
 }

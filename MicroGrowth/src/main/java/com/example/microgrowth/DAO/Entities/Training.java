@@ -29,4 +29,8 @@ public class Training implements Serializable {
     String subject;
     @ManyToMany
     List<User> userList;
+    @OneToMany(mappedBy = "trainings")
+    List<Participer> participerList;
+    @OneToMany(mappedBy = "trainings")
+    List<NonParticiper> nonparticiperList;
 }
