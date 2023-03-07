@@ -64,7 +64,8 @@ public class InsuranceRestController {
 
         Double interestRate = 0.12;
         Double monthlyInterestRate = interestRate / 12;
-        Long loanTerm = (Inssurance.getDuration())/30;
+        //Long loanTerm = (Inssurance.getDuration())/30;
+        int loanTerm = 1;
         Double monthlyPaymentAmount = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -12 * loanTerm));
 
         // return the monthly payment amount
@@ -74,13 +75,13 @@ public class InsuranceRestController {
 
     private ICredit iCredit;
 
-    @PostMapping("/insurance-request")
-    public String applyForInsurance(@RequestParam  float income, @RequestParam String mail, @RequestParam int Score) {
+    @PostMapping("/insurancerequestC")
+    public String applyForInsuranceC(@RequestParam  int income, @RequestParam String mail, @RequestParam int Score) {
 
 
 
         List<Credit> lcredit=iCredit.SelectByEmail(mail);
-        float S=0;
+        int S=0;
         for (Credit l : lcredit) {
             S+=l.getAmount();
         }
@@ -95,8 +96,24 @@ public class InsuranceRestController {
         }
     }
 
-    private double calculateDTI(double income, double debt) {
+    private double calculateDTI(int income, int debt) {
         return debt / income;
+    }
+
+    @PostMapping("/insurancerequest")
+    public String applyForInsurance(@RequestParam  int income, @RequestParam int debt, @RequestParam int Score) {
+
+
+
+
+        double dti = calculateDTI(income, debt);
+        int creditScore = Score;
+
+        if (dti > 0.43 || creditScore < 600) {
+            return "Sorry, your insurance request has been refused.";
+        } else {
+            return "Congratulations, your insurance request has been accepted.";
+        }
     }
 
 

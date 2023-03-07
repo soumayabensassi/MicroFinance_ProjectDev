@@ -14,4 +14,5 @@ public interface ICredit {
     Credit SelectById(int id_credit);
 
     void deleteById(int id_credit);
+    List<Credit> SelectByEmail(String email);
 }

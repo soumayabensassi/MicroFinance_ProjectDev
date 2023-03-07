@@ -35,5 +35,12 @@ public class CreditService implements ICredit {
     @Override
     public void deleteById(int id_credit) {
 creditRepository.deleteById(id_credit);
-    }}
+    }
+
+    @Override
+    public List<Credit> SelectByEmail(String email) {
+        return creditRepository.findByUsersEmail(email);
+    }
+}
+
 
