@@ -3,6 +3,7 @@ package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.Training;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 public interface ITrainingService {
@@ -14,4 +15,8 @@ public interface ITrainingService {
     void delete(Training training);
     List<Training> addAll(List<Training> listT);
     void deleteAll(List<Training> listT);
+    void deleteByDate();
+    void sendMailExpiration() throws MessagingException;
+    List<Training> selectByDate();
+
 }
