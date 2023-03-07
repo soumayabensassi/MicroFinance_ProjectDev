@@ -3,12 +3,8 @@ package com.example.microgrowth.DAO.Entities;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
-
 @Entity
 @Getter
 @Setter
@@ -16,9 +12,20 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Like implements Serializable {
+public class Likes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idLike;
     int nbr;
+    @ManyToOne
+    User users;
+    @ManyToOne
+    Publication publications;
+
+    public Likes(User userByEmail, Publication selectById) {
+        this.users=userByEmail;
+
+        this.publications=selectById;
+
+    }
 }

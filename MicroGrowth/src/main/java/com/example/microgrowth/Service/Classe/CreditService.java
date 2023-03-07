@@ -6,6 +6,8 @@ import com.example.microgrowth.Service.Interfaces.ICredit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,7 +15,18 @@ import java.util.List;
 public class CreditService implements ICredit {
     private CreditRepository creditRepository;
     @Override
-    public Credit add(Credit c) {
+    public Credit add_credit_user(Credit c) {
+        c.setPack(false);
+        c.setState(1); //1:en cours  0:refus  2:accordé
+        Date date_now = new Date();
+        c.setDemandDate(date_now);
+        return creditRepository.save(c);
+    }
+
+    @Override
+    public Credit add_credit_admin(Credit c) {
+        c.setPack(true);
+
         return creditRepository.save(c);
     }
 

@@ -17,10 +17,15 @@ public class CreditRestController {
     {
         return iCredit.selectAll();
     }
-@PostMapping("/ajouterCredit")
+@PostMapping("/ajouterCreditByUser")
     public Credit ajouterCredit(@RequestBody Credit credit)
     {
-        return iCredit.add(credit);
+        return iCredit.add_credit_user(credit);
+    }
+    @PostMapping("/ajouterCreditByAdmin")
+    public Credit ajouterCreditAdmin(@RequestBody Credit credit)
+    {
+        return iCredit.add_credit_admin(credit);
     }
     @PutMapping("/updateCredit")
     public Credit updateCredit(@RequestBody Credit credit)

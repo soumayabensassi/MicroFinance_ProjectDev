@@ -19,7 +19,7 @@ public class Complaint implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idComplaint;
     @Temporal(TemporalType.DATE)
-    Date Date;
+    Date date;
     String subject;
     String text;
     boolean state;
