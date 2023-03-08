@@ -83,7 +83,7 @@ public class InsuranceRestController {
         List<Credit> lcredit=iCredit.SelectByEmail(mail);
         int S=0;
         for (Credit l : lcredit) {
-            S+=l.getAmount();
+            S+=l.getAmount_credit();
         }
         System.out.println(S);
         double dti = calculateDTI(income, S);

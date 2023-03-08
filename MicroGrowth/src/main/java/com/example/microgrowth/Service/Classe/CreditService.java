@@ -1,6 +1,6 @@
 package com.example.microgrowth.Service.Classe;
 
-import com.example.microgrowth.DAO.Entities.BankAcount;
+import com.example.microgrowth.DAO.Entities.BankAccount;
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
@@ -60,15 +60,14 @@ public class CreditService implements ICredit {
 
     @Override
     public void deleteById(int id_credit) {
-creditRepository.deleteById(id_credit);
+     creditRepository.deleteById(id_credit);
     }
 
     @Override
     public List<Credit> SelectByEmail(String email) {
         return creditRepository.findByUsersEmail(email);
     }
-        creditRepository.deleteById(id_credit);
-    }
+
 
     @Override
     public int scoreCredit(int id) {

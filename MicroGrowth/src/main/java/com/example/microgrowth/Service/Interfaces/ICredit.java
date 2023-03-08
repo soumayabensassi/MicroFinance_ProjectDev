@@ -1,6 +1,5 @@
 package com.example.microgrowth.Service.Interfaces;
 
-import com.example.microgrowth.DAO.Entities.BankAcount;
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.User;
 
