@@ -18,7 +18,7 @@ public class ActivitySectorService implements IActivitySector {
     public ActivitySector add(ActivitySector activitySector) {
         String message="le nom du secteur doit etre qu'on lettre.";
         if(name_control(activitySector.getName())==false){
-             activitySectorRepository.save(activitySector);
+           return   activitySectorRepository.save(activitySector);
         }
         System.out.println(message);
         return null;
