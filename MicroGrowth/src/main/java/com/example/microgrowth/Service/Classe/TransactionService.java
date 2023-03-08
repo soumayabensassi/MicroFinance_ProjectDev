@@ -58,11 +58,13 @@ public class TransactionService implements ITransaction {
                     && bankAccount != null
             ) {
                 bankAccount.setAmount(bankAccount.getAmount() + t.getAmountTransaction());
+                if(t.getBankAccountList() ==null)
+                    t.setBankAccountList(new ArrayList<>());
                  t.getBankAccountList().add(bankAccount);
                  transactionRepository.save(t);
 
             }
-           else  throw new NotFoundException("Deposit not allowed");
+           //else  throw new NotFoundException("Deposit not allowed");
         }
 
         @Override

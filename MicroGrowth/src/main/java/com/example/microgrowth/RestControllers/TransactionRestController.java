@@ -55,7 +55,7 @@ public class TransactionRestController {
     @PostMapping("/makeWithdrawal")
     public ResponseEntity<String> makeWithdrawal(@RequestBody Transaction t){
         iTransaction.makeWithdrawal(t);
-            return ResponseEntity.ok().body("Deposit Successful");
+            return ResponseEntity.ok().body("Withdrawal Successful");
 
     }
 
