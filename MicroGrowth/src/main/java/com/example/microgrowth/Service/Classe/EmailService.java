@@ -9,6 +9,8 @@ import com.example.microgrowth.Service.Interfaces.EmailSender;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -177,6 +179,11 @@ public String forgetpassword(String email) {
 //                "</div></div>";
     
 
+
+
+    }
+
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -185,11 +192,10 @@ public String forgetpassword(String email) {
         msg.setSubject("Notification d'investissement confirmé");
         msg.setText("Félicitations! Votre investissement a été bien confirmé");
         msg.setTo(userEmail);
-        msg.setFrom("omezzinemariem@gmail.com");
+        msg.setFrom("mariem.omezzine@esprit.tn");
 
         // Envoyer le message
         javaMailSender.send(msg);
         System.out.println("email sent succefully");
     }
-
-    }
+}
