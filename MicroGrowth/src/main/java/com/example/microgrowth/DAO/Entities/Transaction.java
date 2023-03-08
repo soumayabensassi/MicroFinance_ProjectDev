@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -29,6 +30,7 @@ public class Transaction implements Serializable {
     @ManyToOne
     User users;
     @ManyToMany
+            @JsonIgnore
     List<BankAccount> bankAccountList;
 
 
