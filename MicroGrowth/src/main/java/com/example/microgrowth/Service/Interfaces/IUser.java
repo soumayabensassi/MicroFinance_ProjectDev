@@ -2,6 +2,10 @@ package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.User;
 
+
+
+
+
 import java.util.List;
 
 public interface IUser {
@@ -12,3 +16,4 @@ public interface IUser {
     void deleteById(int id);
     User getUserByEmail(String email);
 }
+
