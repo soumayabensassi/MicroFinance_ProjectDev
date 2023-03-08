@@ -7,6 +7,7 @@ import com.example.microgrowth.Service.Interfaces.ITrainingService;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -90,6 +91,11 @@ public class TrainingService implements ITrainingService {
     @Override
     public List<Training> selectByDate() {
         return trainingRepository.selectByDate();
+    }
+
+    @Override
+    public List<Training> findwithsorting(String field,String type) {
+        return trainingRepository.findAll(Sort.by(Sort.Direction.fromString(type) ,field));
     }
 
 }

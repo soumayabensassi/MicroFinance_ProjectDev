@@ -5,6 +5,7 @@ import com.example.microgrowth.DAO.Entities.Training;
 
 import javax.mail.MessagingException;
 import java.util.List;
+import java.util.ListResourceBundle;
 
 public interface ITrainingService {
     Training add(Training training);
@@ -18,5 +19,6 @@ public interface ITrainingService {
     void deleteByDate();
     void sendMailExpiration() throws MessagingException;
     List<Training> selectByDate();
+    List<Training>findwithsorting(String field,String type);
 
 }

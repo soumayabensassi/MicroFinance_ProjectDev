@@ -7,6 +7,7 @@ import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.TrainingRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Classe.EmailSenderService;
+import com.example.microgrowth.Service.Classe.RatingService;
 import com.example.microgrowth.Service.Interfaces.ITrainingService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,4 +81,11 @@ public class TrainingRestController {
         return
                 iTrainingService.selectByDate();
     }
+    @GetMapping("/afficherTs/{field}/{type}")
+    public List<Training> afficherTs(@PathVariable String field,@PathVariable String type){
+        return
+                iTrainingService.findwithsorting(field,type);
+    }
+
+
 }
