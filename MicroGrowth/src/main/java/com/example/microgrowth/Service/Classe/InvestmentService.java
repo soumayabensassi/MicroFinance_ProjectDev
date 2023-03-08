@@ -27,11 +27,15 @@ import org.springframework.mail.*;
 @Service
 @AllArgsConstructor
 public class InvestmentService implements IInvestment {
+    @Autowired
+    private  EmailService EmailService;
 
     private JavaMailSender JavaMailSender;
     InvestmentRepository investmentRepository;
     @Override
+
     public Investment add(Investment inv) {
+
         return  investmentRepository.save(inv);
     }
 
@@ -65,11 +69,11 @@ public class InvestmentService implements IInvestment {
         BigDecimal tauxSupplementaire = BigDecimal.ZERO;
         if (MethodInvestissement == com.example.microgrowth.DAO.Entities.MethodInvestissement.PLACEMENT_PRECOMPTE) {
 
-            if  (amountInves.compareTo(new BigDecimal("10000")) >= 0 && (duree-365) >= 0){
+            if  (amountInves.compareTo(new BigDecimal("10000")) >= 0 && (amountInves.compareTo(new BigDecimal("5000")) <= 0 && (duree-365) >= 0)){
                 tauxSupplementaire = new BigDecimal("0.5");
-            } else if (amountInves.compareTo(new BigDecimal("5000")) >= 0 && (duree-180) >= 0)  {
+            } else if (amountInves.compareTo(new BigDecimal("5000")) >= 0 && (amountInves.compareTo(new BigDecimal("1000")) <= 0 && (duree-180) >= 0))  {
                 tauxSupplementaire = new BigDecimal("0.3");
-            } else if (amountInves.compareTo(new BigDecimal("1000")) >= 0 && (duree-90) >= 0) {
+            } else if (amountInves.compareTo(new BigDecimal("1000")) >= 0  && (duree-90) >= 0) {
                 tauxSupplementaire = new BigDecimal("0.1");
             }
         }
@@ -90,7 +94,7 @@ public class InvestmentService implements IInvestment {
     @Override
     public BigDecimal calculerInteret(MethodInvestissement MethodInvestissement, BigDecimal amountInves, int duree) {
         BigDecimal Interet = BigDecimal.ZERO;
-        BigDecimal tauxInteret=this.calculerInteret(MethodInvestissement,amountInves,duree);
+        BigDecimal tauxInteret=this.calculerTauxInteret(MethodInvestissement,amountInves,duree);
         BigDecimal amm = amountInves.multiply(tauxInteret);
         BigDecimal durartion= BigDecimal.valueOf(duree);
         BigDecimal amdure=amm.multiply(durartion);
