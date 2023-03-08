@@ -14,10 +14,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user")
 public class UserRestControllers {
     private IUser iUser;
-    @GetMapping("/afficheruser")
+    @GetMapping("/admin/afficheruser")
     public List<User> afficher()
     {
         return iUser.selectAll();

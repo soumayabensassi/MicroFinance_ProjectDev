@@ -37,15 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests().antMatchers("/login/**","/token/refresh/**").permitAll();
-        //juste pour le test
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/**").permitAll();
-        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/**").permitAll();
+//        //juste pour le test
+//        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/**").permitAll();
+//        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/**").permitAll();
 
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority("[ROLE_USER]");
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/user/**").hasAnyAuthority("[ROLE_USER]");
 
-        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/**").hasAnyAuthority("[ROLE_ADMIN]");
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/**").hasAnyAuthority("[ROLE_ADMIN]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
         http.authorizeHttpRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
