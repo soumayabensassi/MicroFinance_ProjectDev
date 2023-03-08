@@ -30,7 +30,9 @@ public class Publication implements Serializable {
     @JsonIgnore
     List<Comment> commentList;
     @OneToMany(mappedBy = "publications")
+    @JsonIgnore
     List<Likes> likesList;
     @OneToMany(mappedBy = "publications")
+    @JsonIgnore
     List<Dislike> dislikeList;
 }
