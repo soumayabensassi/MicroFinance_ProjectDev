@@ -21,7 +21,14 @@ import java.util.List;
         int idBank;
         String rib;
         float Amount;
-        @Temporal(TemporalType.DATE)
+
+        float COVER=100;
+
+    long MAX_WITHDRAWL_PER_DAY = 300;
+
+    int MAX_OCC_PER_DAY = 3;
+
+    @Temporal(TemporalType.DATE)
         Date dateAcount;
         @Enumerated(EnumType.STRING)
         Type_account typeAccount;
