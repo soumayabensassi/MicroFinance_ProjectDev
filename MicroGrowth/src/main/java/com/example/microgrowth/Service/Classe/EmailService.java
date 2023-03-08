@@ -175,7 +175,21 @@ public String forgetpassword(String email) {
 //                "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
 //                "\n" +
 //                "</div></div>";
+    
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    public void sendNotificationEmail(String userEmail) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject("Notification d'investissement confirmé");
+        msg.setText("Félicitations! Votre investissement a été bien confirmé");
+        msg.setTo(userEmail);
+        msg.setFrom("omezzinemariem@gmail.com");
+
+        // Envoyer le message
+        javaMailSender.send(msg);
+        System.out.println("email sent succefully");
     }
 
-
-}
+    }
