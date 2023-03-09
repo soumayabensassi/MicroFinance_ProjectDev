@@ -27,7 +27,6 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/MicroGrowth")
 public class MicroGrowthRestControllers {
     @Autowired
     IMicroGrowth iMicroGrowth ;

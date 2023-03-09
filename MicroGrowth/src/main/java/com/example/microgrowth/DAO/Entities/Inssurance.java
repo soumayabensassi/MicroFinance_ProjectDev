@@ -5,7 +5,8 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -20,9 +21,15 @@ public class Inssurance implements Serializable {
     int idInsurance;
     float amount;
     @Temporal(TemporalType.DATE)
-    Date startDate;
+    static
+    LocalDate startDate;
     @Temporal(TemporalType.DATE)
-    Date endDate;
+    static
+    LocalDate endDate;
+    public static long getDuration() {
+        Duration duration = Duration.between(startDate.atStartOfDay(), endDate.atStartOfDay());
+        return duration.toDays();
+    }
 
     @ManyToOne
     User users;

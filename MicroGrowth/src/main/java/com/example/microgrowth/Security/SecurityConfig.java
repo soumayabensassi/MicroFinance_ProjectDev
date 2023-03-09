@@ -40,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests().antMatchers("/MicroGrowth/login/**","/MicroGrowth/user/token/refresh/**").permitAll();
         //juste pour le test
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/**").permitAll();
-        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/**").permitAll();
+        //http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/**").permitAll();
+        //http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/**").permitAll();
 
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");

@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,17 +21,22 @@ public class Credit implements Serializable {
     int idCredit;
     @Enumerated(EnumType.STRING)
     Type_Credit typeCredit;
-    float amount;
+    @Column(nullable = false)
+    float amount_credit;
+    float amount_garant;
+    int duree;
     @Temporal(TemporalType.DATE)
     Date demandDate;
     @Temporal(TemporalType.DATE)
     Date obtainingDate;
     float intrestRaiting;
+    @Column(nullable = false)
     float monthlyAmount;
-    boolean state;
+    int state;
     boolean pack;
+    boolean garanties;
     @ManyToOne
-
+ @JsonIgnore
     User users;
 
     @ManyToOne
