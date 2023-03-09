@@ -5,9 +5,11 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Duration;
 
 
-    @Entity
+@Entity
     @Getter
     @Setter
     @NoArgsConstructor
@@ -19,7 +21,8 @@ import java.io.Serializable;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idInvestment;
-        float amountInves;
+        BigDecimal amountInves;
+        int  duree;
         @Enumerated(EnumType.STRING)
         MethodInvestissement methodInvestissement;
         @ManyToOne

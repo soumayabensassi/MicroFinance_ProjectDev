@@ -57,6 +57,7 @@ boolean historiqueCredit;
     @ManyToMany(mappedBy = "userList")
     List<Training> trainingList;
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Complaint> complaintList;
     @OneToMany(mappedBy = "users")
     List<Publication> publicationList;

@@ -14,11 +14,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/MicroGrowth/user")
 public class UserRestControllers {
     private IUser iUser;
-    private IMicroGrowth iMicroGrowth;
-    @GetMapping("/afficheruser")
+    @GetMapping("/admin/afficheruser")
     public List<User> afficher()
     {
         return iUser.selectAll();

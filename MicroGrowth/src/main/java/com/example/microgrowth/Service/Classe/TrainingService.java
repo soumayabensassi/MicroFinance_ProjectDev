@@ -1,18 +1,31 @@
 package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Training;
+import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.TrainingRepository;
 import com.example.microgrowth.Service.Interfaces.ITrainingService;
+
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 @AllArgsConstructor
 @Service
 public class TrainingService implements ITrainingService {
-
+    @Autowired
+    private EmailSenderService senderService;
+    //@Autowired
     private TrainingRepository trainingRepository;
+
+
     @Override
     public Training add(Training training) {
 
@@ -56,7 +69,33 @@ public class TrainingService implements ITrainingService {
 
     @Override
     public void deleteAll(List<Training> listT) {
-        trainingRepository.deleteAll();
 
     }
+
+    @Override
+    public void deleteByDate() {
+        List<Training> listT = trainingRepository.selectByDate();
+        trainingRepository.deleteAll(listT);
+
+    }
+
+    @Override
+    public void sendMailExpiration() throws MessagingException {
+        //List<User> listU = trainingRepository.selectUsers();
+
+        for(User us : trainingRepository.selectUsers()) {
+            senderService.sendEmail(us.getEmail(), " Evenement PréExpiré", "Evenement Expiré", "C:/Users/HP/Documents/mir.pdf");
+        }
+    }
+
+    @Override
+    public List<Training> selectByDate() {
+        return trainingRepository.selectByDate();
+    }
+
+    @Override
+    public List<Training> findwithsorting(String field,String type) {
+        return trainingRepository.findAll(Sort.by(Sort.Direction.fromString(type) ,field));
+    }
+
 }
