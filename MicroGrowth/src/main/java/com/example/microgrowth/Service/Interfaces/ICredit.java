@@ -23,4 +23,6 @@ public interface ICredit {
      //int afficherScore(User user, Credit credit, BankAcount bankAcount);
     float calcul_taux(float montant,int duree);
     void calcul_tableau_credit(Credit c);
+
+    double calcul_Rentabilite_parCredit(Credit c);
 }

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.text.SimpleDateFormat;
 import java.time.Period;
@@ -174,6 +175,23 @@ public class CreditService implements ICredit {
         }
     }
 
+    @Override
+    public double calcul_Rentabilite_parCredit(Credit c) {
+
+        double Taux_Actualisation=0.1;
+        double Taux_Actualisationparmois=Math.pow(1+Taux_Actualisation, 0.08333333)-1;
+        double tauxeparmois =Math.pow(1+c.getIntrestRaiting(),0.08333333)-1;
+        double S=Math.pow(1 +tauxeparmois,c.getDuree()*12);
+        double tauxdActualisationConverti=Math.pow(1 +Taux_Actualisationparmois,c.getDuree()*12);
+        double Sa=(S-1)/tauxeparmois;
+        double cap=1/tauxdActualisationConverti;
+
+
+        double produit = c.getMonthlyAmount()*Sa*cap;
+
+        return produit-c.getAmount_credit() ;
+
+    }
 
 }
 

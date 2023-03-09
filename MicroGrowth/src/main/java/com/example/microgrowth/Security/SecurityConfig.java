@@ -35,18 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("/MicroGrowth/login");
+        customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeHttpRequests().antMatchers("/MicroGrowth/login/**","/MicroGrowth/user/token/refresh/**").permitAll();
+        http.authorizeHttpRequests().antMatchers("/login/**","/user/token/refresh/**").permitAll();
         //juste pour le test
-        //http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/**").permitAll();
-        //http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/**").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/**").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/**").permitAll();
 
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/**").hasAnyAuthority("ROLE_ADMIN");
-        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/user/**").hasAnyAuthority("[ROLE_USER]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority("[ROLE_USER]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
 
 
         http.authorizeHttpRequests().anyRequest().permitAll();
