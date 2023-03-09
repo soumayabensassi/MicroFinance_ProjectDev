@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 import static org.springframework.security.config.http.SessionCreationPolicy.*;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -32,21 +33,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("/login");
+        customAuthenticationFilter.setFilterProcessesUrl("/MicroGrowth/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeHttpRequests().antMatchers("/login/**","/token/refresh/**").permitAll();
-//        //juste pour le test
-//        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/**").permitAll();
-//        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/**").permitAll();
+        http.authorizeHttpRequests().antMatchers("/MicroGrowth/login/**","/MicroGrowth/user/token/refresh/**").permitAll();
+        //juste pour le test
+        //http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/**").permitAll();
+        //http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/**").permitAll();
 
-        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority("[ROLE_USER]");
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/user/**").hasAnyAuthority("[ROLE_USER]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/user/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/MicroGrowth/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/MicroGrowth/**").hasAnyAuthority("ROLE_ADMIN");
 
-        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
-        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
-        http.authorizeHttpRequests().anyRequest().authenticated();
+
+        http.authorizeHttpRequests().anyRequest().permitAll();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
