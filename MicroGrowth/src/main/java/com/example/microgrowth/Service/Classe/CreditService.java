@@ -34,6 +34,7 @@ public class CreditService implements ICredit {
         c.setDemandDate(date_now);
         //float ca=calcul_taux(c.getAmount_credit(),c.getDuree() );
         ///c.setIntrestRaiting(ca);
+
         return creditRepository.save(c);
     }
 

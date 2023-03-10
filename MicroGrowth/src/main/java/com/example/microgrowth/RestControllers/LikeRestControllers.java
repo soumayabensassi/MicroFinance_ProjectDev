@@ -3,10 +3,7 @@ package com.example.microgrowth.RestControllers;
 import com.example.microgrowth.DAO.Entities.Dislike;
 import com.example.microgrowth.DAO.Entities.Likes;
 import com.example.microgrowth.DAO.Entities.Publication;
-import com.example.microgrowth.Service.Interfaces.IDislike;
-import com.example.microgrowth.Service.Interfaces.ILike;
-import com.example.microgrowth.Service.Interfaces.IPublication;
-import com.example.microgrowth.Service.Interfaces.IUser;
+import com.example.microgrowth.Service.Interfaces.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +16,18 @@ public class LikeRestControllers {
     private ILike iLike;
     private IDislike iDislike;
     private IPublication iPublication;
+    private IComment iComment;
 //    @PostMapping("/ajouterLike")
 //
 //    public Likes ajouter(@RequestBody Likes like)
 //    {
 //        return iLike.add(like);
 //    }
-    @PostMapping("/Liker/{email}/{idpublication}")
+    @PostMapping("/LikerPublication/{email}/{idpublication}")
     public void likerunepublication(@PathVariable String email,@PathVariable int idpublication)
     {
-        Likes likes=iLike.verifLike(email,idpublication);
-        Dislike dislike=iDislike.verifDislike(email,idpublication);
+        Likes likes=iLike.verifLikePublication(email,idpublication);
+        Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         log.info("likes is : {}",likes);
         if (likes==null && dislike == null) {
             Likes like=new Likes(iUser.getUserByEmail(email),iPublication.SelectById(idpublication));
@@ -40,6 +38,19 @@ public class LikeRestControllers {
             iLike.add(like);
         } else  iLike.deleteById(likes.getIdLike());
     }
-
+    @PostMapping("/LikerComment/{email}/{idComment}")
+    public void likerunComment(@PathVariable String email,@PathVariable int idComment)
+    {
+        Likes likesComment=iLike.verifLikeComment(email,idComment);
+        Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
+        if (likesComment==null && dislikeComment == null) {
+            Likes like=new Likes(iUser.getUserByEmail(email),iComment.SelectById(idComment));
+            iLike.add(like);
+        } else if (likesComment==null && dislikeComment!=null) {
+            iDislike.deleteById(dislikeComment.getIdDislike());
+            Likes like=new Likes(iUser.getUserByEmail(email),iComment.SelectById(idComment));
+            iLike.add(like);
+        } else  iLike.deleteById(likesComment.getIdLike());
+    }
 
 }
