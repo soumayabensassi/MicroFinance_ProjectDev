@@ -25,4 +25,8 @@ public interface ICredit {
     void calcul_tableau_credit(Credit c);
 
     double calcul_Rentabilite_parCredit(Credit c);
+    double calcul_Rentabilite_parCreditNonActialise(Credit c);
+    double calcul_Net_Interest_Marge();
+    double TauxRemboursement();
+    double TauxDeDefaut();
 }

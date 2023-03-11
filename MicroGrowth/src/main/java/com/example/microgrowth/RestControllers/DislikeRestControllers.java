@@ -26,7 +26,7 @@ public class DislikeRestControllers {
 //    {
 //        iDislike.deleteById(id);
 //    }
-    @PostMapping("/DislikerPublication/{email}/{idpublication}")
+    @PostMapping("/user/DislikerPublication/{email}/{idpublication}")
     public void Dislikerunepublication(@PathVariable String email,@PathVariable int idpublication)
     {
         Likes likes=iLike.verifLikePublication(email,idpublication);
@@ -40,7 +40,7 @@ public class DislikeRestControllers {
             iDislike.add(d);
         } else  iDislike.deleteById(dislike.getIdDislike());
     }
-    @PostMapping("/DislikerComment/{email}/{idComment}")
+    @PostMapping("/user/DislikerComment/{email}/{idComment}")
     public void DislikerunCommant(@PathVariable String email,@PathVariable int idComment)
     {
         Likes likesComment=iLike.verifLikeComment(email,idComment);

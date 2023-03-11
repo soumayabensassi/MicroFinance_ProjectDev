@@ -1,5 +1,6 @@
 package com.example.microgrowth.RestControllers;
 
+import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.MethodInvestissement;
 import com.example.microgrowth.Service.Classe.EmailService;
@@ -65,6 +66,18 @@ public class InvestmentRestControllers  {
         IInvestment.add(inv);
         IInvestment.sendNotificationEmail(userEmail);
         return ResponseEntity.ok("Investment confirmed.");
+    }
+    @GetMapping("admin/RevenuIInvesstisement")
+    public Double getRevenusInvesstisement()
+    {
+        double resultat=0;
+        List<Investment> investmentList =IInvestment.selectAll();
+        for (Investment c : investmentList)
+        {
+            resultat+=IInvestment.Revenu_INVISTISSEMENT(c);
+        }
+
+        return  resultat;
     }
 
 

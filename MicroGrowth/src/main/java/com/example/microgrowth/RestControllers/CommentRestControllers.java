@@ -13,18 +13,18 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentRestControllers {
     private IComment iComment;
-    @GetMapping("/afficherComment")
+    @GetMapping("/user/afficherComment")
     public List<Comment> afficher()
     {
         return iComment.selectAll();
     }
-    @PostMapping("/ajouterComment")
+    @PostMapping("/user/ajouterComment")
 
     public Comment ajouter(@RequestBody Comment comment)
     {
         return iComment.add(comment);
     }
-    @PutMapping("/updateComment")
+    @PutMapping("/user/updateComment")
     public Comment update(@RequestBody Comment comment)
     {return iComment.edit(comment);
     }
@@ -33,7 +33,7 @@ public class CommentRestControllers {
     {
         return iComment.SelectById(id);
     }
-    @DeleteMapping("/deleteComment/{id}")
+    @DeleteMapping("/user/deleteComment/{id}")
     public void delete(@PathVariable int id)
     {
         iComment.deleteById(id);

@@ -13,18 +13,18 @@ import java.util.List;
 @AllArgsConstructor
 public class PublicationRestControllers {
     private IPublication iPublication;
-    @GetMapping("/afficherPublication")
+    @GetMapping("/admin/afficherPublication")
     public List<Publication> afficher()
     {
         return iPublication.selectAll();
     }
-    @PostMapping("/ajouterPublication")
+    @PostMapping("/user/ajouterPublication")
 
     public Publication ajouter(@RequestBody Publication publication)
     {
         return iPublication.add(publication);
     }
-    @PutMapping("/updatePublication")
+    @PutMapping("/user//updatePublication")
     public Publication update(@RequestBody Publication publication)
     {return iPublication.edit(publication);
     }
@@ -33,7 +33,7 @@ public class PublicationRestControllers {
     {
         return iPublication.SelectById(id);
     }
-    @DeleteMapping("/deletePublication/{id}")
+    @DeleteMapping("/admin/deletePublication/{id}")
     public void delete(@PathVariable int id)
     {
         iPublication.deleteById(id);

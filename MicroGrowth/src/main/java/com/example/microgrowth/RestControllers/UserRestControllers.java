@@ -52,7 +52,7 @@ public class UserRestControllers {
 
 
     }
-    @PutMapping("/updateuser")
+    @PutMapping("/user/updateuser")
     public User update(@RequestBody User user)
     {return iUser.edit(user);
     }
@@ -61,7 +61,7 @@ public class UserRestControllers {
     {
         return iUser.SelectById(id);
     }
-    @DeleteMapping("/deleteUserbyID/{id}")
+    @DeleteMapping("/admin/deleteUserbyID/{id}")
     public void delete(@PathVariable int id)
     {
         iUser.deleteById(id);

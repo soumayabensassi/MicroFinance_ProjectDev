@@ -45,5 +45,5 @@ public class Credit implements Serializable {
      Intreview intreviews;
     @OneToOne (cascade = CascadeType.ALL)
     Inssurance inssurances;
-
+    Boolean rembourse=false;
 }

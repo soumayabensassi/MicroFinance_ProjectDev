@@ -76,4 +76,40 @@ public class CreditRestController {
         System.out.println("Rentabilte ="+Rentabilte);
         return  Rentabilte;
     }
+    @GetMapping("/admin/CalculRentabilitéNonActualisé")
+    public double calcul_Rentabilté_desCreditsNonActualisé()
+    {   //Rentabilité financière = (résultat d'exploitation — impôts sur les bénéfices(25% des Résultat)  —
+        // versés aux dettes financières) / capitaux propres
+
+        double resultat=0;
+        List<Credit> creditsList =iCredit.selectAll();
+        for (Credit c : creditsList)
+        {
+            resultat+=iCredit.calcul_Rentabilite_parCreditNonActialise(c);
+        }
+        //En Tunisie, la réglementation bancaire exige que le capital minimum d'une micro banque soit de 2 millions de dinars tunisiens
+        // (environ 700 000 euros) pour obtenir une licence bancaire.
+        // Cependant, le capital réel nécessaire dépendra des besoins spécifiques de la micro banque.
+        double Rentabilte=(resultat-(resultat*.25))/2000000;
+        System.out.println("resultat ="+resultat);
+        System.out.println("Rentabilte ="+Rentabilte);
+        return  Rentabilte;
+    }
+    @GetMapping("/admin/CalculNetInterestMarge")
+    public double calculNet_Interest_Marge() {
+
+        return iCredit.calcul_Net_Interest_Marge();
+    }
+
+    @GetMapping("/admin/TauxDeRemboursement")
+    public double calculTauxDeRemboursement() {
+
+        return iCredit.TauxRemboursement();
+    }
+    @GetMapping("/admin/TauxDeDefaut")
+    public double calculTauxDeDefaut() {
+
+        return iCredit.TauxDeDefaut();
+    }
+
 }

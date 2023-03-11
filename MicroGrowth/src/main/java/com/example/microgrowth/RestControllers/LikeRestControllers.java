@@ -23,7 +23,7 @@ public class LikeRestControllers {
 //    {
 //        return iLike.add(like);
 //    }
-    @PostMapping("/LikerPublication/{email}/{idpublication}")
+    @PostMapping("/user/LikerPublication/{email}/{idpublication}")
     public void likerunepublication(@PathVariable String email,@PathVariable int idpublication)
     {
         Likes likes=iLike.verifLikePublication(email,idpublication);
@@ -38,7 +38,7 @@ public class LikeRestControllers {
             iLike.add(like);
         } else  iLike.deleteById(likes.getIdLike());
     }
-    @PostMapping("/LikerComment/{email}/{idComment}")
+    @PostMapping("/user/LikerComment/{email}/{idComment}")
     public void likerunComment(@PathVariable String email,@PathVariable int idComment)
     {
         Likes likesComment=iLike.verifLikeComment(email,idComment);

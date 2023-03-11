@@ -136,6 +136,18 @@ public class InvestmentService implements IInvestment {
         JavaMailSender.send(msg);
         System.out.println("email sent succefully");
     }
+///////////Revenu des placement(PLACEMENT_PRECOMPTE) <<soumaya>>//////////////////////////
+    public double Revenu_INVISTISSEMENT(Investment investment)
+    {//FV = PV * (1 + r)^n
+       double tauxGagner=Math.pow(1.30,investment.getDuree());
+       float taux=1+((this.calculerTauxInteret(investment.getMethodInvestissement(),investment.getAmountInves(),investment.getDuree())).floatValue())/100;
+        System.out.println(taux);
+       double tauxDonnerAuInvesstiseur=Math.pow(taux,investment.getDuree());
+       double MontantGagner=investment.getAmountInves().floatValue()*tauxGagner;
+       double montantDonnerAuInvesstiseur=investment.getAmountInves().floatValue()*tauxDonnerAuInvesstiseur;
+   return MontantGagner-montantDonnerAuInvesstiseur;
+    }
+
 
 }
 

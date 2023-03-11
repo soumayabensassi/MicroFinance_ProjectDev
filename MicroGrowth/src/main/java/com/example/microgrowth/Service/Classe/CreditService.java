@@ -193,7 +193,79 @@ public class CreditService implements ICredit {
         return produit-c.getAmount_credit() ;
 
     }
+    @Override
+    public double calcul_Rentabilite_parCreditNonActialise(Credit c) {
 
+        double tauxeparmois =Math.pow(1+c.getIntrestRaiting(),0.08333333)-1;
+        double S=Math.pow(1 +tauxeparmois,c.getDuree()*12);
+        double Sa=(S-1)/tauxeparmois;
+        double produit = c.getMonthlyAmount()*Sa;
+
+        return produit-c.getAmount_credit() ;
+    }
+
+    @Override
+    public double calcul_Net_Interest_Marge() {
+        List<Credit> creditList =this.selectAll();
+        double interet_percus_prets=0;
+
+        for (Credit c:creditList) {
+            interet_percus_prets+=(c.getMonthlyAmount()*c.getDuree()*12)-c.getAmount_credit();
+        }
+     //taux d'ineret des depots en tunisie est 1%
+     double interet_payes_depots=0;
+        for (Credit c:creditList) {
+            interet_payes_depots+=(c.getAmount_credit()*Math.pow(1.01,c.getDuree()))-c.getAmount_credit();
+        }
+        double total_actif_productif_interet=0;
+        for (Credit c:creditList) {
+             total_actif_productif_interet+=c.getAmount_credit()*c.getIntrestRaiting();
+        }
+     return (interet_percus_prets-interet_payes_depots)/total_actif_productif_interet;
+    }
+
+    @Override
+    public double TauxRemboursement() {
+        double taux=0;
+        List<Credit> creditList =this.selectAll();
+        double totaldesprets=0;
+
+        for (Credit c:creditList) {
+            totaldesprets+=c.getAmount_credit()*c.getDuree()*12;
+        }
+        List<Credit> creditListRembouse=creditRepository.creditRembouse(true);
+
+        double totaldespretsrembourses=0;
+
+        for (Credit c:creditListRembouse) {
+            totaldespretsrembourses+=c.getAmount_credit()*c.getDuree()*12;
+        }
+        System.out.println("TauxDeRemboursement:"+totaldespretsrembourses);
+        System.out.println("totaldesprets:"+totaldesprets);
+        taux=totaldespretsrembourses/totaldesprets;
+        return taux;
+    }
+    @Override
+    public double TauxDeDefaut() {
+        double taux=0;
+        List<Credit> creditList =this.selectAll();
+        double totaldesprets=0;
+
+        for (Credit c:creditList) {
+            totaldesprets+=c.getAmount_credit()*c.getDuree()*12;
+        }
+        List<Credit> creditListRembouse=creditRepository.creditRembouse(false);
+
+        double totaldespretsNOMrembourses=0;
+
+        for (Credit c:creditListRembouse) {
+            totaldespretsNOMrembourses+=c.getAmount_credit()*c.getDuree()*12;
+        }
+        System.out.println("TauxDeRemboursement:"+totaldespretsNOMrembourses);
+        System.out.println("totaldesprets:"+totaldesprets);
+        taux=totaldespretsNOMrembourses/totaldesprets;
+        return taux;
+    }
 }
 
 

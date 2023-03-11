@@ -18,4 +18,5 @@ public interface IInvestment {
     BigDecimal calculerInteret(MethodInvestissement MethodInvestissement,BigDecimal amountInves,int duree);
     public void confirmerInvestissement(Investment inv,String userEmail);
     public void sendNotificationEmail(String userEmail);
+    public double Revenu_INVISTISSEMENT(Investment investment);
 }
