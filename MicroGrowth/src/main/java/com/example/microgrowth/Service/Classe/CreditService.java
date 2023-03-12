@@ -2,10 +2,14 @@ package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.BankAccount;
 import com.example.microgrowth.DAO.Entities.Credit;
+import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.DAO.Repositories.BankAccountRepository;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
+import com.example.microgrowth.DAO.Repositories.InvestmentRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Interfaces.ICredit;
+import com.example.microgrowth.Service.Interfaces.IInvestment;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +18,10 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.text.SimpleDateFormat;
 import java.time.Period;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -25,7 +31,10 @@ public class CreditService implements ICredit {
     CreditRepository creditRepository;
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    BankAccountRepository bankAccountRepository;
+    @Autowired
+    IInvestment iInvestment;
     @Override
     public Credit add_credit_user(Credit c) {
         c.setPack(false);
@@ -266,6 +275,56 @@ public class CreditService implements ICredit {
         taux=totaldespretsNOMrembourses/totaldesprets;
         return taux;
     }
+
+    @Override
+    public double CalculActifCredit() {
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        double test;
+        int year = calendar.get(Calendar.YEAR);
+        double actif=0;
+        List<Credit> creditdeAnnee=creditRepository.creditParAnnee(year);
+        for (Credit c:creditdeAnnee) {
+            System.out.println("id= "+c.getUsers().getIdUser());
+            test=creditRepository.SommeDepot(c.getUsers().getIdUser(),year);
+            System.out.println("testt"+test);
+            actif+=c.getMonthlyAmount()*c.getDuree()*12-test;
+
+        }
+        return actif;
+    }
+
+    @Override
+    public double CalculActifRéserve() {
+
+        BankAccount bankAccount=bankAccountRepository.getBankAccountByRib("999999999");
+        return bankAccount.getAmount()*0.1;
+    }
+
+    @Override
+    public double CalculResultatNET() {
+        double resultatCredit=0;
+        double resultatInvestissement=0;
+        double resultatNet=0;
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        int year = calendar.get(Calendar.YEAR);
+        System.out.println("aaaa="+year);
+        List<Credit> creditdeAnnee=creditRepository.creditParAnnee(year);
+        for (Credit c : creditdeAnnee)
+        {
+            resultatCredit+=this.calcul_Rentabilite_parCreditNonActialise(c);
+        }
+        List<Investment> investmentList=iInvestment.selectAll();
+        for (Investment i:investmentList) {
+            resultatInvestissement+=iInvestment.Revenu_INVISTISSEMENT(i);
+        }
+        resultatNet=(resultatCredit+resultatInvestissement)-((resultatCredit+resultatInvestissement)*0.25);
+        return resultatNet;
+    }
+
 }
 
 

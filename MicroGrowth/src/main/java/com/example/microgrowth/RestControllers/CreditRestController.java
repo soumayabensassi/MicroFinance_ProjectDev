@@ -1,12 +1,15 @@
 package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.Credit;
+import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.Publication;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.Service.Interfaces.ICredit;
+import com.example.microgrowth.Service.Interfaces.IInvestment;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -14,6 +17,7 @@ import java.util.List;
 public class CreditRestController {
     private ICredit iCredit;
     CreditRepository creditRepository;
+    IInvestment iInvestment;
     @GetMapping("/afficherCredits")
     public List<Credit> afficherCredits()
     {
@@ -111,5 +115,19 @@ public class CreditRestController {
 
         return iCredit.TauxDeDefaut();
     }
+   @GetMapping("/admin/ReturnOnEquity")
+    public  double CalculROE()
+   {
+       double resultatNet=iCredit.CalculResultatNET();
+       return  resultatNet/2000000;
 
+   }
+    @GetMapping("/admin/ReturnOnAssets")
+    public  double CalculROA()
+    {
+        double resultatNet=iCredit.CalculResultatNET();
+        double ActifNet=iCredit.CalculActifCredit()+iCredit.CalculActifRéserve();
+        return  resultatNet/ActifNet;
+
+    }
 }
