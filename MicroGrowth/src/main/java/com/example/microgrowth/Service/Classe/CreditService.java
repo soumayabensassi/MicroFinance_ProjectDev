@@ -1,9 +1,6 @@
 package com.example.microgrowth.Service.Classe;
 
-import com.example.microgrowth.DAO.Entities.BankAccount;
-import com.example.microgrowth.DAO.Entities.Credit;
-import com.example.microgrowth.DAO.Entities.Investment;
-import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.DAO.Entities.*;
 import com.example.microgrowth.DAO.Repositories.BankAccountRepository;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.DAO.Repositories.InvestmentRepository;
@@ -281,15 +278,20 @@ public class CreditService implements ICredit {
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
-        double test;
+        double test=0;
         int year = calendar.get(Calendar.YEAR);
         double actif=0;
         List<Credit> creditdeAnnee=creditRepository.creditParAnnee(year);
+
         for (Credit c:creditdeAnnee) {
-            System.out.println("id= "+c.getUsers().getIdUser());
-            test=creditRepository.SommeDepot(c.getUsers().getIdUser(),year);
-            System.out.println("testt"+test);
-            actif+=c.getMonthlyAmount()*c.getDuree()*12-test;
+            System.out.println("aaaa="+c.getUsers().getIdUser());
+            System.out.println("bbbb="+year);
+            List<Integer> transaction=creditRepository.listTransactiondelannee(c.getUsers().getIdUser(),year);
+            System.out.println(transaction);
+           if (!transaction.isEmpty()) {
+                test=creditRepository.SommeDepot(c.getUsers().getIdUser(),year);
+           }
+            actif+=(c.getMonthlyAmount()*c.getDuree()*12)-test;
 
         }
         return actif;
