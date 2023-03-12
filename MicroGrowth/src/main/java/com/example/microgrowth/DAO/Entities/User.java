@@ -60,6 +60,7 @@ public class User implements Serializable {
     @JsonIgnore
     List<Complaint> complaintList;
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Publication> publicationList;
 
 
