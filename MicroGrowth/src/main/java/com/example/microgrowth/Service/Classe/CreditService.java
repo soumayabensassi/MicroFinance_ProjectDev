@@ -278,12 +278,13 @@ public class CreditService implements ICredit {
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
-        double test=0;
+
         int year = calendar.get(Calendar.YEAR);
         double actif=0;
         List<Credit> creditdeAnnee=creditRepository.creditParAnnee(year);
 
         for (Credit c:creditdeAnnee) {
+            double test=0;
             System.out.println("aaaa="+c.getUsers().getIdUser());
             System.out.println("bbbb="+year);
             List<Integer> transaction=creditRepository.listTransactiondelannee(c.getUsers().getIdUser(),year);
@@ -291,8 +292,9 @@ public class CreditService implements ICredit {
            if (!transaction.isEmpty()) {
                 test=creditRepository.SommeDepot(c.getUsers().getIdUser(),year);
            }
-            actif+=(c.getMonthlyAmount()*c.getDuree()*12)-test;
 
+            actif+=(c.getMonthlyAmount()*c.getDuree()*12)-test;
+            System.out.println(actif);
         }
         return actif;
     }
