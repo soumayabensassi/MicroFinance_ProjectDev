@@ -19,4 +19,11 @@ public interface IInvestment {
     public void confirmerInvestissement(Investment inv,String userEmail);
     public void sendNotificationEmail(String userEmail);
     public double Revenu_INVISTISSEMENT(Investment investment);
+
+
+    double calculerTauxInteret(MethodInvestissement methodInvestissement, double amountInves, int duree);
+
+    //////****************calculer l'interet***************//////////////
+    double calculerInteret(MethodInvestissement methodInvestissement, double amountInves, int duree);
+
 }

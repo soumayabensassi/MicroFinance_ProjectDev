@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.Date;
 
 
 @Entity
@@ -21,11 +22,14 @@ import java.time.Duration;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idInvestment;
-        BigDecimal amountInves;
+    double amountInves;
         int  duree;
         @Enumerated(EnumType.STRING)
         MethodInvestissement methodInvestissement;
+        @Temporal(TemporalType.DATE)
+        Date DateInv = new Date();
         @ManyToOne
         User users;
+
 
 }
