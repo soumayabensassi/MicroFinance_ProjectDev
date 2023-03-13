@@ -10,4 +10,5 @@ public interface IUser {
     List<User> selectAll();
     User SelectById(int id);
     void deleteById(int id);
+
 }

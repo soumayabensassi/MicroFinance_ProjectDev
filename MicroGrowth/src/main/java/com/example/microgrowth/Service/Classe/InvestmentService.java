@@ -1,7 +1,4 @@
 package com.example.microgrowth.Service.Classe;
-import java.math.*;
-import java.time.*;
-import java.util.Currency;
 
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.MethodInvestissement;
@@ -11,17 +8,13 @@ import com.example.microgrowth.Service.Interfaces.IInvestment;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
-
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.*;
-
-
 
 
 @Service
@@ -32,6 +25,9 @@ public class InvestmentService implements IInvestment {
 
     private JavaMailSender JavaMailSender;
     InvestmentRepository investmentRepository;
+
+
+
     @Override
 
     public Investment add(Investment inv) {
@@ -62,80 +58,58 @@ public class InvestmentService implements IInvestment {
 
 
 //////****************calculer le taux d'interet***************//////////////
+
     @Override
-    public BigDecimal calculerTauxInteret(MethodInvestissement MethodInvestissement,BigDecimal amountInves,int duree) {
-        BigDecimal tmm = obtenirTauxInteretTMM();
-        BigDecimal tauxBase = tmm.add(new BigDecimal("0.1"));
-        BigDecimal tauxSupplementaire = BigDecimal.ZERO;
-        if (MethodInvestissement == com.example.microgrowth.DAO.Entities.MethodInvestissement.PLACEMENT_PRECOMPTE) {
-
-            if  (amountInves.compareTo(new BigDecimal("10000")) >= 0 && (amountInves.compareTo(new BigDecimal("5000")) <= 0 && (duree-365) >= 0)){
-                tauxSupplementaire = new BigDecimal("0.5");
-            } else if (amountInves.compareTo(new BigDecimal("5000")) >= 0 && (amountInves.compareTo(new BigDecimal("1000")) <= 0 && (duree-180) >= 0))  {
-                tauxSupplementaire = new BigDecimal("0.3");
-            } else if (amountInves.compareTo(new BigDecimal("1000")) >= 0  && (duree-90) >= 0) {
-                tauxSupplementaire = new BigDecimal("0.1");
-            }
-        }
-        if (MethodInvestissement == com.example.microgrowth.DAO.Entities.MethodInvestissement.PLACEMENT_POSCOMPTE) {
-
-            if (amountInves.compareTo(new BigDecimal("10000")) >= 0 && (duree-365) >= 0) {
-                tauxSupplementaire = new BigDecimal("0.7");
-            } else if (amountInves.compareTo(new BigDecimal("5000")) >= 0 && (duree-180) >= 0) {
-                tauxSupplementaire = new BigDecimal("0.4");
-            } else if (amountInves.compareTo(new BigDecimal("1000")) >= 0 && (duree-90) >= 0) {
-                tauxSupplementaire = new BigDecimal("0.2");
-            }
-        }
-        BigDecimal tauxInteret = tauxBase.add(tauxSupplementaire);
-        return tauxInteret;
+    public double calculerTauxInteret(MethodInvestissement methodInvestissement, double amountInves, int duree) {
+    double tmm = obtenirTauxInteretTMM();
+    double tauxBase = tmm + 0.1;
+    double tauxSupplementaire = 0.0;
+    if (methodInvestissement == MethodInvestissement.PLACEMENT_PRECOMPTE) {
+        if (amountInves >= 5000 && duree >= 90 && duree <= 180 ) { tauxSupplementaire = -0.5;}
+        else if (amountInves >= 5000 && duree >= 180 ) { tauxSupplementaire = 0;}
+        else if (amountInves >= 1000 && amountInves <= 5000 && duree >= 90) { tauxSupplementaire = 0.3;}
+        else if (amountInves < 1000 && duree - 90 >= 0) { tauxSupplementaire = 0.1;}
     }
+    if (methodInvestissement == MethodInvestissement.PLACEMENT_POSCOMPTE) {
+        if (amountInves >= 5000 && duree >= 90 ) { tauxSupplementaire = 0.7;}
+        else if (amountInves >= 1000 && amountInves <= 5000 && duree >= 90) { tauxSupplementaire = 0.5;}
+        else if (amountInves < 1000 && duree - 90 >= 0) { tauxSupplementaire = 0.2;}
+    }
+    double tauxInteret = tauxBase + tauxSupplementaire;
+    return tauxInteret;
+}
+
+
+
     //////****************calculer l'interet***************//////////////
     @Override
-    public BigDecimal calculerInteret(MethodInvestissement MethodInvestissement, BigDecimal amountInves, int duree) {
-        BigDecimal Interet = BigDecimal.ZERO;
-        BigDecimal tauxInteret=this.calculerTauxInteret(MethodInvestissement,amountInves,duree);
-        BigDecimal amm = amountInves.multiply(tauxInteret);
-        BigDecimal durartion= BigDecimal.valueOf(duree);
-        BigDecimal amdure=amm.multiply(durartion);
-        BigDecimal tdure=tauxInteret.multiply(durartion);
-        BigDecimal divpres=tdure.add(new BigDecimal("36500"));
-        if (MethodInvestissement == com.example.microgrowth.DAO.Entities.MethodInvestissement.PLACEMENT_POSCOMPTE) {
-            Interet=amdure.divide(new BigDecimal("36500"));
-        };
-
-        if (MethodInvestissement == com.example.microgrowth.DAO.Entities.MethodInvestissement.PLACEMENT_PRECOMPTE) {
-            Interet=amdure.divide(divpres);
-
-
+    public double calculerInteret(MethodInvestissement methodInvestissement, double amountInves, int duree) {
+        double tauxInteret = this.calculerTauxInteret(methodInvestissement, amountInves, duree);
+        double amm = amountInves * tauxInteret;
+        double durartion = (double) duree;
+        double amdure = amm * durartion;
+        double tdure = tauxInteret * durartion;
+        double divpres = tdure + 36500.0;
+        double Interet = 0.0;
+        if (methodInvestissement == MethodInvestissement.PLACEMENT_POSCOMPTE) {
+            Interet = amdure / 36500.0;
+        }
+        if (methodInvestissement == MethodInvestissement.PLACEMENT_PRECOMPTE) {
+            Interet = amdure / divpres;
         }
         return Interet;
     }
 
 
 
-    private BigDecimal obtenirTauxInteretTMM() {
-
-        return new BigDecimal("8.02");
+    private double obtenirTauxInteretTMM() {
+        return Double.parseDouble("8.02");
     }
 
-/////////////////*****************notification et confirmation par mail***************////
-    public void confirmerInvestissement(Investment inv,String userEmail) {
 
-         investmentRepository.save(inv);
-        sendNotificationEmail(userEmail);
-    }
-    public void sendNotificationEmail(String userEmail) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setSubject("Notification d'investissement confirmé");
-        msg.setText("Félicitations! Votre investissement a été bien confirmé");
-        msg.setTo(userEmail);
-        msg.setFrom("omezzinemariem@gmail.com");
 
-        // Envoyer le message
-        JavaMailSender.send(msg);
-        System.out.println("email sent succefully");
-    }
+
+
 
 }
 
