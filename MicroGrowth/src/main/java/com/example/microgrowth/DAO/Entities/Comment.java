@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +21,7 @@ public class Comment implements Serializable {
     @Column(nullable = false)
     String text;
     @ManyToOne
+    @JsonIgnore
     User users;
     @ManyToOne
     Publication publications;
