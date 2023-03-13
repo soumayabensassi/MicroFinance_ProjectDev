@@ -321,7 +321,7 @@ public class CreditService implements ICredit {
         {
             resultatCredit+=this.calcul_Rentabilite_parCreditNonActialise(c);
         }
-        List<Investment> investmentList=iInvestment.selectAll();
+        List<Investment> investmentList=iInvestment.getInvestmentByAnnee();
         for (Investment i:investmentList) {
             resultatInvestissement+=iInvestment.Revenu_INVISTISSEMENT(i);
         }

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -94,7 +96,8 @@ public class InvestmentRestControllers  {
     public Double getRevenusInvesstisement()
     {
         double resultat=0;
-        List<Investment> investmentList =IInvestment.selectAll();
+
+        List<Investment> investmentList =IInvestment.getInvestmentByAnnee();
         for (Investment c : investmentList)
         {
             resultat+=IInvestment.Revenu_INVISTISSEMENT(c);

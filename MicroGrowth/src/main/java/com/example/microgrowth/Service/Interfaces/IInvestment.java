@@ -14,16 +14,15 @@ public interface IInvestment {
     Investment selectById(int  idInvestment );
     void deleteById(int idInvestment);
     Investment modif(Investment inv);
-    BigDecimal calculerTauxInteret(MethodInvestissement MethodInvestissement, BigDecimal amountInves, int duree);
-    BigDecimal calculerInteret(MethodInvestissement MethodInvestissement,BigDecimal amountInves,int duree);
-    public void confirmerInvestissement(Investment inv,String userEmail);
-    public void sendNotificationEmail(String userEmail);
-    public double Revenu_INVISTISSEMENT(Investment investment);
 
 
     double calculerTauxInteret(MethodInvestissement methodInvestissement, double amountInves, int duree);
 
     //////****************calculer l'interet***************//////////////
     double calculerInteret(MethodInvestissement methodInvestissement, double amountInves, int duree);
+    public double Revenu_INVISTISSEMENT(Investment investment);
+    List<Investment> getInvestmentByAnnee();
+
+
 
 }
