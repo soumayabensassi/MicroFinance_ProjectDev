@@ -25,7 +25,7 @@ public class UserRestControllers {
         return (number >= 10000000L && number <= 99999999L);//La première condition vérifie si "number" est supérieur ou égal à 10^7 (ce qui correspond à un nombre à 8 chiffres ou plus).
         //La deuxième condition vérifie si "number" est inférieur ou égal à 10^8 - 1 (ce qui correspond à un nombre à 8 chiffres ou moins).
     }
-    @PostMapping("/user/ajouteruser")
+    @PostMapping("/ajouteruser")
 
     public ResponseEntity<String> ajouter(@RequestBody User user)
     {   boolean testMotdepasse=user.getPassword().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+~`|}{\\[\\]\\\\:;'<>,.?/\\-])[A-Za-z0-9!@#$%^&*()_+~`|}{\\[\\]\\\\:;'<>,.?/\\-]{8,}$");
