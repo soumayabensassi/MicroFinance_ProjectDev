@@ -1,6 +1,7 @@
 package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.Credit;
+import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.User;
 
 import java.util.List;
@@ -31,4 +32,10 @@ public interface ICredit {
     double CalculActifCredit();
     double CalculActifRéserve();
     double CalculResultatNET();
+
+    void ajouter_date_30(Credit c);
+    void Accorde_penalite(Penalite p);
+    void annuler_penalite();
+
+
 }

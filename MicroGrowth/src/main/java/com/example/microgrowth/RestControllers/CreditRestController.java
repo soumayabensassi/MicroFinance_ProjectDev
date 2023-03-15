@@ -2,6 +2,7 @@ package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Investment;
+import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.Publication;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.Service.Interfaces.ICredit;
@@ -134,5 +135,18 @@ public class CreditRestController {
         double ActifNet=iCredit.CalculActifCredit()+iCredit.CalculActifRéserve();
         return  resultatNet/ActifNet;
 
+    @GetMapping("/afficherDiffDate/{id}")
+    public Credit afficherDifDate(@PathVariable int id)
+    {
+        iCredit.ajouter_date_30(creditRepository.findById(id).orElse(null));
+        return null;
+    }
+    @GetMapping("/creditremboursee")
+    public List<Credit> afficherCreditRem(){
+        return creditRepository.selectCreditRembourseeParMois();
+    }
+    @PostMapping("/accordePenalite")
+    public  void Accorde_penalite(@RequestBody Penalite p){
+        iCredit.Accorde_penalite(p);
     }
 }

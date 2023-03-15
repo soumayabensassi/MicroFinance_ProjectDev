@@ -7,8 +7,15 @@ import com.example.microgrowth.DAO.Repositories.InvestmentRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Interfaces.ICredit;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
+import com.example.microgrowth.DAO.Repositories.CreditRepository;
+import com.example.microgrowth.DAO.Repositories.PenaliteRepository;
+import com.example.microgrowth.DAO.Repositories.TransactionRepository;
+import com.example.microgrowth.DAO.Repositories.UserRepository;
+import com.example.microgrowth.Service.Interfaces.ICredit;
+import com.example.microgrowth.Service.Interfaces.IPenalite;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -22,7 +29,6 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-
 public class CreditService implements ICredit {
     @Autowired
     CreditRepository creditRepository;
@@ -34,7 +40,13 @@ public class CreditService implements ICredit {
     IInvestment iInvestment;
     @Override
     public Credit add_credit_user(Credit c) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(c.getObtainingDate());
+// Ajouter 30 jours à la date
+        calendar.add(Calendar.DATE, 30);
+        Date dateApresAjout = calendar.getTime();
         c.setPack(false);
+        c.setDateEcheance(dateApresAjout);
         c.setState(1); //1:en cours  0:refus  2:accordé
         Date date_now = new Date();
         c.setDemandDate(date_now);
@@ -68,7 +80,7 @@ public class CreditService implements ICredit {
 
     @Override
     public void deleteById(int id_credit) {
-     creditRepository.deleteById(id_credit);
+        creditRepository.deleteById(id_credit);
     }
 
     @Override
@@ -80,7 +92,7 @@ public class CreditService implements ICredit {
     @Override
     public int scoreCredit(int id) {
         int score = 0;
-        Credit credit=creditRepository.findById(id).orElse(null);
+        Credit credit = creditRepository.findById(id).orElse(null);
         User user = userRepository.findById(credit.getUsers().getIdUser()).orElse(null);
         float revenuMensuel = user.getSalaire();
         int ancienneteEmploi = user.getAncienneteEmploi();
@@ -156,22 +168,22 @@ public class CreditService implements ICredit {
 
     @Override
     public void calcul_tableau_credit(Credit c) {
-        float amt,interest,monthly_payment;
-        float[][] matrice = new float[c.getDuree()*12][4];
+        float amt, interest, monthly_payment;
+        float[][] matrice = new float[c.getDuree() * 12][4];
 
-        matrice[0][0]=c.getAmount_credit();
-        matrice[0][1]=(matrice[0][0]*c.getIntrestRaiting())/12;
-        matrice[0][2]=matrice[0][0]/(c.getDuree()*12);
-        amt=matrice[0][2];
-        matrice[0][3]=amt+ matrice[0][1];
+        matrice[0][0] = c.getAmount_credit();
+        matrice[0][1] = (matrice[0][0] * c.getIntrestRaiting()) / 12;
+        matrice[0][2] = matrice[0][0] / (c.getDuree() * 12);
+        amt = matrice[0][2];
+
+        matrice[0][3] = amt + matrice[0][1];
 
 
-
-        for(int j=1;j<c.getDuree()*12;j++)
-        {   matrice[j][0]=matrice[j-1][0]-amt;//montant
-            matrice[j][1]=(matrice[j][0]*c.getIntrestRaiting())/12;//interet
-            matrice[j][2]=matrice[0][0]/(c.getDuree()*12);//amt
-            matrice[j][3]=amt+ matrice[j][1];//mensualite
+        for (int j = 1; j < c.getDuree() * 12; j++) {
+            matrice[j][0] = matrice[j - 1][0] - amt;//montant
+            matrice[j][1] = (matrice[j][0] * c.getIntrestRaiting()) / 12;//interet
+            matrice[j][2] = matrice[0][0] / (c.getDuree() * 12);//amt
+            matrice[j][3] = amt + matrice[j][1];//mensualite
 
         }
         for (int j = 0; j < matrice.length; j++) {
@@ -185,18 +197,18 @@ public class CreditService implements ICredit {
     @Override
     public double calcul_Rentabilite_parCredit(Credit c) {
 
-        double Taux_Actualisation=0.1;
-        double Taux_Actualisationparmois=Math.pow(1+Taux_Actualisation, 0.08333333)-1;
-        double tauxeparmois =Math.pow(1+c.getIntrestRaiting(),0.08333333)-1;
-        double S=Math.pow(1 +tauxeparmois,c.getDuree()*12);
-        double tauxdActualisationConverti=Math.pow(1 +Taux_Actualisationparmois,c.getDuree()*12);
-        double Sa=(S-1)/tauxeparmois;
-        double cap=1/tauxdActualisationConverti;
+        double Taux_Actualisation = 0.1;
+        double Taux_Actualisationparmois = Math.pow(1 + Taux_Actualisation, 0.08333333) - 1;
+        double tauxeparmois = Math.pow(1 + c.getIntrestRaiting(), 0.08333333) - 1;
+        double S = Math.pow(1 + tauxeparmois, c.getDuree() * 12);
+        double tauxdActualisationConverti = Math.pow(1 + Taux_Actualisationparmois, c.getDuree() * 12);
+        double Sa = (S - 1) / tauxeparmois;
+        double cap = 1 / tauxdActualisationConverti;
 
 
-        double produit = c.getMonthlyAmount()*Sa*cap;
+        double produit = c.getMonthlyAmount() * Sa * cap;
 
-        return produit-c.getAmount_credit() ;
+        return produit - c.getAmount_credit();
 
     }
     @Override
@@ -328,6 +340,79 @@ public class CreditService implements ICredit {
         resultatNet=(resultatCredit+resultatInvestissement)-((resultatCredit+resultatInvestissement)*0.25);
         return resultatNet;
     }
+
+    @Override
+    public void ajouter_date_30(Credit c) {
+
+        Date date_now = new Date();
+        if (date_now.compareTo(c.getDateEcheance()) > 0) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(c.getObtainingDate());
+// Ajouter 30 jours à la date
+            calendar.add(Calendar.DATE, 30);
+            Date date_incremented = calendar.getTime();
+            c.setDateEcheance(date_incremented);
+            this.edit(c);
+            System.out.println("c est bon ");
+
+        }
+
+    }
+
+
+    @Autowired
+    PenaliteRepository penaliteRepository;
+    @Autowired
+    IPenalite iPenalite;
+
+    @Override
+    public void Accorde_penalite(Penalite p) {
+        boolean penalite_existe = false;
+        List<Credit> listCreditPaye = creditRepository.selectCreditRembourseeParMois();
+
+        List<Penalite> listPenalite = penaliteRepository.findAll();
+        //listCreditNonPaye.remove(listCreditPaye);
+        for (Credit i : listCreditPaye) {
+            System.out.println(i.getIdCredit());
+            this.ajouter_date_30(i);
+        }
+        List<Credit> listCreditNonPaye = creditRepository.findAll();
+        listCreditNonPaye.removeIf(element -> listCreditPaye.contains(element));
+        for (Credit i : listCreditNonPaye) {
+            System.out.println(i.getIdCredit());
+
+            //i.setPenalites(i.getPenalites()+1);
+            //i.setMontant_penalites(i.getMonthlyAmount()+i.getMonthlyAmount()*i.getIntrestRaiting());
+            for (Penalite pe : listPenalite) {
+                if (pe.getCredits() == i) {
+                    penalite_existe = true;
+                }
+            }
+            if (penalite_existe == false) {
+                p.setDatePenalite(i.getDateEcheance());
+
+                p.setMontant_penalite(i.getMonthlyAmount()+p.getMontant_penalite() + i.getMonthlyAmount() * i.getIntrestRaiting());
+                i.setMontant_penalites(p.getMontant_penalite());
+                p.setCredits(i);
+                p.setPaye(false);
+                iPenalite.add(p);
+            }
+
+        }
+
+    }
+    TransactionRepository transactionRepository;
+    @Override
+    public void annuler_penalite() {
+    List<Credit> listcredit=creditRepository.findAll();
+    List<Transaction> listtrasacion=transactionRepository.findAll();
+    for (Credit c : listcredit){
+
+
+    }
+    }
+
+
 
 }
 
