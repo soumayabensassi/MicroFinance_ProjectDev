@@ -7,6 +7,7 @@ import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.Service.Interfaces.ICredit;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -106,23 +107,27 @@ public class CreditRestController {
     }
 
     @GetMapping("/admin/TauxDeRemboursement")
+    @Scheduled(cron = "0 0 10 31 12 ?")
     public double calculTauxDeRemboursement() {
-
+        System.out.println(iCredit.TauxRemboursement());
         return iCredit.TauxRemboursement();
     }
     @GetMapping("/admin/TauxDeDefaut")
+    @Scheduled(cron = "0 0 10 31 12 ?")
     public double calculTauxDeDefaut() {
 
         return iCredit.TauxDeDefaut();
     }
    @GetMapping("/admin/ReturnOnEquity")
-    public  double CalculROE()
+   @Scheduled(cron = "0 0 10 31 12 ?")
+   public  double CalculROE()
    {
        double resultatNet=iCredit.CalculResultatNET();
        return  resultatNet/2000000;
 
    }
     @GetMapping("/admin/ReturnOnAssets")
+    @Scheduled(cron = "0 0 10 31 12 ?")
     public  double CalculROA()
     {
         double resultatNet=iCredit.CalculResultatNET();

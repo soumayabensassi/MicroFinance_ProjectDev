@@ -36,20 +36,20 @@ public class MicroGrowthRestControllers {
 
 
 
-    @GetMapping("/users")
-    List<User> getUsers(){
-        return iMicroGrowth.getUsers();
-    }
+//    @GetMapping("/users")
+//    List<User> getUsers(){
+//        return iMicroGrowth.getUsers();
+//    }
 
-    @PostMapping("/add")
-    User saveUser(@RequestBody User user){
-        return iMicroGrowth.saveUser(user);
-    }
-    @PostMapping("/role/add")
-    Role saveRole(@RequestBody Role role){
-        return iMicroGrowth.saveRole(role);
-
-    }
+//    @PostMapping("/add")
+//    User saveUser(@RequestBody User user){
+//        return iMicroGrowth.saveUser(user);
+//    }
+//    @PostMapping("/role/add")
+//    Role saveRole(@RequestBody Role role){
+//        return iMicroGrowth.saveRole(role);
+//
+//    }
 //    @PostMapping("/role/addtouser")
 //    void AddRoleToUser(@RequestBody RoleToUserForm form){
 //        iMicroGrowth.AddRoleToUser(form.getEmail(), form.getRoleName());
@@ -102,18 +102,18 @@ public class MicroGrowthRestControllers {
         }
 
     }
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "You have been logged out successfully.";
-    }
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
+//    @GetMapping("/logout")
+//    public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null) {
+//            new SecurityContextLogoutHandler().logout(request, response, auth);
+//        }
+//        return "You have been logged out successfully.";
+//    }
+//    @GetMapping("/login")
+//    public String login(){
+//        return "login";
+//    }
 }
 
 @Data
