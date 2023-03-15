@@ -129,12 +129,11 @@ public class CreditRestController {
    }
     @GetMapping("/admin/ReturnOnAssets")
     @Scheduled(cron = "0 0 10 31 12 ?")
-    public  double CalculROA()
-    {
-        double resultatNet=iCredit.CalculResultatNET();
-        double ActifNet=iCredit.CalculActifCredit()+iCredit.CalculActifRéserve();
-        return  resultatNet/ActifNet;
-
+    public  double CalculROA() {
+        double resultatNet = iCredit.CalculResultatNET();
+        double ActifNet = iCredit.CalculActifCredit() + iCredit.CalculActifRéserve();
+        return resultatNet / ActifNet;
+    }
     @GetMapping("/afficherDiffDate/{id}")
     public Credit afficherDifDate(@PathVariable int id)
     {
