@@ -1,6 +1,7 @@
 package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRestControllers {
     private IUser iUser;
+    private EmailService emailService;
     @GetMapping("/admin/afficheruser")
     public List<User> afficher()
     {
@@ -47,6 +49,7 @@ public class UserRestControllers {
         else
             //(user.getEmail().matches("^.+@.+\\..+$") && user.getVerifPassword().matches(user.getPassword()) && test==true )
         {iUser.add(user);
+            emailService.ConfirmeCompte(user.getEmail());
         return  ResponseEntity.status(HttpStatus.OK).body("ajout done");
         }
 
@@ -65,5 +68,12 @@ public class UserRestControllers {
     public void delete(@PathVariable int id)
     {
         iUser.deleteById(id);
+    }
+    @PostMapping("/user/ConfirmeCompte/{email}")
+    public void Confirme(@PathVariable String email)
+    {
+        User u=iUser.getUserByEmail(email);
+        u.setActive(true);
+        iUser.edit(u);
     }
 }
