@@ -5,9 +5,12 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.Date;
 
 
-    @Entity
+@Entity
     @Getter
     @Setter
     @NoArgsConstructor
@@ -19,10 +22,14 @@ import java.io.Serializable;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idInvestment;
-        float amountInves;
+    double amountInves;
+        int  duree;
         @Enumerated(EnumType.STRING)
         MethodInvestissement methodInvestissement;
+        @Temporal(TemporalType.DATE)
+        Date DateInv = new Date();
         @ManyToOne
         User users;
+
 
 }

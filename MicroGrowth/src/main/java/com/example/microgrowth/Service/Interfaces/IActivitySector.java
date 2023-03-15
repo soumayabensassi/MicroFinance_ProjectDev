@@ -10,4 +10,7 @@ public interface IActivitySector {
     List<ActivitySector> selectAll();
     ActivitySector SelectById(int id_sector);
     void deleteById(int id_sector);
-}
+    boolean name_control(String name);
+
+    }
+

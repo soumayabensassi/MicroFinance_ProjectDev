@@ -37,4 +37,9 @@ public class PublicationService implements IPublication {
     public void deleteById(int id) {
         publicationRepositor.deleteById(id);
     }
+
+    @Override
+    public List<Publication> SelectPublicationAprouve() {
+        return publicationRepositor.PublicationAprouve(true);
+    }
 }

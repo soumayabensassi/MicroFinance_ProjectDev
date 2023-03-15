@@ -2,6 +2,7 @@ package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.Publication;
 import com.example.microgrowth.DAO.Entities.User;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -11,4 +12,5 @@ public interface IPublication {
     List<Publication> selectAll();
     Publication SelectById(int id);
     void deleteById(int id);
+    List<Publication> SelectPublicationAprouve();
 }

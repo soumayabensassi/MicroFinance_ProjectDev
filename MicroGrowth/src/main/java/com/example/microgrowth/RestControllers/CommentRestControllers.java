@@ -7,24 +7,39 @@ import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 public class CommentRestControllers {
     private IComment iComment;
-    @GetMapping("/afficherComment")
+    @GetMapping("/user/afficherComment")
     public List<Comment> afficher()
     {
         return iComment.selectAll();
     }
-    @PostMapping("/ajouterComment")
+    @PostMapping("/user/ajouterComment")
 
-    public Comment ajouter(@RequestBody Comment comment)
+    public String ajouter(@RequestBody Comment comment)
     {
-        return iComment.add(comment);
+        List<String> motsARechercher = Arrays.asList("mot1", "mot2", "mot3");
+        String texte = comment.getText();
+        Boolean test=false;
+        for (String mot : motsARechercher) {
+            if (texte.contains(mot)) {
+                test=true;
+            }
+        }
+        if (test) {
+            return "la publication contient des mots non approprié";
+        }
+        else {
+            iComment.add(comment);
+            return "ajout done";
+        }
     }
-    @PutMapping("/updateComment")
+    @PutMapping("/user/updateComment")
     public Comment update(@RequestBody Comment comment)
     {return iComment.edit(comment);
     }
@@ -33,7 +48,7 @@ public class CommentRestControllers {
     {
         return iComment.SelectById(id);
     }
-    @DeleteMapping("/deleteComment/{id}")
+    @DeleteMapping("/user/deleteComment/{id}")
     public void delete(@PathVariable int id)
     {
         iComment.deleteById(id);

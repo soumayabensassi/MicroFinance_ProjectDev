@@ -9,5 +9,7 @@ import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<Transaction,Integer> {
     Optional<List<Transaction>> findAllByDateTransactionAndRibSource(Date d, String rib);
+
+
     List<Transaction> findAllByRibReceiverOrRibSource(String rib1, String rib2);
 }

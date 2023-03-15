@@ -43,15 +43,11 @@ public class TransactionService implements ITransaction {
         return transactionRepository.findById(id).get();
     }
 
-
-
-
     @Override
     public void deleteById(int id) {
         transactionRepository.deleteById(id);
     }
 
-    @Override
     public List<Transaction> selectByRib(String Rib) {
         return transactionRepository.findAllByRibReceiverOrRibSource(Rib, Rib);
     }
@@ -76,7 +72,7 @@ public class TransactionService implements ITransaction {
         }
 
         @Override
-        public void makeTransfer(Transaction t) throws NotFoundException{
+        public void makeTransfer(Transaction t) {
             List<Transaction> toDayTransactions = transactionRepository
                     .findAllByDateTransactionAndRibSource(new Date(), t.getRibSource())
                     .orElseThrow(() -> new NotFoundException("not found"));

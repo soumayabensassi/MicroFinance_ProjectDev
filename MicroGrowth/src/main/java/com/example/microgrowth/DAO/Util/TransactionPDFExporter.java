@@ -40,7 +40,7 @@ public class TransactionPDFExporter {
 
 
 
-        cell.setPhrase(new Phrase("AMMOUNT", font));
+        cell.setPhrase(new Phrase("AMOUNT", font));
         table.addCell(cell);
 
 
