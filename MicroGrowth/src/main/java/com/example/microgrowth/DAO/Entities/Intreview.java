@@ -18,7 +18,7 @@ import java.util.Date;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idIntreview;
-        @Temporal(TemporalType.TIME)
+        @Temporal(TemporalType.DATE)
         Date dateIntreview;
     @OneToOne(mappedBy = "intreviews")
     Credit credits;

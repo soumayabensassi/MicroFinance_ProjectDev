@@ -198,4 +198,16 @@ public String forgetpassword(String email) {
         javaMailSender.send(msg);
         System.out.println("email sent succefully");
     }
+
+    public void sendPenaliteEmail(String userEmail) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject("You have depassed 3 penalities");
+        msg.setText("You have depassed 3 penalities");
+        msg.setTo(userEmail);
+        msg.setFrom("myriambrahmi23@gmail.com");
+
+        // Envoyer le message
+        javaMailSender.send(msg);
+        System.out.println("email sent succefully");
+    }
 }
