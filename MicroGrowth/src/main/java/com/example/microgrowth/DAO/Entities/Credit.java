@@ -38,7 +38,6 @@ public class Credit implements Serializable {
     int state;
     boolean pack;
     boolean garanties;
-    boolean rembourse;
     int penalites;
     float montant_penalites;
     @ManyToOne
@@ -51,7 +50,7 @@ public class Credit implements Serializable {
      Intreview intreviews;
     @OneToOne (cascade = CascadeType.ALL)
     Inssurance inssurances;
-    Boolean rembourse=false;
+    boolean rembourse=false;
     @OneToMany(mappedBy = "credits")
     @JsonIgnore
     List<Penalite> penaliteList;
