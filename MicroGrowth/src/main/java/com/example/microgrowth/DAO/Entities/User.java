@@ -61,6 +61,8 @@ boolean historiqueCredit;
     List<Complaint> complaintList;
     @OneToMany(mappedBy = "users")
     List<Publication> publicationList;
+    @OneToMany(mappedBy = "users")
+    List<Rating> ratingList;
 
 
 

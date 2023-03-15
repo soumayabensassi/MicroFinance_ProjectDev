@@ -3,11 +3,13 @@ package com.example.microgrowth.DAO.Repositories;
 
 import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.DAO.Entities.User;
+import jdk.internal.org.objectweb.asm.Opcodes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface TrainingRepository extends JpaRepository<Training,Integer> {
     @Query("select t from Training t where t.finishdate<current_date ")
@@ -18,4 +20,5 @@ public interface TrainingRepository extends JpaRepository<Training,Integer> {
     List<User>  selectUser();
     @Query(value = "select u from User u ")
     List<User>  selectUsers();
+    //Optional<Training> findById(int id);
 }
