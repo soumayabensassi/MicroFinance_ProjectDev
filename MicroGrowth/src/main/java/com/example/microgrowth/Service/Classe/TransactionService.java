@@ -13,6 +13,7 @@ import org.webjars.NotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -42,19 +43,26 @@ public class TransactionService implements ITransaction {
         return transactionRepository.findById(id).get();
     }
 
+
+
+
     @Override
     public void deleteById(int id) {
         transactionRepository.deleteById(id);
     }
 
+    @Override
+    public List<Transaction> selectByRib(String Rib) {
+        return transactionRepository.findAllByRibReceiverOrRibSource(Rib, Rib);
+    }
 
-        @Override
-        public void makeDeposit(Transaction
-        t) {
+
+    @Override
+        public void makeDeposit(Transaction t) {
             BankAccount bankAccount = bankAccountRepository.findBankAccountByRib(t.getRibReceiver())
                     .orElseThrow(() -> new NotFoundException("NO ACCOUNT WITH RIB :" + t.getRibReceiver()));
             if (t != null &&
-                    t.getTypeTransaction() == Type_Transaction.DEPOSIT
+                    t.getTypeTransaction().equals(Type_Transaction.DEPOSIT)
                     && bankAccount != null
             ) {
                 bankAccount.setAmount(bankAccount.getAmount() + t.getAmountTransaction());
@@ -64,11 +72,11 @@ public class TransactionService implements ITransaction {
                  transactionRepository.save(t);
 
             }
-           //else  throw new NotFoundException("Deposit not allowed");
+           else  throw new NotFoundException("Deposit not allowed");
         }
 
         @Override
-        public void makeTransfer(Transaction t) {
+        public void makeTransfer(Transaction t) throws NotFoundException{
             List<Transaction> toDayTransactions = transactionRepository
                     .findAllByDateTransactionAndRibSource(new Date(), t.getRibSource())
                     .orElseThrow(() -> new NotFoundException("not found"));
@@ -107,7 +115,8 @@ public class TransactionService implements ITransaction {
             BankAccount bankAccount = bankAccountRepository.findBankAccountByRib(t.getRibReceiver())
                     .orElseThrow(() -> new NotFoundException("NO ACCOUNT WITH RIB :" + t.getRibReceiver()));
             float somme=0;
-            if(toDayTransactions != null){
+
+if (t.getTypeTransaction().equals(Type_Transaction.WITHDRAWAL))    {        if(toDayTransactions != null){
             for(Transaction transaction : toDayTransactions){
                 if(transaction.getTypeTransaction().equals(Type_Transaction.WITHDRAWAL))
                      somme+=transaction.getAmountTransaction();
@@ -120,7 +129,7 @@ public class TransactionService implements ITransaction {
                     t.setBankAccountList(new ArrayList<>());
                 t.getBankAccountList().add(bankAccount);
                  transactionRepository.save(t);
-            }
+            }}
            else throw new NotFoundException("withdrawal not allowed");
         }
 
