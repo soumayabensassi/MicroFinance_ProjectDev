@@ -6,6 +6,9 @@ import com.example.microgrowth.DAO.Entities.Publication;
 import com.example.microgrowth.Service.Interfaces.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,15 +20,30 @@ public class LikeRestControllers {
     private IDislike iDislike;
     private IPublication iPublication;
     private IComment iComment;
-//    @PostMapping("/ajouterLike")
+
+
+    //    @PostMapping("/ajouterLike")
 //
 //    public Likes ajouter(@RequestBody Likes like)
 //    {
 //        return iLike.add(like);
 //    }
-    @PostMapping("/user/LikerPublication/{email}/{idpublication}")
-    public void likerunepublication(@PathVariable String email,@PathVariable int idpublication)
-    {
+public String getCurrentUserName() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated()) {
+        return null;
+    }
+    Object principal = authentication.getPrincipal();
+    if (principal instanceof UserDetails) {
+        return ((UserDetails) principal).getUsername();
+    } else {
+        return principal.toString();
+    }
+}
+    @PostMapping("/user/LikerPublication/{idpublication}")
+    public void likerunepublication(@PathVariable int idpublication)
+    {   String email=this.getCurrentUserName();
+        System.out.println(email);
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         log.info("likes is : {}",likes);
@@ -38,9 +56,9 @@ public class LikeRestControllers {
             iLike.add(like);
         } else  iLike.deleteById(likes.getIdLike());
     }
-    @PostMapping("/user/LikerComment/{email}/{idComment}")
-    public void likerunComment(@PathVariable String email,@PathVariable int idComment)
-    {
+    @PostMapping("/user/LikerComment/{idComment}")
+    public void likerunComment(@PathVariable int idComment)
+    {String email=this.getCurrentUserName();
         Likes likesComment=iLike.verifLikeComment(email,idComment);
         Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
         if (likesComment==null && dislikeComment == null) {

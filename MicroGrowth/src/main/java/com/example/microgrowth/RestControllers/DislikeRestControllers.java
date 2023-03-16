@@ -4,6 +4,9 @@ import com.example.microgrowth.DAO.Entities.Dislike;
 import com.example.microgrowth.DAO.Entities.Likes;
 import com.example.microgrowth.Service.Interfaces.*;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,9 +29,21 @@ public class DislikeRestControllers {
 //    {
 //        iDislike.deleteById(id);
 //    }
-    @PostMapping("/user/DislikerPublication/{email}/{idpublication}")
-    public void Dislikerunepublication(@PathVariable String email,@PathVariable int idpublication)
-    {
+public String getCurrentUserName() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated()) {
+        return null;
+    }
+    Object principal = authentication.getPrincipal();
+    if (principal instanceof UserDetails) {
+        return ((UserDetails) principal).getUsername();
+    } else {
+        return principal.toString();
+    }
+}
+    @PostMapping("/user/DislikerPublication/{idpublication}")
+    public void Dislikerunepublication(@PathVariable int idpublication)
+    { String email=this.getCurrentUserName();
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         if (likes==null && dislike == null) {
@@ -40,9 +55,9 @@ public class DislikeRestControllers {
             iDislike.add(d);
         } else  iDislike.deleteById(dislike.getIdDislike());
     }
-    @PostMapping("/user/DislikerComment/{email}/{idComment}")
-    public void DislikerunCommant(@PathVariable String email,@PathVariable int idComment)
-    {
+    @PostMapping("/user/DislikerComment/{idComment}")
+    public void DislikerunCommant(@PathVariable int idComment)
+    { String email=this.getCurrentUserName();
         Likes likesComment=iLike.verifLikeComment(email,idComment);
         Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
         if (likesComment==null && dislikeComment == null) {

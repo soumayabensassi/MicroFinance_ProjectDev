@@ -69,7 +69,7 @@ public class UserRestControllers {
     {
         iUser.deleteById(id);
     }
-    @PostMapping("/user/ConfirmeCompte/{email}")
+    @PostMapping("/ConfirmeCompte/{email}")
     public void Confirme(@PathVariable String email)
     {
         User u=iUser.getUserByEmail(email);

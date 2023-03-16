@@ -53,25 +53,6 @@ public class MicroGrowthService implements IMicroGrowth,UserDetailsService {
     }
 
     @Override
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
-    }
-
-    @Override
-    public Role saveRole(Role role) {
-        return rolesRepo.save(role);
-    }
-
-//    @Override
-//    public void AddRoleToUser(String username, String roleName) {
-//        User user = userRepo.findByEmail(username);
-//        Role role= rolesRepo.findByName(roleName);
-//        user.getRoles().add(role);
-//    }
-
-
-    @Override
     public User getUser(String email) {
         return userRepo.findByEmail(email);
     }
