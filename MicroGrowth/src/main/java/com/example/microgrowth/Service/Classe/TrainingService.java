@@ -47,7 +47,7 @@ public class TrainingService implements ITrainingService {
     @Override
     public Training selectById(int idtraining) {
 
-        return trainingRepository.findById(idtraining).orElse(null);
+        return trainingRepository.findById(idtraining);
     }
 
     @Override

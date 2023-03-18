@@ -1,75 +1,74 @@
 package com.example.microgrowth.RestControllers;
 
-import com.example.microgrowth.DAO.Entities.Interesse;
 import com.example.microgrowth.DAO.Entities.Rating;
 import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.RatingRepository;
 import com.example.microgrowth.DAO.Repositories.TrainingRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
-import com.example.microgrowth.Service.Classe.RatingService;
 import com.example.microgrowth.Service.Classe.TrainingService;
 import com.example.microgrowth.Service.Classe.UserService;
 import com.example.microgrowth.Service.Interfaces.IRating;
 import com.example.microgrowth.Service.Interfaces.ITrainingService;
 import com.example.microgrowth.Service.Interfaces.IUser;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
-@Slf4j
-
+//@AllArgsConstructor
+//@Slf4j
+//@RequestMapping("/ratings")
 public class RatingRestController {
+
     @Autowired
-    private  TrainingRepository trainingRepository;
+    private RatingRepository ratingRepository;
+
     @Autowired
-    private  RatingRepository ratingRepository;
-    private ITrainingService iTrainingService;
+    private TrainingRepository trainingRepository;
+
     private TrainingService trainingService;
-    private IUser iUser;
-    private IRating iRating;
     private UserService userService;
-    private RatingService ratingService;
-    //private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    /*public RatingRestController(TrainingRepository trainingRepository, RatingRepository ratingRepository, UserRepository userRepository) {
-        this.trainingRepository = trainingRepository;
-        this.ratingRepository = ratingRepository;
-        this.userRepository = userRepository;
-    }*/
+    @PostMapping("ratings/{trainingId}/{userId}/{score}")
+    public ResponseEntity<?> createRating(@PathVariable int trainingId, @PathVariable int userId, @PathVariable int score) {
+        Training event = trainingRepository.findById(trainingId);
+        User user = userRepository.findById(userId).get();
 
-    @PostMapping("/ratings/{email}/{trainingId}")
-    public Rating createRating(@PathVariable String email,@PathVariable int trainingId, @RequestBody Rating rating) {
-        Rating rating1 = iRating.verifRating(email, trainingId);
+        Optional<Rating> existingRating = ratingRepository.findByTrainingsAndUsers(event, user);
+        if (existingRating.isPresent()) {
+            return ResponseEntity.badRequest().body("User already rated this event");
+        }
 
-            Training training = trainingRepository.findById(trainingId).get();
-            Rating rating2=new Rating(iUser.getUserByEmail(email),iTrainingService.selectById(trainingId));
-            rating.setTrainings(training);
-            //if (rating2.getScore()<=5)
-             return ratingRepository.save(rating2);
+        Rating rating = new Rating();
+        rating.setTrainings(event);
+        rating.setUsers(user);
+        rating.setScore(score);
+        if (rating.getScore()<=5 && rating.getScore()>=0){
+        ratingRepository.save(rating);
+            return ResponseEntity.ok().build();}
+        else
+            return ResponseEntity.notFound().build();
 
 
     }
-    @DeleteMapping("/deleteratings/{email}/{trainingId}/{ratingId}")
-    public void deleteEventRating(@PathVariable int trainingId, @PathVariable String email,@PathVariable int ratingId) {
-        Training event = trainingService.selectById(trainingId);
-        User user = userService.getUserByEmail(email);
-        ratingService.deleteEventRating(ratingId, email);
-    }
+    @DeleteMapping("/deleteratings/{userId}/{trainingId}")
+    public ResponseEntity<?> deleteEventRating(@PathVariable int trainingId, @PathVariable int userId) {
+        Training event = trainingRepository.findById(trainingId);
+        User user = userRepository.findById(userId).get();
+        //int rating=ratingRepository.findById(ratingId).get().getId();
+        Rating rating=new Rating();
+        Optional<Rating> existingRating = ratingRepository.findByTrainingsAndUsers(event, user);
 
-    @PutMapping("/editratings/{email}/{trainingId}/{idrating}")
-    public void editEventRating(@PathVariable int trainingId, @PathVariable String email,@PathVariable int idrating) {
-        Training event = trainingService.selectById(trainingId);
-        User user = userService.getUserByEmail(email);
-        Rating rating2=new Rating(iUser.getUserByEmail(email),iTrainingService.selectById(trainingId),idrating);
-
-        ratingRepository.save(rating2);
+        if (existingRating.isPresent()) {
+             ratingRepository.delete(existingRating.get());
+            return ResponseEntity.ok().build();
+        }else
+        return ResponseEntity.badRequest().body("Rating already deleted");
     }
 }

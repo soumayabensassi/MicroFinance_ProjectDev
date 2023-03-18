@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,25 +14,27 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(uniqueConstraints = {
+/*@Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"trainings_id_training", "users_id_user"})
-})
+})*/
 public class Rating implements Serializable {
     @Id
      int id;
      int score;
     @ManyToOne
+            @JsonIgnore
      Training trainings;
     @ManyToOne
+            @JsonIgnore
      User users;
-    public Rating(User userByEmail, Training selectById){
+    /*public Rating(User userByEmail, Training selectById){
         this.users=userByEmail;
         this.trainings=selectById;
-    }
+    }*/
 
-    public Rating(User userByEmail, Training selectById, int idrating) {
+    /*public Rating(User userByEmail, Training selectById, int idrating) {
         this.users=userByEmail;
         this.trainings=selectById;
         this.id=id;
-    }
+    }*/
 }

@@ -3,7 +3,7 @@ package com.example.microgrowth.DAO.Repositories;
 
 import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.DAO.Entities.User;
-import jdk.internal.org.objectweb.asm.Opcodes;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,5 +20,5 @@ public interface TrainingRepository extends JpaRepository<Training,Integer> {
     List<User>  selectUser();
     @Query(value = "select u from User u ")
     List<User>  selectUsers();
-    //Optional<Training> findById(int id);
+   Training findById(int id);
 }

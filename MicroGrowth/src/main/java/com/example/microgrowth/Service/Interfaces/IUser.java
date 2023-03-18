@@ -15,5 +15,6 @@ public interface IUser {
     User SelectById(int id);
     void deleteById(int id);
     User getUserByEmail(String email);
+    User getUserById(int id);
 }
 
