@@ -17,33 +17,10 @@ public class DislikeRestControllers {
     private IUser iUser;
     private IPublication iPublication;
     private IComment iComment;
-
-//    @PostMapping("/ajouterSidLike")
-//
-//    public Dislike ajouter(@RequestBody Dislike dislike)
-//    {
-//        return iDislike.add(dislike);
-//    }
-//    @DeleteMapping("/deleteDisLike/{id}")
-//    public void delete(@PathVariable int id)
-//    {
-//        iDislike.deleteById(id);
-//    }
-public String getCurrentUserName() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication == null || !authentication.isAuthenticated()) {
-        return null;
-    }
-    Object principal = authentication.getPrincipal();
-    if (principal instanceof UserDetails) {
-        return ((UserDetails) principal).getUsername();
-    } else {
-        return principal.toString();
-    }
-}
+    private IMicroGrowth iMicroGrowth;
     @PostMapping("/user/DislikerPublication/{idpublication}")
     public void Dislikerunepublication(@PathVariable int idpublication)
-    { String email=this.getCurrentUserName();
+    { String email=iMicroGrowth.getCurrentUserName();
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         if (likes==null && dislike == null) {
@@ -57,7 +34,7 @@ public String getCurrentUserName() {
     }
     @PostMapping("/user/DislikerComment/{idComment}")
     public void DislikerunCommant(@PathVariable int idComment)
-    { String email=this.getCurrentUserName();
+    {   String email=iMicroGrowth.getCurrentUserName();
         Likes likesComment=iLike.verifLikeComment(email,idComment);
         Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
         if (likesComment==null && dislikeComment == null) {

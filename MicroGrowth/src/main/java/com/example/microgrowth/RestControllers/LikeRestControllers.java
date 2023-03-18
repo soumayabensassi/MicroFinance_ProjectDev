@@ -20,29 +20,13 @@ public class LikeRestControllers {
     private IDislike iDislike;
     private IPublication iPublication;
     private IComment iComment;
+    private IMicroGrowth iMicroGrowth;
 
 
-    //    @PostMapping("/ajouterLike")
-//
-//    public Likes ajouter(@RequestBody Likes like)
-//    {
-//        return iLike.add(like);
-//    }
-public String getCurrentUserName() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication == null || !authentication.isAuthenticated()) {
-        return null;
-    }
-    Object principal = authentication.getPrincipal();
-    if (principal instanceof UserDetails) {
-        return ((UserDetails) principal).getUsername();
-    } else {
-        return principal.toString();
-    }
-}
+
     @PostMapping("/user/LikerPublication/{idpublication}")
     public void likerunepublication(@PathVariable int idpublication)
-    {   String email=this.getCurrentUserName();
+    {   String email=iMicroGrowth.getCurrentUserName();
         System.out.println(email);
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
@@ -58,7 +42,7 @@ public String getCurrentUserName() {
     }
     @PostMapping("/user/LikerComment/{idComment}")
     public void likerunComment(@PathVariable int idComment)
-    {String email=this.getCurrentUserName();
+    {String email=iMicroGrowth.getCurrentUserName();
         Likes likesComment=iLike.verifLikeComment(email,idComment);
         Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
         if (likesComment==null && dislikeComment == null) {

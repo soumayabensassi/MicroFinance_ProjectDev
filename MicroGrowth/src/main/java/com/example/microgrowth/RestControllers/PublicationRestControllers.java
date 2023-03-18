@@ -3,6 +3,7 @@ package com.example.microgrowth.RestControllers;
 import com.example.microgrowth.DAO.Entities.Comment;
 import com.example.microgrowth.DAO.Entities.Publication;
 import com.example.microgrowth.Service.Interfaces.IComment;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IPublication;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
@@ -19,23 +20,13 @@ import java.util.List;
 public class PublicationRestControllers {
     private IPublication iPublication;
     private IUser iUser;
+    private IMicroGrowth iMicroGrowth;
     @GetMapping("/admin/afficherPublication")
     public List<Publication> afficher()
     {
         return iPublication.selectAll();
     }
-    public String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return null;
-        }
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
-    }
+
     @PostMapping("/user/ajouterPublication")
 
     public String ajouter(@RequestBody Publication publication)
@@ -46,7 +37,7 @@ public class PublicationRestControllers {
                 texte = texte.replaceAll(mot, "*");
             }
             }
-        publication.setUsers(iUser.getUserByEmail(this.getCurrentUserName()));
+        publication.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
 
         publication.setText(texte);
             iPublication.add(publication);

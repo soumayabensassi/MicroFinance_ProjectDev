@@ -9,4 +9,5 @@ public interface IMicroGrowth {
 
     User getUser(String username);
     List<User>getUsers();
+    public String getCurrentUserName();
 }

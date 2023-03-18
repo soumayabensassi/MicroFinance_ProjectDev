@@ -3,6 +3,7 @@ package com.example.microgrowth.RestControllers;
 import com.example.microgrowth.DAO.Entities.Comment;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.Service.Interfaces.IComment;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -18,23 +19,13 @@ import java.util.List;
 public class CommentRestControllers {
     private IComment iComment;
     private IUser iUser;
+    private IMicroGrowth iMicroGrowth;
     @GetMapping("/user/afficherComment")
     public List<Comment> afficher()
     {
         return iComment.selectAll();
     }
-    public String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return null;
-        }
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
-    }
+
     @PostMapping("/user/ajouterComment")
     public String ajouter(@RequestBody Comment comment)
     {
@@ -46,7 +37,7 @@ public class CommentRestControllers {
                 texte = texte.replaceAll(mot, "*");
             }
         }
-            comment.setUsers(iUser.getUserByEmail(this.getCurrentUserName()));
+            comment.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
             comment.setText(texte);
            // comment.setUsers();
             iComment.add(comment);
