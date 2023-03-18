@@ -3,8 +3,12 @@ package com.example.microgrowth.RestControllers;
 import com.example.microgrowth.DAO.Entities.Comment;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.Service.Interfaces.IComment;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -14,13 +18,15 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentRestControllers {
     private IComment iComment;
+    private IUser iUser;
+    private IMicroGrowth iMicroGrowth;
     @GetMapping("/user/afficherComment")
     public List<Comment> afficher()
     {
         return iComment.selectAll();
     }
-    @PostMapping("/user/ajouterComment")
 
+    @PostMapping("/user/ajouterComment")
     public String ajouter(@RequestBody Comment comment)
     {
         List<String> motsARechercher = Arrays.asList("mot1", "mot2", "mot3");
@@ -28,16 +34,15 @@ public class CommentRestControllers {
         Boolean test=false;
         for (String mot : motsARechercher) {
             if (texte.contains(mot)) {
-                test=true;
+                texte = texte.replaceAll(mot, "*");
             }
         }
-        if (test) {
-            return "la publication contient des mots non approprié";
-        }
-        else {
+            comment.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
+            comment.setText(texte);
+           // comment.setUsers();
             iComment.add(comment);
             return "ajout done";
-        }
+
     }
     @PutMapping("/user/updateComment")
     public Comment update(@RequestBody Comment comment)

@@ -8,7 +8,9 @@ import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,25 +55,6 @@ public class MicroGrowthService implements IMicroGrowth,UserDetailsService {
     }
 
     @Override
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
-    }
-
-    @Override
-    public Role saveRole(Role role) {
-        return rolesRepo.save(role);
-    }
-
-//    @Override
-//    public void AddRoleToUser(String username, String roleName) {
-//        User user = userRepo.findByEmail(username);
-//        Role role= rolesRepo.findByName(roleName);
-//        user.getRoles().add(role);
-//    }
-
-
-    @Override
     public User getUser(String email) {
         return userRepo.findByEmail(email);
     }
@@ -80,7 +63,19 @@ public class MicroGrowthService implements IMicroGrowth,UserDetailsService {
     public List<User> getUsers() {
         return userRepo.findAll();
     }
-
+    @Override
+    public String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
 
 
 }
