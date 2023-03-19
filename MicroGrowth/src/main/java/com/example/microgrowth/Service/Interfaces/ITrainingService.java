@@ -21,4 +21,5 @@ public interface ITrainingService {
     List<Training> selectByDate();
     List<Training>findwithsorting(String field,String type);
 
+
 }

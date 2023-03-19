@@ -11,25 +11,9 @@ public class RatingService implements IRating {
         return null;
     }
 
-    @Override
-    public void deleteById(int i) {
 
-    }
 
-    @Override
-    public Rating verifRating(String email, int i) {
-        return null;
-    }
 
-    @Override
-    public void deleteEventRating(int idtraining, String email) {
-
-    }
-
-    @Override
-    public void editEventRating(int idtraining, String email) {
-
-    }
 
     @Override
     public void delete(Rating rating) {

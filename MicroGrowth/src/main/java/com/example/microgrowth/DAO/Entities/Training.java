@@ -20,6 +20,7 @@ public class Training implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idTraining;
+    String title;
     @Temporal(TemporalType.DATE)
     Date startDate;
     @Temporal(TemporalType.DATE)
