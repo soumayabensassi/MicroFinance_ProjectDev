@@ -29,7 +29,7 @@ public class PenaliteRestController {
         User user=userRepository.findById(user_id).get();
         System.out.println(user.getEmail());
 
-        if(penaliteRepository.countPenaliteParCredit(id)==3){
+        if(penaliteRepository.countPenaliteParCredit(id)==1){
 
     emailService.sendPenaliteEmail(user.getEmail());
     }

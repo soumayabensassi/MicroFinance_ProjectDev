@@ -1,16 +1,34 @@
 package com.example.microgrowth.RestControllers;
 
+<<<<<<< Updated upstream
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.Publication;
+=======
+import com.example.microgrowth.DAO.Entities.*;
+>>>>>>> Stashed changes
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
+import com.example.microgrowth.DAO.Repositories.UserRepository;
+import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Interfaces.ICredit;
+<<<<<<< Updated upstream
 import com.example.microgrowth.Service.Interfaces.IInvestment;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+=======
+import com.lowagie.text.DocumentException;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+>>>>>>> Stashed changes
 import java.util.Date;
 import java.util.List;
 
@@ -19,13 +37,18 @@ import java.util.List;
 public class CreditRestController {
     private ICredit iCredit;
     CreditRepository creditRepository;
+<<<<<<< Updated upstream
     IInvestment iInvestment;
+=======
+    @Autowired
+    UserRepository userRepository;
+>>>>>>> Stashed changes
     @GetMapping("/afficherCredits")
     public List<Credit> afficherCredits()
     {
         return iCredit.selectAll();
     }
-@PostMapping("/ajouterCreditByuser")
+    @PostMapping("/ajouterCreditByuser")
     public Credit ajouterCredit_user(@RequestBody Credit credit)
     {
         return iCredit.add_credit_user(credit);
@@ -147,5 +170,26 @@ public class CreditRestController {
     @PostMapping("/accordePenalite")
     public  void Accorde_penalite(@RequestBody Penalite p){
         iCredit.Accorde_penalite(p);
+    }
+    @GetMapping("/export-to-pdf-credits")
+    public void generatePdfFile(HttpServletResponse response) throws DocumentException, IOException
+    {
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDateTime = dateFormat.format(new Date());
+        String headerkey = "Content-Disposition";
+        String headervalue = "attachment; filename=credit" + currentDateTime + ".pdf";
+        response.setHeader(headerkey, headervalue);
+        List < Credit > listofCredits = creditRepository.findAll();
+        PdfGeneratorCredit generator = new PdfGeneratorCredit();
+
+        generator.generate(listofCredits, response);
+}
+EmailService emailService;
+    @GetMapping("/ProposerCredit/{id}")
+    void SendEmailPenalite(@PathVariable int id) {
+        User user = userRepository.findById(id).get();
+        System.out.println(user.getEmail());
+        emailService.sendCalcukCredit(user);
     }
 }

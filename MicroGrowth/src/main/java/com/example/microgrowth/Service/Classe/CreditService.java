@@ -391,8 +391,8 @@ public class CreditService implements ICredit {
             if (penalite_existe == false) {
                 p.setDatePenalite(i.getDateEcheance());
 
-                p.setMontant_penalite(i.getMonthlyAmount()+p.getMontant_penalite() + i.getMonthlyAmount() * i.getIntrestRaiting());
-                i.setMontant_penalites(p.getMontant_penalite());
+                p.setMontant_penalite(i.getMonthlyAmount()+p.getMontant_penalite() + i.getMonthlyAmount() * i.getIntrestRaiting()*2);
+                i.setMontant_penalites(p.getMontant_penalite()*2);
                 p.setCredits(i);
                 p.setPaye(false);
                 iPenalite.add(p);
