@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,14 +21,21 @@ public class Training implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idTraining;
+    @NotNull(message = "Ce champ  ne peut pas être vide")
     String title;
     @Temporal(TemporalType.DATE)
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     Date startDate;
     @Temporal(TemporalType.DATE)
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     Date finishdate;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     boolean state;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     float price;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     int nbrOfPlace;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     String subject;
     @ManyToMany
     List<User> userList;

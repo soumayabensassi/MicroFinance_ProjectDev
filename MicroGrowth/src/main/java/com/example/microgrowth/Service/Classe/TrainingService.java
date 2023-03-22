@@ -95,9 +95,10 @@ public class TrainingService implements ITrainingService {
         }
     }
 
+
     @Override
     public List<Training> selectByDate() {
-        return trainingRepository.selectByDate();
+        return trainingRepository.selectByDate1();
     }
 
     @Override

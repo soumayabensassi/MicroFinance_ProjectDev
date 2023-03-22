@@ -1,27 +1,32 @@
 package com.example.microgrowth.DAO.Entities;
 
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Message {
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    private User sender;
+
+    @ManyToOne
+    private User recipient;
+
+    @Column(nullable = false)
     private String content;
 
-    public Message(String name, String content) {
-        this.name = name;
-        this.content = content;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+    @Column(nullable = false)
+    private LocalDateTime sentAt;
 }

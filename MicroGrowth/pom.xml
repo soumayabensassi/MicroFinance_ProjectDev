@@ -116,7 +116,13 @@
             <artifactId>jquery</artifactId>
             <version>3.1.1-1</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.apache.opennlp</groupId>
+            <artifactId>opennlp-tools</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
+          </dependencies>
 
     <build>
         <plugins>

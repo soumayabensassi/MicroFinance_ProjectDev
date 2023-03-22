@@ -12,6 +12,8 @@ import com.example.microgrowth.Service.Interfaces.ITrainingService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
@@ -22,6 +24,7 @@ import java.util.stream.Stream;
 
 @RestController
 @AllArgsConstructor
+@EnableScheduling
 public class TrainingRestController {
     private ITrainingService iTrainingService;
     private TrainingRepository trainingRepository ;
@@ -35,16 +38,36 @@ public class TrainingRestController {
     private EmailSenderService senderService;
     @Autowired
     private TrainingService trainingService;
-
+    public boolean hasEightDigits(String title) {
+        return (title.length() <= 10 );}
     //@EventListener(ApplicationReadyEvent.class)
     @PostMapping("/ajouterTraining")
     public ResponseEntity<?>ajouterT(@RequestBody Training training) throws MessagingException {
+        boolean test = hasEightDigits(training.getTitle());
+        boolean testDate = training.getStartDate().before(training.getFinishdate());
+        boolean testPrice = training.getPrice()>0.0;
+        boolean testNbrP = training.getNbrOfPlace()>0;
 
+        if(!test)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le titre de la formation doit contenir 8 chiffres");
+        } else if (!testDate) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La date de debut doit etre avant la date de fin ");
+
+        } else if (!testPrice) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Le prix ne peut pas etre négatif");
+
+
+    } else if (!testNbrP) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Le nbr de place ne peut pas etre négatif");
+
+    }
+        else{
         for(User us : trainingRepository.selectUsers()) {
             senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Documents/mir.pdf");
         }
         iTrainingService.add(training);
-        return ResponseEntity.status(HttpStatus.OK).body("ajout done");
+        return ResponseEntity.status(HttpStatus.OK).body("ajout done");}
     }
     //public Training ajouterT(@RequestBody Training training) throws MessagingException {
         //senderService.sendEmail("myriam.brahmi@esprit.tn","This is Subject","This is Body","C:/Users/HP/Documents/lettre-motivation-mimi");
@@ -66,6 +89,7 @@ public class TrainingRestController {
     public Training modifier(@RequestBody Training training)
     {return iTrainingService.edit(training);
     }
+    @Scheduled(cron = "0 0 0 * * *")
     @DeleteMapping("/deleteExpTraining")
     public void supprimerTE() throws MessagingException {
 
@@ -75,6 +99,7 @@ public class TrainingRestController {
             senderService.sendEmail(us.getEmail(), " Evenement Expiré", "Evenement Expiré", "C:/Users/HP/Documents/mir.pdf");
         }
     }
+
     @GetMapping("/afficherPresExpiredT")
     public List<Training> afficherPresExpiredT() throws MessagingException {
          iTrainingService.sendMailExpiration();

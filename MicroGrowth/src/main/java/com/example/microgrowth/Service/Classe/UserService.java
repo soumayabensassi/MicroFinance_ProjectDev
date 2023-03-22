@@ -55,5 +55,8 @@ public class UserService implements IUser {
     public User getUserById(int id) {
         return userRepository.findById(id).get();
     }
+    public User findByUsername(String username) {
+        return userRepository.findByFirstName(username);
+    }
 
 }
