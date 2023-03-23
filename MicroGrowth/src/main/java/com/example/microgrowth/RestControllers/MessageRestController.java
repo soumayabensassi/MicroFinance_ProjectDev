@@ -7,6 +7,7 @@ import com.example.microgrowth.Service.Classe.MessageService;
 //import com.example.microgrowth.Service.Classe.ProfanityFilterService;
 
 import com.example.microgrowth.Service.Classe.UserService;
+import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import opennlp.tools.tokenize.SimpleTokenizer;
 public class MessageRestController {
 
     private UserService userService;
+    IUser iUser;
     //private DoccatModel model;
 
 
@@ -57,7 +59,7 @@ public class MessageRestController {
     //  messageService.sendMessage(senderUsername, receiverUsername, content);
     //}
     @PostMapping("/messagee")
-    public ResponseEntity<?> createMessage(@RequestBody Message message) {
+    public List<String> createMessage(@RequestBody Message message) {
         {List<String> motsARechercher = Arrays.asList("mot1", "mot2", "mot3");
             String texte = message.getContent();
             for (String mot : motsARechercher) {
@@ -66,12 +68,24 @@ public class MessageRestController {
                     message.setContent("*****");
                     messageService.save(message);
 
-                    return ResponseEntity.badRequest().body("message censuré");
+                   // return ResponseEntity.badRequest().body("message censuré");
                 }
             }}
         message.setSentAt(LocalDateTime.now());
         messageService.save(message);
-        return ResponseEntity.ok().build();}
+        List<Message> messages = messageService.findBySenderAndRecipient(message.getSender(), message.getRecipient());
+
+        messages.addAll(messageService.findBySenderAndRecipient(message.getRecipient(), message.getSender()));
+        Collections.sort(messages, Comparator.comparing(Message::getSentAt));
+        List<String> s=new ArrayList<>();
+        for (Message m:messages) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime dateTime = LocalDateTime.of(m.getSentAt().getYear(), m.getSentAt().getMonth(), m.getSentAt().getDayOfMonth(), m.getSentAt().getHour(), m.getSentAt().getMinute());
+            String formattedDateTime = dateTime.format(formatter);
+            s.add(m.getContent());
+            s.add(formattedDateTime);
+        }
+        return s;}
    // }
 
     @GetMapping("/messagees/{sender}/{recipient}")
@@ -87,6 +101,7 @@ public class MessageRestController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime dateTime = LocalDateTime.of(m.getSentAt().getYear(), m.getSentAt().getMonth(), m.getSentAt().getDayOfMonth(), m.getSentAt().getHour(), m.getSentAt().getMinute());
             String formattedDateTime = dateTime.format(formatter);
+
             s.add(m.getContent());
             s.add(formattedDateTime);
         }
@@ -115,16 +130,16 @@ public class MessageRestController {
 
 // code json sur postman
 //{
-       // "content": "Hello !",
-          //      "sender": {
-          //  "idUser": 4,
-        //            "firstName": "ddd"
-        //},
-        //"recipient": {
-         //   "idUser": 5,
-       //             "firstName": "mimi"
-       // }
-    //}
+//        "content": "Hello !",
+//                "sender": {
+//            "idUser": 4,
+//                    "firstName": "ddd"
+//        },
+//        "recipient": {
+//            "idUser": 5,
+//                    "firstName": "mimi"
+//        }
+//    }
 
     @MessageMapping ("/message")
 
