@@ -19,10 +19,9 @@ import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
 import opennlp.tools.doccat.DoccatModel;
 import opennlp.tools.doccat.DocumentCategorizerME;
 import opennlp.tools.tokenize.SimpleTokenizer;
@@ -76,13 +75,22 @@ public class MessageRestController {
    // }
 
     @GetMapping("/messagees/{sender}/{recipient}")
-    public List<Message> getMessages(@PathVariable String sender, @PathVariable String recipient) {
+    public List<String> getMessages(@PathVariable String sender, @PathVariable String recipient) {
         User senderUser = userService.findByUsername(sender);
         User recipientUser = userService.findByUsername(recipient);
         List<Message> messages = messageService.findBySenderAndRecipient(senderUser, recipientUser);
+
         messages.addAll(messageService.findBySenderAndRecipient(recipientUser, senderUser));
         Collections.sort(messages, Comparator.comparing(Message::getSentAt));
-        return messages;
+        List<String> s=new ArrayList<>();
+        for (Message m:messages) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime dateTime = LocalDateTime.of(m.getSentAt().getYear(), m.getSentAt().getMonth(), m.getSentAt().getDayOfMonth(), m.getSentAt().getHour(), m.getSentAt().getMinute());
+            String formattedDateTime = dateTime.format(formatter);
+            s.add(m.getContent());
+            s.add(formattedDateTime);
+        }
+        return s;
     }
 
     @GetMapping("/messagees/{recipient}")
