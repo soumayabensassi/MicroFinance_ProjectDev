@@ -13,6 +13,7 @@ public interface IComplaintService {
     void delete(Complaint complaint);
     List<Complaint> addAll(List<Complaint> listC);
     void deleteAll(List<Complaint> listC);
+    void deleteByState();
 
 
 }

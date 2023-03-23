@@ -63,6 +63,9 @@ public class User implements Serializable {
     @JsonIgnore
     List<Publication> publicationList;
     boolean Active;
+    @OneToMany(mappedBy = "users")
+    List<Rating> ratingList;
+
 
 
 }

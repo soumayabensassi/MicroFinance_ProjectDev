@@ -4,7 +4,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,86 +21,29 @@ public class Training implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idTraining;
+    @NotNull(message = "Ce champ  ne peut pas être vide")
+    String title;
     @Temporal(TemporalType.DATE)
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     Date startDate;
     @Temporal(TemporalType.DATE)
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     Date finishdate;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     boolean state;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     float price;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     int nbrOfPlace;
+    @NotNull(message = "Le champ nom ne peut pas être vide")
     String subject;
-    @Transient
-     double rating = 0.0;
-
-    public int getIdTraining() {
-        return idTraining;
-    }
-
-    public void setIdTraining(int idTraining) {
-        this.idTraining = idTraining;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getFinishdate() {
-        return finishdate;
-    }
-
-    public void setFinishdate(Date finishdate) {
-        this.finishdate = finishdate;
-    }
-
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getNbrOfPlace() {
-        return nbrOfPlace;
-    }
-
-    public void setNbrOfPlace(int nbrOfPlace) {
-        this.nbrOfPlace = nbrOfPlace;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
     @ManyToMany
     List<User> userList;
     @OneToMany(mappedBy = "trainings")
     List<Participer> participerList;
     @OneToMany(mappedBy = "trainings")
     List<NonParticiper> nonparticiperList;
+    @OneToMany(mappedBy = "trainings")
+    List<Rating> rating;
 
 }
