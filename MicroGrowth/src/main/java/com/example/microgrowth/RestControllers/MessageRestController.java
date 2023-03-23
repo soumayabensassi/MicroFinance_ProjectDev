@@ -118,7 +118,7 @@ public class MessageRestController {
        // }
     //}
 
-    @RequestMapping("/message")
+    @MessageMapping ("/message")
 
     @SendTo("/topic/return-to")
     public Message getContent(@RequestBody Message message){
