@@ -1,6 +1,7 @@
 package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Complaint;
+import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.DAO.Repositories.ComplaintRepository;
 import com.example.microgrowth.Service.Interfaces.IComplaintService;
 import lombok.AllArgsConstructor;
@@ -49,5 +50,11 @@ public class ComplaintService implements IComplaintService {
     @Override
     public void deleteAll(List<Complaint> listC) {
         complaintRepository.deleteAll();
+    }
+
+    @Override
+    public void deleteByState() {
+        List<Complaint> listT = complaintRepository.selectByState1();
+        complaintRepository.deleteAll(listT);
     }
 }

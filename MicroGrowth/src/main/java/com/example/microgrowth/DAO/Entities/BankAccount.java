@@ -25,6 +25,8 @@ import java.util.List;
         float COVER=100;
 
     long MAX_WITHDRAWL_PER_DAY = 300;
+    long MAX_CARDPAYMENT_PER_DAY = 300;
+    long MAX_BANKTRANSFER_PER_DAY=300;
 
     int MAX_OCC_PER_DAY = 3;
 

@@ -1,6 +1,7 @@
 package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.Credit;
+import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.User;
 
 import java.util.List;
@@ -23,4 +24,18 @@ public interface ICredit {
      //int afficherScore(User user, Credit credit, BankAcount bankAcount);
     float calcul_taux(float montant,int duree);
     void calcul_tableau_credit(Credit c);
+    double calcul_Rentabilite_parCredit(Credit c);
+    double calcul_Rentabilite_parCreditNonActialise(Credit c);
+    double calcul_Net_Interest_Marge();
+    double TauxRemboursement();
+    double TauxDeDefaut();
+    double CalculActifCredit();
+    double CalculActifRéserve();
+    double CalculResultatNET();
+
+    void ajouter_date_30(Credit c);
+    void Accorde_penalite(Penalite p);
+    void annuler_penalite();
+
+
 }

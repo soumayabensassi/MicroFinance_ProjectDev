@@ -34,11 +34,11 @@ public class User implements Serializable {
     @Column(unique = true)
     long cin;
     int ancienneteEmploi;
-String typeContratEmploi ;
-int proprietaire;
-float salaire;
-Date dateNaissance;
-boolean historiqueCredit;
+    String typeContratEmploi ;
+    int proprietaire;
+    float salaire;
+    Date dateNaissance;
+    boolean historiqueCredit;
     @OneToMany(mappedBy = "users")
     List<Investment> investmentList;
 
@@ -60,7 +60,11 @@ boolean historiqueCredit;
     @JsonIgnore
     List<Complaint> complaintList;
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Publication> publicationList;
+    boolean Active;
+    @OneToMany(mappedBy = "users")
+    List<Rating> ratingList;
 
 
 

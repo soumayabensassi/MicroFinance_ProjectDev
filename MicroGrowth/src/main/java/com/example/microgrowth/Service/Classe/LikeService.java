@@ -24,11 +24,16 @@ public class LikeService implements ILike {
     }
 
     @Override
-    public Likes verifLike(String email,int i) {
+    public Likes verifLikePublication(String email,int i) {
         return likeRepository.findByUsersEmailAndPublicationsIdPublication(email,i);
 //       if (likes !=null)
 //        return false;
 //
 //        return true;
+    }
+
+    @Override
+    public Likes verifLikeComment(String email, int i) {
+        return likeRepository.findByUsersEmailAndCommentIdComment(email,i);
     }
 }

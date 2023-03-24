@@ -7,5 +7,6 @@ import com.example.microgrowth.DAO.Entities.Role;
 public interface IDislike {
     Dislike add(Dislike a);
     void deleteById(int id);
-    Dislike verifDislike(String email,int i);
+    Dislike verifDislikePublication(String email,int i);
+    Dislike verifDislikeComment(String email,int i);
 }

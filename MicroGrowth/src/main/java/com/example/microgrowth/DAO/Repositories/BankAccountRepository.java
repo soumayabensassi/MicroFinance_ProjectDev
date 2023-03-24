@@ -11,4 +11,7 @@ public interface BankAccountRepository extends JpaRepository<BankAccount,Integer
 
 
     Optional<BankAccount> findBankAccountByRib(String rib);
+
+
+    BankAccount getBankAccountByRib(String rib);
 }

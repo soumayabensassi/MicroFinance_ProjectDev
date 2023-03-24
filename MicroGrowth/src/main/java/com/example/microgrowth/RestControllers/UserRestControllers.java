@@ -1,6 +1,7 @@
 package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRestControllers {
     private IUser iUser;
+    private EmailService emailService;
     @GetMapping("/admin/afficheruser")
     public List<User> afficher()
     {
@@ -28,27 +30,32 @@ public class UserRestControllers {
     @PostMapping("/ajouteruser")
 
     public ResponseEntity<String> ajouter(@RequestBody User user)
-    {
+    {   boolean testMotdepasse=user.getPassword().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+~`|}{\\[\\]\\\\:;'<>,.?/\\-])[A-Za-z0-9!@#$%^&*()_+~`|}{\\[\\]\\\\:;'<>,.?/\\-]{8,}$");
         boolean test = hasEightDigits(user.getPhone());
+        boolean testCin = hasEightDigits(user.getCin());
         if(!test)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le numèro de téléphone doit contenir 8 chiffres");
+        } else if (!testCin) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le numèro de CIN doit contenir 8 chiffres");
+
         } else if (!user.getEmail().matches("^.+@.+\\..+$")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("un problème au niveau de saise du mail");
 
-        } else if (!user.getVerifPassword().matches(user.getPassword())) {
+        } else if (!user.getVerifPassword().matches(user.getPassword()) || !testMotdepasse) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("verifiez le mot de passe ");
 
         }
         else
             //(user.getEmail().matches("^.+@.+\\..+$") && user.getVerifPassword().matches(user.getPassword()) && test==true )
         {iUser.add(user);
+            emailService.ConfirmeCompte(user.getEmail());
         return  ResponseEntity.status(HttpStatus.OK).body("ajout done");
         }
 
 
     }
-    @PutMapping("/updateuser")
+    @PutMapping("/user/updateuser")
     public User update(@RequestBody User user)
     {return iUser.edit(user);
     }
@@ -57,9 +64,16 @@ public class UserRestControllers {
     {
         return iUser.SelectById(id);
     }
-    @DeleteMapping("/deleteUserbyID/{id}")
+    @DeleteMapping("/admin/deleteUserbyID/{id}")
     public void delete(@PathVariable int id)
     {
         iUser.deleteById(id);
+    }
+    @PostMapping("/ConfirmeCompte/{email}")
+    public void Confirme(@PathVariable String email)
+    {
+        User u=iUser.getUserByEmail(email);
+        u.setActive(true);
+        iUser.edit(u);
     }
 }

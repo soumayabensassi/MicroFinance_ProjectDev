@@ -24,6 +24,11 @@ dislikeRepository.deleteById(id);
     }
 
     @Override
-    public Dislike verifDislike(String email,int i) {
+    public Dislike verifDislikePublication(String email,int i) {
         return dislikeRepository.findByUsersEmailAndPublicationsIdPublication(email,i);    }
+
+    @Override
+    public Dislike verifDislikeComment(String email, int i) {
+        return dislikeRepository.findByUsersEmailAndCommentIdComment(email,i);
+    }
 }
