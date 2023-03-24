@@ -2,6 +2,7 @@ package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.MethodInvestissement;
+import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.InvestmentRepository;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
 
@@ -10,6 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +43,20 @@ public class InvestmentService implements IInvestment {
     public List<Investment> selectAll() {
         return investmentRepository.findAll();
     }
+   /* @Override
+    public List<Investment> selectByiduse(int idInvestment) {
+        return investmentRepository.getlistByidUser(idInvestment);
+    }*/
 
     @Override
     public Investment selectById(int idInvestment) {
         return investmentRepository.findById(idInvestment).orElse(null);
     }
+
+    /*@Override
+    public List<Investment> selectByUserID() {
+        return investmentRepository.findAllById(in);
+    }*/
 
     @Override
     public void deleteById(int idInvestment) {
@@ -101,9 +115,12 @@ public class InvestmentService implements IInvestment {
 
 
 
+
     private double obtenirTauxInteretTMM() {
         return Double.parseDouble("8.02");
     }
+//////////////////////suivi investissement///////////////
+//////
 
 ///////////Revenu des placement(PLACEMENT_PRECOMPTE) <<soumaya>>//////////////////////////
     public double Revenu_INVISTISSEMENT(Investment investment)
@@ -125,6 +142,30 @@ public class InvestmentService implements IInvestment {
         int year = calendar.get(Calendar.YEAR);
         List<Investment> list=investmentRepository.creditParAnnee(year);
         return list;
+    }
+
+    ///////////////////PONZII////////
+    public  double calculerTauxPonzii(int iduser) {
+    List<User> users = investmentRepository.getNbrINPONZI();
+    int n = users.size();
+    double sommef = 0.0;
+    for (User inve : users) {
+        if (inve.getIdUser() == iduser) {
+            double amount = investmentRepository.getAmountbyuserID(iduser);
+            for (int i = 0; i <= n; i++) {
+                sommef = amount * (3 + (i / n));
+                return sommef;
+
+            }
+        }
+
+
+    }return sommef;
+
+
+}
+    public double session (double n, double x) {
+        return Math.log(x) / Math.log(n);
     }
 
 
