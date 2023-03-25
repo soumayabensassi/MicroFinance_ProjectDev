@@ -14,35 +14,35 @@ import java.util.List;
 @EnableScheduling
 public class ComplaintRestController {
     private IComplaintService iComplaintService;
-    @GetMapping("/afficherC")
+    @GetMapping("/admin/afficherC")
     public List<Complaint> afficherC(){
 
         return iComplaintService.selectAll();
     }
-    @PostMapping("/ajouterComplaint")
+    @PostMapping("/user/ajouterComplaint")
     public Complaint ajouterC(@RequestBody Complaint complaint){
         complaint.setDate(LocalDateTime.now());
         return iComplaintService.add(complaint);
     }
-    @GetMapping("/afficherAvecIdC/{idcomplaint}")
+    @GetMapping("/both/afficherAvecIdC/{idcomplaint}")
     public Complaint afficherAvecIdC(@PathVariable int idcomplaint){
         return iComplaintService.selectById(idcomplaint);
     }
-    @DeleteMapping("/deleteComplaint/{idcomplaint}")
+    @DeleteMapping("/both/deleteComplaint/{idcomplaint}")
     public void supprimerAvecIdC(@PathVariable int idcomplaint){
         iComplaintService.deleteById(idcomplaint);
     }
 
-    @DeleteMapping("/deleteComplaint")
+    @DeleteMapping("/admin/deleteComplaint")
     public void supprimerC(Complaint complaint){
         iComplaintService.delete(complaint);
     }
-    @PutMapping("/editComplaint")
+    @PutMapping("/user/editComplaint")
     public Complaint modifier(@RequestBody Complaint complaint)
     {return iComplaintService.edit(complaint);
     }
     @Scheduled(cron = "0 0 0 * * *")
-    @DeleteMapping("/deleteComplaintT")
+    @DeleteMapping("/admin/deleteComplaintT")
     public void supprimerCT(){
         iComplaintService.deleteByState();
     }

@@ -49,8 +49,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/user/**").hasAnyAuthority("[ROLE_USER]");
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority("[ROLE_USER]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.DELETE,"/user/**").hasAnyAuthority("[ROLE_USER]");
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
         http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority("[ROLE_ADMIN]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.DELETE,"/admin/**").hasAnyAuthority("[ROLE_USER]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/both/**").hasAnyAuthority("[ROLE_ADMIN],[ROLE_USER]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/both/**").hasAnyAuthority("[ROLE_ADMIN],[ROLE_USER]");
+        http.authorizeHttpRequests().antMatchers(HttpMethod.DELETE,"/both/**").hasAnyAuthority("[ROLE_USER]");
+
         http.authorizeHttpRequests().anyRequest().permitAll();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAuthorizationFilter(),UsernamePasswordAuthenticationFilter.class);

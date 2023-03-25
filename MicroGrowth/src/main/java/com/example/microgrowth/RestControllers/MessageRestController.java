@@ -3,17 +3,22 @@ package com.example.microgrowth.RestControllers;
 import com.example.microgrowth.DAO.Entities.Message;
 //import com.example.microgrowth.DAO.Entities.ProfanityDetector;
 import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.DAO.Repositories.MessageRepository;
 import com.example.microgrowth.Service.Classe.MessageService;
 //import com.example.microgrowth.Service.Classe.ProfanityFilterService;
 
 import com.example.microgrowth.Service.Classe.UserService;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 
+import org.apache.catalina.valves.rewrite.InternalRewriteMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -28,11 +33,12 @@ import opennlp.tools.doccat.DocumentCategorizerME;
 import opennlp.tools.tokenize.SimpleTokenizer;
 @RestController
 @AllArgsConstructor
-
+@EnableScheduling
 public class MessageRestController {
 
     private UserService userService;
     IUser iUser;
+    private MessageRepository messageRepository;
     //private DoccatModel model;
 
 
@@ -58,14 +64,17 @@ public class MessageRestController {
     //public void sendMessage(@PathVariable int senderUsername, @PathVariable int receiverUsername, @RequestBody String content) {
     //  messageService.sendMessage(senderUsername, receiverUsername, content);
     //}
-    @PostMapping("/messagee")
+    private IMicroGrowth iMicroGrowth;
+    @PostMapping("/both/messagee")
     public List<String> createMessage(@RequestBody Message message) {
-        {List<String> motsARechercher = Arrays.asList("mot1", "mot2", "mot3");
+        {List<String> motsARechercher = Arrays.asList("merde", "bordel", "mot3");
             String texte = message.getContent();
+            String email=iMicroGrowth.getCurrentUserName();
             for (String mot : motsARechercher) {
                 if (texte.contains(mot)) {
                     message.setSentAt(LocalDateTime.now());
-                    message.setContent("*****");
+                    message.setContent("*****(Attention message cencuré)");
+                    message.getSender().setEmail(email);
                     messageService.save(message);
 
                    // return ResponseEntity.badRequest().body("message censuré");
@@ -82,6 +91,7 @@ public class MessageRestController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime dateTime = LocalDateTime.of(m.getSentAt().getYear(), m.getSentAt().getMonth(), m.getSentAt().getDayOfMonth(), m.getSentAt().getHour(), m.getSentAt().getMinute());
             String formattedDateTime = dateTime.format(formatter);
+            s.add(m.getRecipient().getFirstName());
             s.add(m.getContent());
             s.add(formattedDateTime);
         }
@@ -128,6 +138,10 @@ public class MessageRestController {
         //return ResponseEntity.ok().build();}
     }
 
+    @Scheduled(cron = "0 0 * * * *") // Toutes les heures à 0 minute et 0 seconde
+    public void executeDelete() {
+        messageRepository.deleteAll();
+    }
 // code json sur postman
 //{
 //        "content": "Hello !",

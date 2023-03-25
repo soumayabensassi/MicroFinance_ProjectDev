@@ -73,24 +73,24 @@ public class TrainingRestController {
         //senderService.sendEmail("myriam.brahmi@esprit.tn","This is Subject","This is Body","C:/Users/HP/Documents/lettre-motivation-mimi");
         //return iTrainingService.add(training);
     //}
-    @GetMapping("/afficherAvecIdT/{idtraining}")
+    @GetMapping("/both/afficherAvecIdT/{idtraining}")
     public Training afficherAvecIdT(@PathVariable int idtraining){
         return iTrainingService.selectById(idtraining);
     }
-    @DeleteMapping("/deleteTraining/{idtraining}")
+    @DeleteMapping("/admin/deleteTraining/{idtraining}")
     public void supprimerAvecIdT(@PathVariable int idtraining){
         iTrainingService.deleteById(idtraining);
     }
-    @DeleteMapping("/deleteTraining")
+    @DeleteMapping("/admin/deleteTraining")
     public void supprimerT(Training training){
         iTrainingService.delete(training);
     }
-    @PutMapping("/editTraining")
+    @PutMapping("/admin/editTraining")
     public Training modifier(@RequestBody Training training)
     {return iTrainingService.edit(training);
     }
-    @Scheduled(cron = "0 0 0 * * *")
-    @DeleteMapping("/deleteExpTraining")
+    @Scheduled(cron = "0 0 * * * *")
+    @DeleteMapping("/admin/deleteExpTraining")
     public void supprimerTE() throws MessagingException {
 
 
@@ -100,13 +100,13 @@ public class TrainingRestController {
         }
     }
 
-    @GetMapping("/afficherPresExpiredT")
+    @GetMapping("/both/afficherPresExpiredT")
     public List<Training> afficherPresExpiredT() throws MessagingException {
          iTrainingService.sendMailExpiration();
         return
                 iTrainingService.selectByDate();
     }
-    @GetMapping("/afficherTs/{field}/{type}")
+    @GetMapping("/both/trainings/{field}/{type}")
     public List<Training> afficherTs(@PathVariable String field,@PathVariable String type){
         return iTrainingService.findwithsorting(field,type);
     }
@@ -114,7 +114,7 @@ public class TrainingRestController {
 
 
 
-    @GetMapping("/trainings/{sortCriteria1}/{ascending1}/{sortCriteria2}/{ascending2}")
+    @GetMapping("/both/trainings/{sortCriteria1}/{ascending1}/{sortCriteria2}/{ascending2}")
     public List<Training> getTrainings(@PathVariable TrainingSortCriteria sortCriteria1,
                                  @PathVariable boolean ascending1,@PathVariable TrainingSortCriteria sortCriteria2,
                                     @PathVariable boolean ascending2) {
@@ -125,7 +125,7 @@ public class TrainingRestController {
         }
         return trainings;
     }
-    @GetMapping("/trainings/{sortCriteria}/{ascending}")
+    @GetMapping("/both/trainings/{sortCriteria}/{ascending}")
     public List<Training> getTraining(@PathVariable TrainingSortCriteria sortCriteria,
                                     @PathVariable boolean ascending) {
         List<Training> trainings = trainingRepository.findAll(); // Récupérer les événements à partir d'une source de données
@@ -135,7 +135,7 @@ public class TrainingRestController {
         }
         return trainings;
     }
-    @GetMapping("/training/search/{title}/{price}/{subject}")
+    @GetMapping("/both/training/search/{title}/{price}/{subject}")
     public List<Training> searchTrainings(
             @PathVariable(required = false) String title,
             @PathVariable(required = false) float price,
@@ -147,7 +147,7 @@ public class TrainingRestController {
 
         return trainingList;
     }
-    @GetMapping("/training/searcht/{title}")
+    @GetMapping("/both/training/searcht/{title}")
     public List<Training> searchT1(
             @PathVariable(required = false) String title) {
 
@@ -157,7 +157,7 @@ public class TrainingRestController {
 
         return trainingList;
     }
-    @GetMapping("/training/searchs/{subject}")
+    @GetMapping("/both/training/searchs/{subject}")
     public List<Training> searchT2(
             @PathVariable(required = false) String subject) {
 
@@ -167,7 +167,7 @@ public class TrainingRestController {
 
         return trainingList;
     }
-    @GetMapping("/training/searchp/{price}")
+    @GetMapping("/both/training/searchp/{price}")
     public List<Training> searchT3(
 
             @PathVariable(required = false) float price) {
