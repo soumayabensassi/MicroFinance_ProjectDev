@@ -40,6 +40,7 @@ public class User implements Serializable {
     Date dateNaissance;
     boolean historiqueCredit;
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Investment> investmentList;
 
     @OneToMany(mappedBy = "users")
@@ -47,14 +48,17 @@ public class User implements Serializable {
     List<Credit> creditList;
 
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Inssurance> inssuranceList;
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Transaction> transactionList;
 //    @ManyToMany(fetch = FetchType.EAGER) // load the user and load their roles in the db
 //    private Collection<Role> roles = new ArrayList<>();
     @ManyToOne
     Role roles;
     @ManyToMany(mappedBy = "userList")
+    @JsonIgnore
     List<Training> trainingList;
     @OneToMany(mappedBy = "users")
     @JsonIgnore

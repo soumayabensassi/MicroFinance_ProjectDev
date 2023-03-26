@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class UserRestControllers {
     private IUser iUser;
     private EmailService emailService;
@@ -63,6 +64,11 @@ public class UserRestControllers {
     public User AfficherByID(@PathVariable int id)
     {
         return iUser.SelectById(id);
+    }
+    @GetMapping("/AfficherUserByemail/{email}")
+    public User AfficherByemail(@PathVariable String email)
+    {
+        return iUser.getUserByEmail(email);
     }
     @DeleteMapping("/admin/deleteUserbyID/{id}")
     public void delete(@PathVariable int id)

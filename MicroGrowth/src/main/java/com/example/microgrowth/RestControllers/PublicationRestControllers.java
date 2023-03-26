@@ -17,11 +17,12 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class PublicationRestControllers {
     private IPublication iPublication;
     private IUser iUser;
     private IMicroGrowth iMicroGrowth;
-    @GetMapping("/admin/afficherPublication")
+    @GetMapping("afficherPublication")
     public List<Publication> afficher()
     {
         return iPublication.selectAll();

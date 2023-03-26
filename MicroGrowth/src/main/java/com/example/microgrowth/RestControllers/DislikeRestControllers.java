@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class DislikeRestControllers {
     private IDislike iDislike;
     private ILike iLike;
@@ -20,7 +21,8 @@ public class DislikeRestControllers {
     private IMicroGrowth iMicroGrowth;
     @PostMapping("/user/DislikerPublication/{idpublication}")
     public void Dislikerunepublication(@PathVariable int idpublication)
-    { String email=iMicroGrowth.getCurrentUserName();
+    { //String email=iMicroGrowth.getCurrentUserName();
+       String email="soumaya.bensassi@esprit.tn";
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         if (likes==null && dislike == null) {
@@ -45,5 +47,10 @@ public class DislikeRestControllers {
             Dislike d=new Dislike(iUser.getUserByEmail(email),iComment.SelectById(idComment));
             iDislike.add(d);
         } else  iDislike.deleteById(dislikeComment.getIdDislike());
+    }
+    @GetMapping("totalDisLike/{id}")
+    public int  getTotalDislike(@PathVariable int id)
+    {
+        return iDislike.totalDisLike(id);
     }
 }

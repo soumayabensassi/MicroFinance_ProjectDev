@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@CrossOrigin("*")
 public class LikeRestControllers {
     private IUser iUser;
     private ILike iLike;
@@ -26,7 +27,8 @@ public class LikeRestControllers {
 
     @PostMapping("/user/LikerPublication/{idpublication}")
     public void likerunepublication(@PathVariable int idpublication)
-    {   String email=iMicroGrowth.getCurrentUserName();
+    {   //String email=iMicroGrowth.getCurrentUserName();
+        String email="soumaya.bensassi@esprit.tn";
         System.out.println(email);
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
@@ -54,5 +56,9 @@ public class LikeRestControllers {
             iLike.add(like);
         } else  iLike.deleteById(likesComment.getIdLike());
     }
-
+ @GetMapping("totalLike/{id}")
+ public int  getTotallike(@PathVariable int id)
+ {
+     return iLike.totalLike(id);
+ }
 }
