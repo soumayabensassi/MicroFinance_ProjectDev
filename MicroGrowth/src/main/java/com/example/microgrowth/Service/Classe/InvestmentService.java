@@ -78,8 +78,8 @@ public class InvestmentService implements IInvestment {
         double tauxBase = tmm + 0.1;
         double tauxSupplementaire = 0.0;
         if (methodInvestissement == MethodInvestissement.PLACEMENT_PRECOMPTE) {
-            if (amountInves >= 5000 && duree >= 90 && duree <= 180 ) { tauxSupplementaire = -0.5;}
-            else if (amountInves >= 5000 && duree >= 180 ) { tauxSupplementaire = 0;}
+            if (amountInves >= 5000 && duree >= 90 && duree <= 180 ) { tauxSupplementaire = 0.5;}
+            
             else if (amountInves >= 1000 && amountInves <= 5000 && duree >= 90) { tauxSupplementaire = 0.3;}
             else if (amountInves < 1000 && duree - 90 >= 0) { tauxSupplementaire = 0.1;}
         }
