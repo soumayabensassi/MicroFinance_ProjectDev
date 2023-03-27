@@ -64,7 +64,7 @@ public class TrainingRestController {
     }
         else{
         for(User us : trainingRepository.selectUsers()) {
-            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Documents/mir.pdf");
+            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Documents/aff.pdf");
         }
         iTrainingService.add(training);
         return ResponseEntity.status(HttpStatus.OK).body("ajout done");}
@@ -95,9 +95,8 @@ public class TrainingRestController {
 
 
         iTrainingService.deleteByDate( );
-        for(User us : trainingRepository.selectUsers()) {
-            senderService.sendEmail(us.getEmail(), " Evenement Expiré", "Evenement Expiré", "C:/Users/HP/Documents/mir.pdf");
-        }
+
+
     }
 
     @GetMapping("/both/afficherPresExpiredT")
@@ -105,6 +104,7 @@ public class TrainingRestController {
          iTrainingService.sendMailExpiration();
         return
                 iTrainingService.selectByDate();
+
     }
     @GetMapping("/both/trainings/{field}/{type}")
     public List<Training> afficherTs(@PathVariable String field,@PathVariable String type){

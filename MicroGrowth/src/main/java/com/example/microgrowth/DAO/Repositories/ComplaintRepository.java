@@ -2,6 +2,7 @@ package com.example.microgrowth.DAO.Repositories;
 
 import com.example.microgrowth.DAO.Entities.Complaint;
 import com.example.microgrowth.DAO.Entities.Training;
+import com.example.microgrowth.DAO.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -10,4 +11,7 @@ import java.util.List;
 public interface ComplaintRepository extends JpaRepository<Complaint,Integer> {
     @Query( "select c from Complaint c where c.state=true")
     List<Complaint> selectByState1();
+    @Query(value = "select u from User u ")
+    List<User>  selectUsers();
+    Complaint findByIdComplaint(int id);
 }
