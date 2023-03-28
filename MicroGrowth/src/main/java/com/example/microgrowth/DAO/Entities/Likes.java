@@ -21,11 +21,18 @@ public class Likes implements Serializable {
     User users;
     @ManyToOne
     Publication publications;
-
+    @ManyToOne
+    Comment comment;
     public Likes(User userByEmail, Publication selectById) {
         this.users=userByEmail;
 
         this.publications=selectById;
+
+    }
+    public Likes(User userByEmail, Comment selectById) {
+        this.users=userByEmail;
+
+        this.comment=selectById;
 
     }
 }

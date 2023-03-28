@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,12 +33,19 @@ public class User implements Serializable {
     String profession;
     @Column(unique = true)
     long cin;
-
+    int ancienneteEmploi;
+    String typeContratEmploi ;
+    int proprietaire;
+    float salaire;
+    Date dateNaissance;
+    boolean historiqueCredit;
     @OneToMany(mappedBy = "users")
     List<Investment> investmentList;
 
     @OneToMany(mappedBy = "users")
+            @JsonIgnore
     List<Credit> creditList;
+
     @OneToMany(mappedBy = "users")
     List<Inssurance> inssuranceList;
     @OneToMany(mappedBy = "users")
@@ -48,9 +57,14 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "userList")
     List<Training> trainingList;
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Complaint> complaintList;
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     List<Publication> publicationList;
+    boolean Active;
+    @OneToMany(mappedBy = "users")
+    List<Rating> ratingList;
 
 
 

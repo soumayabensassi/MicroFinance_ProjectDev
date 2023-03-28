@@ -1,6 +1,8 @@
 package com.example.microgrowth.Service.Classe;
 
+import com.example.microgrowth.DAO.Entities.Role;
 import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.DAO.Repositories.RoleRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
@@ -20,9 +22,13 @@ public class UserService implements IUser {
     private final PasswordEncoder passwordEncoder;
    @Autowired
     private UserRepository userRepository;
+   private RoleRepository roleRepository;
     @Override
     public void add(User a) {
        a.setPassword(passwordEncoder.encode(a.getPassword()));
+       a.setActive(false);
+       Role r= roleRepository.findById(1).get();
+       a.setRoles(r);
          userRepository.save(a);
     }
 
@@ -50,4 +56,13 @@ public class UserService implements IUser {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public User getUserById(int id) {
+        return userRepository.findById(id).get();
+    }
+    public User findByUsername(String username) {
+        return userRepository.findByFirstName(username);
+    }
+
 }

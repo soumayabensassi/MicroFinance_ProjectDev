@@ -1,6 +1,16 @@
 package com.example.microgrowth.Service.Classe;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
 import com.example.microgrowth.Service.Interfaces.EmailSender;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -20,6 +30,7 @@ import java.util.Properties;
 @AllArgsConstructor
 public class EmailSenderService implements EmailSender {
         private final static Logger LOGGER = LoggerFactory.getLogger(EmailSenderService.class);
+        @Autowired
         private final JavaMailSender mailSender;
 
         @Override
@@ -39,5 +50,19 @@ public class EmailSenderService implements EmailSender {
             }
         }
 
-    }
 
+
+    public void sendEmail(String toEmail,String subject,String body,String attachment)throws MessagingException {
+        MimeMessage mimeMessage=mailSender.createMimeMessage();
+        MimeMessageHelper message=new MimeMessageHelper(mimeMessage,true);
+        message.setFrom("myriambrahmi23@gmail.com");
+        message.setTo(toEmail);
+        message.setText((body));
+        message.setSubject(subject);
+
+        FileSystemResource fileSystemResource= new FileSystemResource(new File(attachment));
+        message.addAttachment(fileSystemResource.getFilename(),fileSystemResource);
+        mailSender.send(mimeMessage);
+        System.out.println("Mail Sent Successfully...");
+    }
+}

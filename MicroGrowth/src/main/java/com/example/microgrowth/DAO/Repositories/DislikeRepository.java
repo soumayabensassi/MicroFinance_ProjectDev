@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DislikeRepository extends JpaRepository <Dislike,Integer> {
     Dislike findByUsersEmailAndPublicationsIdPublication(String email,int i);
+    Dislike findByUsersEmailAndCommentIdComment(String email,int i);
+
 }

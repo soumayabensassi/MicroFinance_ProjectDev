@@ -26,11 +26,13 @@ public class Publication implements Serializable {
     @ManyToOne
     @JsonIgnore
     User users;
-    @OneToMany(mappedBy = "publications")
+    @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL)
     @JsonIgnore
     List<Comment> commentList;
-    @OneToMany(mappedBy = "publications")
+    @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Likes> likesList;
-    @OneToMany(mappedBy = "publications")
+    @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Dislike> dislikeList;
 }

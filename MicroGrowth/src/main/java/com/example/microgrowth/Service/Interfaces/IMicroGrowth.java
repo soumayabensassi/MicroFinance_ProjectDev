@@ -6,9 +6,8 @@ import com.example.microgrowth.DAO.Entities.User;
 
 import java.util.List;
 public interface IMicroGrowth {
-    User saveUser(User user);
-    Role saveRole(Role role);
-   // void AddRoleToUser(String username,String roleName);
+
     User getUser(String username);
     List<User>getUsers();
+    public String getCurrentUserName();
 }
