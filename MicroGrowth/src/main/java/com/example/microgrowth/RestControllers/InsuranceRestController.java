@@ -95,13 +95,13 @@ public class InsuranceRestController {
         List<Credit> lcredit = iCredit.SelectByEmail(mail);
         int S = 0;
         for (Credit l : lcredit) {
-            S += l.getAmount();
+            S += l.getAmount_credit();
         }
         System.out.println(S);
         double dti = calculateDTI(income, S);
         int creditScore = Score;
 
-        if (dti > 0.43 || creditScore < 600) {
+        if (dti > 0.43 || creditScore < 85) {
             return "Sorry, your insurance request has been refused.";
         } else {
             return "Congratulations, your insurance request has been accepted.";
