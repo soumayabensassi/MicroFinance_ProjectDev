@@ -10,4 +10,10 @@ public interface PenaliteRepository extends JpaRepository<Penalite,Integer> {
    @Query(value ="select count(penalite.id_penalite) from penalite " +
            "where penalite.credits_id_credit=:id" ,nativeQuery = true)
     int countPenaliteParCredit(@Param("id") int id);
+    @Query(value="select count(penalite.id_penalite) from penalite where extract(Month from date_penalite)=?1",nativeQuery = true)
+    int NombrePenaliteParMois(int mois);
+
+    @Query(value = "select count(id_penalite) from penalite", nativeQuery = true)
+    int CountAllPenalite();
+
 }

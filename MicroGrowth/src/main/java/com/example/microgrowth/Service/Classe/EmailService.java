@@ -296,4 +296,26 @@ public String forgetpassword(String email) {
         javaMailSender.send(msg);
         System.out.println("email sent succefully");
     }
+
+    public void sendCalcukCredit(User user) {
+        float salaire=user.getSalaire();
+        if(salaire<2000 && salaire>800){
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setSubject("Montant Credit");
+
+            double montant=((((salaire*0.43))*12)/1.2)*5;
+            String m=Double.toString(montant);
+            msg.setText("You can have a loan of "+m);
+           // msg.setText("taux : 20%");
+            msg.setTo(user.getEmail());
+            msg.setFrom("myriambrahmi23@gmail.com");
+
+            // Envoyer le message
+            javaMailSender.send(msg);
+            System.out.println("email sent succefully");
+        }
+
+
+
+    }
 }
