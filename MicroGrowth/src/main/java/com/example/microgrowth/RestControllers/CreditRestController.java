@@ -24,7 +24,7 @@ public class CreditRestController {
     {
         return iCredit.selectAll();
     }
-@PostMapping("/ajouterCreditByuser")
+    @PostMapping("/ajouterCreditByuser")
     public Credit ajouterCredit_user(@RequestBody Credit credit)
     {
         return iCredit.add_credit_user(credit);

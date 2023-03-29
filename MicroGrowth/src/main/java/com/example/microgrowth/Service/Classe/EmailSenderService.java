@@ -41,7 +41,7 @@ public class EmailSenderService implements EmailSender {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
                 helper.setText(email, true);
                 helper.setTo(to);
-                helper.setSubject("Reset Password");
+                helper.setSubject("MicroGrowth");
                 helper.setFrom("soumaya.bensasi@gmail.com");
                 mailSender.send(mimeMessage);
             } catch (MessagingException e) {

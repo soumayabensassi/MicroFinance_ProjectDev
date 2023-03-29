@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
 
-        http.csrf().disable();
+        http.csrf().disable().cors();// Enable CORS;
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests().antMatchers("/login/**","/user/token/refresh/**","/ajouteruser/**","/ConfirmeCompte/**").permitAll();
 //        //juste pour le test

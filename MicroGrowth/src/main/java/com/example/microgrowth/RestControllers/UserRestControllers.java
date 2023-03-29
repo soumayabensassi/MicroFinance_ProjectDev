@@ -18,6 +18,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class UserRestControllers {
     private IUser iUser;
+    private IMicroGrowth iMicroGrowth;
     private EmailService emailService;
     @GetMapping("/admin/afficheruser")
     public List<User> afficher()
@@ -81,5 +82,10 @@ public class UserRestControllers {
         User u=iUser.getUserByEmail(email);
         u.setActive(true);
         iUser.edit(u);
+    }
+    @GetMapping("/session")
+    public User getUSerCnnetcte()
+    {
+        return iUser.getUserByEmail( iMicroGrowth.getCurrentUserName());
     }
 }

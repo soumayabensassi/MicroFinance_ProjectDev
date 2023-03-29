@@ -8,6 +8,7 @@ import com.example.microgrowth.DAO.Entities.Role;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.Service.Classe.MicroGrowthService;
 import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
+import com.example.microgrowth.Service.Interfaces.IUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class MicroGrowthRestControllers {
     @Autowired
     IMicroGrowth iMicroGrowth;
-
+    IUser iUser;
     @GetMapping("/user/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
