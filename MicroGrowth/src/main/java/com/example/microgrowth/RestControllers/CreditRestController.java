@@ -1,24 +1,24 @@
 package com.example.microgrowth.RestControllers;
 
-<<<<<<< Updated upstream
+
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.Publication;
-=======
+
 import com.example.microgrowth.DAO.Entities.*;
->>>>>>> Stashed changes
+
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Interfaces.ICredit;
-<<<<<<< Updated upstream
+
 import com.example.microgrowth.Service.Interfaces.IInvestment;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-=======
 import com.lowagie.text.DocumentException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
->>>>>>> Stashed changes
 import java.util.Date;
 import java.util.List;
 
@@ -37,12 +36,10 @@ import java.util.List;
 public class CreditRestController {
     private ICredit iCredit;
     CreditRepository creditRepository;
-<<<<<<< Updated upstream
+
     IInvestment iInvestment;
-=======
     @Autowired
     UserRepository userRepository;
->>>>>>> Stashed changes
     @GetMapping("/afficherCredits")
     public List<Credit> afficherCredits()
     {
@@ -168,8 +165,8 @@ public class CreditRestController {
         return creditRepository.selectCreditRembourseeParMois();
     }
     @PostMapping("/accordePenalite")
-    public  void Accorde_penalite(@RequestBody Penalite p){
-        iCredit.Accorde_penalite(p);
+    public  void Accorde_penalite(){
+        iCredit.Accorde_penalite();
     }
     @GetMapping("/export-to-pdf-credits")
     public void generatePdfFile(HttpServletResponse response) throws DocumentException, IOException
@@ -192,4 +189,23 @@ EmailService emailService;
         System.out.println(user.getEmail());
         emailService.sendCalcukCredit(user);
     }
+    @GetMapping("/SimulateurCredit/{montant}/{nbmois}")
+    void SimulateurCredit(@PathVariable float montant,@PathVariable int nbmois){
+        iCredit.SimulateurCredit(montant,nbmois);
+    }
+    @PostMapping("/envoyerProposition/{nbmois}")
+    public ResponseEntity<String> PropCredit(@PathVariable int nbmois){
+        try {
+
+            iCredit.genererCreditPDF(nbmois);
+            iCredit.envoyerCreditParEmail();
+        } catch (IOException | javax.mail.MessagingException | DocumentException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok("Added successfully.");
+    }
+@GetMapping("/MaxCredit/{nbmois}")
+    public double MaxCredit(@PathVariable int nbmois){
+        return iCredit.MaxCredit(nbmois);
+}
 }

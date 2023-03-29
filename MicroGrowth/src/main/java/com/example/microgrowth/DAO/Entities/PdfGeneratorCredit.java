@@ -19,6 +19,7 @@ public class PdfGeneratorCredit {
         logo.scaleToFit(100, 60); // Resize image to fit within 100x100 pixels
         Chunk logoChunk = new Chunk(logo, 0, -20, false);
         Phrase logoPhrase = new Phrase(logoChunk);
+
         HeaderFooter header = new HeaderFooter(logoPhrase, false);
         document.setHeader(header);
         // Opening the created document to change it
