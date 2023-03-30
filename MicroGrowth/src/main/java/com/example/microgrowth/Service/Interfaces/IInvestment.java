@@ -26,7 +26,7 @@ public interface IInvestment {
     List<Investment> getInvestmentByAnnee();
 
      ///Set<Investment> selectByiduse(int idInvestment);
-    double calculerTauxPonzii(int iduser);
+     List<String> calculerTauxPonzii(int iduser);
     double session (double n, double x);
 
 

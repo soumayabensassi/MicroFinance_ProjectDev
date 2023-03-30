@@ -2,23 +2,21 @@ package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.Projet;
+import com.example.microgrowth.DAO.Repositories.ProjetRepository;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
 import com.example.microgrowth.Service.Interfaces.IProjet;
-import com.example.microgrowth.Service.Classe.InvestmentService;
-import com.example.microgrowth.Service.Classe.ProjetService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.List;
-import com.example.microgrowth.Service.Interfaces.IProjet;
+
 @RestController
 @AllArgsConstructor
 public class ProjetRestController {
 
    private IProjet iProjet;
    private IInvestment IInvestment;
+    ProjetRepository projetRepository;
 
     @GetMapping("/admin/afficherProjet")
     public List<Projet> afficher (){
@@ -27,9 +25,9 @@ public class ProjetRestController {
     }
 
     @PostMapping("/admin/ajouterProjet")
-    public Projet ajouter(@RequestBody  Projet projet) {
+    public void ajouter(@RequestBody  Projet projet) {
 
-        return iProjet.add(projet);
+         iProjet.add(projet);
     }
 
     @DeleteMapping("/admin/deleteProjetbyID/{id}")
@@ -56,5 +54,18 @@ public class ProjetRestController {
     public void recalculerObligation(@PathVariable Long projetId,@RequestParam("investment") double investment){
         iProjet.recalculerObligation(projetId,investment);
     }
+    @PostMapping("/admin//stockInterest")
+    public Double calculateAnnualReturn(
+            @RequestParam("purchasePrice") Double purchasePrice,
+            @RequestParam("currentPrice") Double currentPrice,
+            @RequestParam("dividendYield") Double dividendYield,
+            @RequestParam("numShares") Integer numShares,
+            @RequestParam("holdingPeriod") Integer holdingPeriod) {
+        double annualReturn = iProjet.calculerIntrestStocks(purchasePrice, currentPrice, numShares, dividendYield,  holdingPeriod);
+        return annualReturn;
+    }
+
+
+
 
 }

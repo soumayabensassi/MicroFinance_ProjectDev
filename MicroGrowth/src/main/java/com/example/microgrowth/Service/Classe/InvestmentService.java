@@ -6,7 +6,10 @@ import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.InvestmentRepository;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
 
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -144,26 +147,32 @@ public class InvestmentService implements IInvestment {
         return list;
     }
 
-    ///////////////////PONZII////////
-    public  double calculerTauxPonzii(int iduser) {
-    List<User> users = investmentRepository.getNbrINPONZI();
-    int n = users.size();
-    double sommef = 0.0;
-    for (User inve : users) {
-        if (inve.getIdUser() == iduser) {
-            double amount = investmentRepository.getAmountbyuserID(iduser);
-            for (int i = 0; i <= n; i++) {
-                sommef = amount * (3 + (i / n));
-                return sommef;
 
+    ///////////////////PONZII////////
+    IMicroGrowth iMicroGrowth ;
+    public List<String> calculerTauxPonzii(int iduser) {
+        List<User> users = investmentRepository.getNbrINPONZI();
+        int n = users.size();
+        double sommef = 0.0;
+        double sommeTotale=0.0;
+        List<String> ponzi = new ArrayList<>();
+        System.out.println(n);
+        for (User inve : users) {
+            if (inve.getIdUser() == iduser) {
+                double amount = investmentRepository.getAmountbyuserID(iduser);
+                for (int i = 0; i <= (n*n); i++) {
+                    sommef = amount * 3 + (amount / n) * i;
+                    ponzi.add(Double.toString(sommef));
+                    System.out.println(i);
+                    System.out.println(sommef);
+                    sommeTotale += sommef;
+                }
+                ponzi.add(Double.toString(sommeTotale));
             }
         }
+        return ponzi;
+    }
 
-
-    }return sommef;
-
-
-}
     public double session (double n, double x) {
         return Math.log(x) / Math.log(n);
     }
