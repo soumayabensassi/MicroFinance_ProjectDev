@@ -6,14 +6,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class ProjetService implements IProjet {
      ProjetRepository projetRepository;
+     HistoriqueBourseRepository HistoriqueRep;
     @Override
-    public Projet add(Projet projet) {
-        return projetRepository.save(projet);
+    public void add(Projet projet) {
+         projetRepository.save(projet);
+        HistoriqueRep.save(projet);
+
     }
 
     @Override
@@ -50,7 +53,16 @@ public class ProjetService implements IProjet {
         projetRepository.save(projet);
 
     }
+    public  double calculerIntrestStocks(double currentPrice,double purchasePrice,int numShares,double dividendYield ,int holdingPeriod ){
 
+    Double capitalGains = (currentPrice - purchasePrice) / purchasePrice;
+    Double dividends = dividendYield * purchasePrice * numShares;
+    Double totalReturn = capitalGains + dividends;
 
+    // Calculate the annual return
+    Double annualReturn = Math.pow(1 + totalReturn, 1.0 / holdingPeriod) - 1;
+
+        return annualReturn;
+}
 
 }
