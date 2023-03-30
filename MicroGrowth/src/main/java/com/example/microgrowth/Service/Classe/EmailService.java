@@ -285,6 +285,7 @@ public String forgetpassword(String email) {
         System.out.println("email sent succefully");
     }
 
+
     public void sendPenaliteEmail(String userEmail) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject("You have depassed 3 penalities");
@@ -317,5 +318,15 @@ public String forgetpassword(String email) {
 
 
 
+    public void sendNotificationEmailComplaint(String userEmail) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject("Réception de réclamation confirmé");
+        msg.setText("Bien reçu, votre récalmation a été bien enregistrée. Je vous prie de patienter. Votre récalamation sera traitée dans les 24h ");
+        msg.setTo(userEmail);
+        msg.setFrom("mariem.omezzine@esprit.tn");
+
+        // Envoyer le message
+        javaMailSender.send(msg);
+        System.out.println("email sent succefully");
     }
 }

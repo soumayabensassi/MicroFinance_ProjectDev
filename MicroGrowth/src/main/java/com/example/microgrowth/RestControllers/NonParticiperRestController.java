@@ -2,10 +2,7 @@ package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.NonParticiper;
 import com.example.microgrowth.DAO.Entities.Participer;
-import com.example.microgrowth.Service.Interfaces.INonParticiperService;
-import com.example.microgrowth.Service.Interfaces.IParticiperService;
-import com.example.microgrowth.Service.Interfaces.ITrainingService;
-import com.example.microgrowth.Service.Interfaces.IUser;
+import com.example.microgrowth.Service.Interfaces.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +15,12 @@ public class NonParticiperRestController {
     private IParticiperService iParticiperService;
     private IUser iUser;
     private ITrainingService iTrainingService;
+    private IMicroGrowth iMicroGrowth;
 
-    @PostMapping("/NonParticiper/{email}/{idtraining}")
-    public void Nonparticipertraining(@PathVariable String email, @PathVariable int idtraining)
+    @PostMapping("/user/NonParticiper/{idtraining}")
+    public void Nonparticipertraining( @PathVariable int idtraining)
     {
+        String email=iMicroGrowth.getCurrentUserName();
         Participer participer=iParticiperService.verifParticip(email,idtraining);
         NonParticiper nonParticiper=iNonParticiperService.verifNonParticip(email,idtraining);
         if (participer==null && nonParticiper == null) {
