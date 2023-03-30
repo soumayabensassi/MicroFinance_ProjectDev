@@ -26,12 +26,16 @@ public class Webhook {
 
     @PostMapping("/webhook")
     public WebhookResponse handleWebhook(@RequestBody WebhookRequest request) {
+
+
         QueryResult queryResult = request.getQueryResult();
         String userResponse = queryResult.getQueryText();
         String redirectUrl = "";
 
+
+
         if (userResponse.equals("insurance")) {
-            redirectUrl = "/api/insurances";
+            redirectUrl = "/MicroGrowth/api/insurances";
         } else if (userResponse.equals("Credit")) {
             redirectUrl = "/api/Credits";
         } else if (userResponse.equals(("Investment"))) {
