@@ -158,7 +158,11 @@
             <artifactId>font-asian</artifactId>
             <version>7.0.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>9.3.0</version>
+        </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>hyph</artifactId>
