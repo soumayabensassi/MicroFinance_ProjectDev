@@ -56,9 +56,11 @@ public class CreditService implements ICredit {
         c.setState(1); //1:en cours  0:refus  2:accordé
         Date date_now = new Date();
         c.setDemandDate(date_now);
+        System.out.println("aaaa");
         c.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
+        System.out.println(c.getUsers().getFirstName());
         c.setIntrestRaiting(calculateInterestRate(c));
-
+        System.out.println(c.getIntrestRaiting());
         //iMicroGrowth.getUser(iMicroGrowth.getCurrentUserName());
         // c.setUsers(iMicroGrowth.getUser("aziz2000cherif1@gmail.com"));
         //float ca=calcul_taux(c.getAmount_credit(),c.getDuree() );
@@ -445,17 +447,19 @@ public class CreditService implements ICredit {
         Date dateApresAjout = calendar.getTime();
         credit.setDateEcheance(dateApresAjout);
         credit.setState(2); //1:en cours  0:refus  2:accordé
-
+        System.out.println(credit.getDateEcheance());
+creditRepository.save(credit);
     }
 
     @Override
     public void RefuserCreditAuUser(Credit credit) {
-        credit.setState(0); //1:en cours  0:refus  2:accordé
+        credit.setState(0);
+        creditRepository.save(credit);//1:en cours  0:refus  2:accordé
     }
 
     @Override
     public float calculateInterestRate(Credit c) {
-        UserRepository userRepository1=null;
+
         float baseInterestRate = 0.2f; // taux d'intérêt de base pour la microfinance
         float interestRate = baseInterestRate;
         User user = userRepository.findById(c.getUsers().getIdUser()).orElse(null);
@@ -600,9 +604,9 @@ public double MaxCredit(int nbmois){
         User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
         String smtpHost = "smtp.gmail.com";
         String smtpPort = "587";
-        String smtpUsername = "lina.hermessi9@gmail.com";
-        String smtpPassword = "vxuyjkgyopoliymx";
-        String sender = "lina.hermessi9@gmail.com";
+        String smtpUsername = "microgrowth.pi@gmail.com";
+        String smtpPassword = "viqybbgdubrswjnz";
+        String sender = "microgrowth.pi@gmail.com";
         String subject = "Montant maximum du Crédit";
 
         Properties props = new Properties();

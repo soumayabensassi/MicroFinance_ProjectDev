@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -21,15 +22,10 @@ public class Inssurance implements Serializable {
     int idInsurance;
     float amount;
     @Temporal(TemporalType.DATE)
-    static
-    LocalDate startDate;
+    Date startDate;
     @Temporal(TemporalType.DATE)
-    static
-    LocalDate endDate;
-    public static long getDuration() {
-        Duration duration = Duration.between(startDate.atStartOfDay(), endDate.atStartOfDay());
-        return duration.toDays();
-    }
+    Date endDate;
+
 
     @ManyToOne
     User users;

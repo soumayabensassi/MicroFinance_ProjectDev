@@ -208,4 +208,14 @@ EmailService emailService;
     public double MaxCredit(@PathVariable int nbmois){
         return iCredit.MaxCredit(nbmois);
 }
+@PostMapping("/refuserCredit/{id}")
+    void RefuserCredit(@PathVariable int id){
+
+        iCredit.RefuserCreditAuUser(creditRepository.findById(id).get());
+}
+    @PostMapping("/AccepterCredit/{id}")
+    void AccepterCredit(@PathVariable int id){
+
+        iCredit.AffecterCreditAuUser(creditRepository.findById(id).get());
+    }
 }

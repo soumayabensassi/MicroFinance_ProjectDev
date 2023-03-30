@@ -24,12 +24,12 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> creditParAnnee(int annnee);
     @Query(value = "select SUM(t.amount_transaction) from credit c " +
             "join user u on c.users_id_user=u.id_user join transaction " +
-            "t on u.id_user=t.users_id_user where t.rib_receiver=\"999999999\" " +
+            "t on u.id_user=t.users_id_user where t.rib_receiver='1' " +
             "and YEAR(t.date_transaction)=?2 and t.type_transaction=\"BANK_TRANSFER\"" +
             "AND u.id_user=?1",nativeQuery = true)
     double SommeDepot(int id,int annee);
     @Query(value = "select t.id_transaction from credit c join user u on c.users_id_user=u.id_user join transaction t " +
-            "on u.id_user=t.users_id_user where t.rib_receiver=\"999999999\"" +
+            "on u.id_user=t.users_id_user where t.rib_receiver='1' " +
             " and YEAR(t.date_transaction)=?2 and t.type_transaction=\"BANK_TRANSFER\"" +
             " AND u.id_user=?1",nativeQuery = true)
     List<Integer> listTransactiondelannee(int id, int annee);

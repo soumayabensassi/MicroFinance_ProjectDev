@@ -4,15 +4,10 @@ import com.example.microgrowth.DAO.Repositories.BankAccountRepository;
 import com.example.microgrowth.DAO.Repositories.ComplaintRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/inssurances")
-
 public class KPIInsuranceRestController {
 
     private ComplaintRepository complaintRepository;
@@ -29,10 +24,11 @@ public class KPIInsuranceRestController {
 
     // Financial KPIs
 
-    @GetMapping("/financial/CustomerKPI")
-    public double financialKPI1(@RequestParam float n ) {
+    @GetMapping("/financial/CustomerKPI/{n}")
+    public double financialKPI1(@PathVariable float n ) {
         // n: cost of sales and marketing
         float userCount = userRepository.countAllUsers();
+        System.out.println(userCount);
         double Ncustomer = userCount ; // Number of Customers
         return n / Ncustomer;
     }
