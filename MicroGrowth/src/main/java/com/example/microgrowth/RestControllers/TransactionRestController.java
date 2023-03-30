@@ -104,7 +104,7 @@ public class TransactionRestController {
     @PostMapping("makePayment")
     public ResponseEntity<String> makePayment(@RequestBody Transaction t){
         iTransaction.makeTransfer(t);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Transfer Successful");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Payment successful");
     }
 
 
