@@ -6,7 +6,7 @@ import com.example.microgrowth.DAO.Entities.Projet;
 import java.util.List;
 
 public interface IProjet {
-    Projet add(Projet inv);
+   void add(Projet inv);
 
     List<Projet> selectAll();
     Projet selectById(Long  idprojet );
@@ -14,4 +14,5 @@ public interface IProjet {
     Projet modif(Projet projet);
     public  double calculerRendementAnnuel(double investissementInitial, Double tauxRendement);
     public void recalculerObligation(Long projetId, double investissement);
+    public  double calculerIntrestStocks(double currentPrice,double purchasePrice,int numShares,double dividendYield ,int holdingPeriod );
 }

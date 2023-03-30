@@ -64,7 +64,7 @@ public class TrainingRestController {
     }
         else{
         for(User us : trainingRepository.selectUsers()) {
-            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Documents/mir.pdf");
+            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Documents/aff.pdf");
         }
         iTrainingService.add(training);
         return ResponseEntity.status(HttpStatus.OK).body("ajout done");}
@@ -77,27 +77,26 @@ public class TrainingRestController {
     public Training afficherAvecIdT(@PathVariable int idtraining){
         return iTrainingService.selectById(idtraining);
     }
-    @DeleteMapping("/deleteTraining/{idtraining}")
+    @DeleteMapping("/admin/deleteTraining/{idtraining}")
     public void supprimerAvecIdT(@PathVariable int idtraining){
         iTrainingService.deleteById(idtraining);
     }
-    @DeleteMapping("/deleteTraining")
+    @DeleteMapping("/admin/deleteTraining")
     public void supprimerT(Training training){
         iTrainingService.delete(training);
     }
-    @PutMapping("/editTraining")
+    @PutMapping("/admin/editTraining")
     public Training modifier(@RequestBody Training training)
     {return iTrainingService.edit(training);
     }
-    @Scheduled(cron = "0 0 0 * * *")
-    @DeleteMapping("/deleteExpTraining")
+    @Scheduled(cron = "0 0 * * * *")
+    @DeleteMapping("/admin/deleteExpTraining")
     public void supprimerTE() throws MessagingException {
 
 
         iTrainingService.deleteByDate( );
-        for(User us : trainingRepository.selectUsers()) {
-            senderService.sendEmail(us.getEmail(), " Evenement Expiré", "Evenement Expiré", "C:/Users/HP/Documents/mir.pdf");
-        }
+
+
     }
 
     @GetMapping("/afficherPresExpiredT")
@@ -105,8 +104,9 @@ public class TrainingRestController {
          iTrainingService.sendMailExpiration();
         return
                 iTrainingService.selectByDate();
+
     }
-    @GetMapping("/afficherTs/{field}/{type}")
+    @GetMapping("/trainings/{field}/{type}")
     public List<Training> afficherTs(@PathVariable String field,@PathVariable String type){
         return iTrainingService.findwithsorting(field,type);
     }

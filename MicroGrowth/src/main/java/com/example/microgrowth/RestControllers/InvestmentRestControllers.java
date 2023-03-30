@@ -106,7 +106,7 @@ public class InvestmentRestControllers  {
         BonDeCommandeService bonDeCommandeService = new BonDeCommandeService(listInvestments);
         bonDeCommandeService.export(response);
     }
-    @GetMapping("admin/RevenuIInvesstisement")
+    @GetMapping("/admin/RevenuIInvesstisement")
     public Double getRevenusInvesstisement()
     {
         double resultat=0;
@@ -120,15 +120,15 @@ public class InvestmentRestControllers  {
         return  resultat;
     }
 
-    @GetMapping("/user/ponzii/{iduser}")
-    public Double calculerTauxPonzii(@PathVariable int iduser) {
-        double taux = IInvestment.calculerTauxPonzii(iduser);
-        return taux ;
+    @GetMapping("/admin/ponzii/{iduser}")
+    public List<String> calculerTauxPonzii(@PathVariable int iduser) {
+        return IInvestment.calculerTauxPonzii(iduser);
     }
+
     @RestController
     public class SessionController {
 
-        @GetMapping("/session/{n}/{x}")
+        @GetMapping("/admin/session/{n}/{x}")
         public double getSession(@PathVariable double n, @PathVariable double x) {
             return IInvestment.session(n, x);
         }

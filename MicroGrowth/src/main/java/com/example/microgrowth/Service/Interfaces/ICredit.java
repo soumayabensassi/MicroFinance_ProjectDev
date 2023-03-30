@@ -3,7 +3,10 @@ package com.example.microgrowth.Service.Interfaces;
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.User;
+import com.lowagie.text.DocumentException;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public interface ICredit {
@@ -34,8 +37,18 @@ public interface ICredit {
     double CalculResultatNET();
 
     void ajouter_date_30(Credit c);
-    void Accorde_penalite(Penalite p);
+    void Accorde_penalite();
     void annuler_penalite();
+    void AffecterCreditAuUser(Credit credit);
+    void RefuserCreditAuUser(Credit credit);
+
+     float calculateInterestRate(Credit c) ;
+     void SimulateurCredit(float MontantCredit,int nbmois);
+    File genererCreditPDF(int nbmois) throws IOException, DocumentException;
+    void envoyerCreditParEmail() throws javax.mail.MessagingException;
+    double MaxCredit(int nbmois);
+
+
 
 
 }

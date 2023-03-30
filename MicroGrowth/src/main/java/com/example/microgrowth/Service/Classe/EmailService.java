@@ -285,12 +285,45 @@ public String forgetpassword(String email) {
         System.out.println("email sent succefully");
     }
 
+
     public void sendPenaliteEmail(String userEmail) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject("You have depassed 3 penalities");
         msg.setText("You have depassed 3 penalities");
         msg.setTo(userEmail);
         msg.setFrom("myriambrahmi23@gmail.com");
+
+        // Envoyer le message
+        javaMailSender.send(msg);
+        System.out.println("email sent succefully");
+    }
+
+    public void sendCalcukCredit(User user) {
+        float salaire = user.getSalaire();
+        if (salaire < 2000 && salaire > 800) {
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setSubject("Montant Credit");
+
+            double montant = ((((salaire * 0.43)) * 12) / 1.2) * 5;
+            String m = Double.toString(montant);
+            msg.setText("You can have a loan of " + m);
+            // msg.setText("taux : 20%");
+            msg.setTo(user.getEmail());
+            msg.setFrom("myriambrahmi23@gmail.com");
+
+            // Envoyer le message
+            javaMailSender.send(msg);
+            System.out.println("email sent succefully");
+        }
+
+
+    }
+    public void sendNotificationEmailComplaint(String userEmail) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject("Réception de réclamation confirmé");
+        msg.setText("Bien reçu, votre récalmation a été bien enregistrée. Je vous prie de patienter. Votre récalamation sera traitée dans les 24h ");
+        msg.setTo(userEmail);
+        msg.setFrom("mariem.omezzine@esprit.tn");
 
         // Envoyer le message
         javaMailSender.send(msg);

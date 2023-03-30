@@ -25,7 +25,8 @@ public class Projet implements Serializable {
     private String nom;
     private String description;
     private Double obligation;
-
+    private Double OptionValue;
+    private int quantity;
     private Integer duree;
     private Double tauxRendement;
     private String statutProjet;
