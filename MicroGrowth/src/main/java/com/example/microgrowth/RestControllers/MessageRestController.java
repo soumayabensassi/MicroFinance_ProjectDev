@@ -65,7 +65,7 @@ public class MessageRestController {
     //  messageService.sendMessage(senderUsername, receiverUsername, content);
     //}
     private IMicroGrowth iMicroGrowth;
-    @PostMapping("/both/messagee")
+    @PostMapping("/messagee")
     public List<String> createMessage(@RequestBody Message message) {
         {List<String> motsARechercher = Arrays.asList("merde", "bordel", "mot3");
             String texte = message.getContent();

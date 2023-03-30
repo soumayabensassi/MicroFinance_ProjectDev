@@ -1,6 +1,7 @@
 package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Complaint;
+import com.example.microgrowth.DAO.Entities.RetourComplaint;
 import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.DAO.Repositories.ComplaintRepository;
 import com.example.microgrowth.Service.Interfaces.IComplaintService;
@@ -95,5 +96,19 @@ public class ComplaintService implements IComplaintService {
         String message = "Bonjour " + reclamation.getUsers().getFirstName() + ",\n\nVotre réclamation a été traitée avec succès.\n\nCliquez sur le lien suivant pour marquer votre réclamation comme traitée :\n\nhttp://localhost:8082/MicroGrowth/" + reclamation.getIdComplaint() + "/traiter\n\nCordialement,\nL'équipe de support technique";
 
         sendEmail(recipient, subject, message);
+    }
+    public void satisfait(int id) {
+        Complaint reclamation = complaintRepository.findByIdComplaint(id);
+
+        reclamation.setRetourComplaint(RetourComplaint.SATISFAIT);
+        complaintRepository.save(reclamation);
+
+    }
+    public void nonsatisfait(int id) {
+        Complaint reclamation = complaintRepository.findByIdComplaint(id);
+
+        reclamation.setRetourComplaint(RetourComplaint.NON_SATISFAIT);
+        complaintRepository.save(reclamation);
+
     }
 }
