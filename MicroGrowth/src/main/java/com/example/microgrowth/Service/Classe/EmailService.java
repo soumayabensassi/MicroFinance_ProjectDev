@@ -299,15 +299,15 @@ public String forgetpassword(String email) {
     }
 
     public void sendCalcukCredit(User user) {
-        float salaire=user.getSalaire();
-        if(salaire<2000 && salaire>800){
+        float salaire = user.getSalaire();
+        if (salaire < 2000 && salaire > 800) {
             SimpleMailMessage msg = new SimpleMailMessage();
             msg.setSubject("Montant Credit");
 
-            double montant=((((salaire*0.43))*12)/1.2)*5;
-            String m=Double.toString(montant);
-            msg.setText("You can have a loan of "+m);
-           // msg.setText("taux : 20%");
+            double montant = ((((salaire * 0.43)) * 12) / 1.2) * 5;
+            String m = Double.toString(montant);
+            msg.setText("You can have a loan of " + m);
+            // msg.setText("taux : 20%");
             msg.setTo(user.getEmail());
             msg.setFrom("myriambrahmi23@gmail.com");
 
@@ -317,7 +317,7 @@ public String forgetpassword(String email) {
         }
 
 
-
+    }
     public void sendNotificationEmailComplaint(String userEmail) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject("Réception de réclamation confirmé");
