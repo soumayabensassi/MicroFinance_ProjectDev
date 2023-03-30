@@ -1,13 +1,21 @@
 package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.BankAccount;
+import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.BankAccountRepository;
+import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Interfaces.IBankAccount;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class BankAccountService implements IBankAccount {
@@ -15,6 +23,8 @@ public class BankAccountService implements IBankAccount {
 
     private BankAccountRepository bankAccountRepository;
 
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public BankAccount add(BankAccount a) {
@@ -53,16 +63,21 @@ public class BankAccountService implements IBankAccount {
         }
     }
 
-  /*  @Override
-    @Scheduled(cron = "0 0 1 * * ")
+    @Override
+    @Scheduled(cron = "0 0 1 * * *")
     public void notifUpdate() {
         for (BankAccount bankAccount : bankAccountRepository.findAll()) {
-           // bankAccount.getIdBank()
+            Optional<User> user = Optional.of(userRepository.findById(bankAccount.getIdBank()).get());
+
+            Twilio.init("ACbefcebcd919893a1dd413e7a6c06d7fd", "5c8080a85e3b4eb905967b4d5b0a2e59");
+
+            Message.creator(new PhoneNumber(String.valueOf(user.get().getPhone())),
+                    new PhoneNumber("+15075843922"), "Dear"+user.get().getFirstName()+", /r/n"+"your balance has been updated, please check your account statement.").create();
 
 
 
 
         }
 
-    }*/
+    }
 }
