@@ -42,14 +42,14 @@ public class KPIInsuranceRestController {
     @GetMapping("/financial/EPS-KPI")
     public double financialKPI3(@RequestParam int s, @RequestParam float l) {
 
-        float income =bankAccountRepository.getAmountByRib("999999999") - l ; // Income inventory
+        float income =bankAccountRepository.getAmountByRib("1") - l ; // Income inventory
         return income / s;
     }
 
     @GetMapping("/financial/ProfitMarginKPI")
     public double financialKPI4(@RequestParam float l) {
 
-        float Revenue = bankAccountRepository.getAmountByRib("999999999");; //  revenue
+        float Revenue = bankAccountRepository.getAmountByRib("1");; //  revenue
         float Income = Revenue - l; //  income
 
         return Income / Revenue;
