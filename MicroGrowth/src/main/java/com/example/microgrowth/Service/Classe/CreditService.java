@@ -312,8 +312,8 @@ public class CreditService implements ICredit {
 
         for (Credit c : creditdeAnnee) {
             double test = 0;
-            System.out.println("aaaa=" + c.getUsers().getIdUser());
-            System.out.println("bbbb=" + year);
+            System.out.println("idUser=" + c.getUsers().getIdUser());
+            System.out.println("annee=" + year);
             List<Integer> transaction = creditRepository.listTransactiondelannee(c.getUsers().getIdUser(), year);
             System.out.println(transaction);
             if (!transaction.isEmpty()) {
@@ -321,15 +321,16 @@ public class CreditService implements ICredit {
             }
 
             actif += (c.getMonthlyAmount() * c.getDuree() * 12) - test;
-            System.out.println(actif);
+
         }
+        System.out.println("actif:"+actif);
         return actif;
     }
 
     @Override
     public double CalculActifRéserve() {
 
-        BankAccount bankAccount = bankAccountRepository.getBankAccountByRib("999999999");
+        BankAccount bankAccount = bankAccountRepository.getBankAccountByRib("1");
         return bankAccount.getAmount() * 0.1;
     }
 
@@ -342,7 +343,7 @@ public class CreditService implements ICredit {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         int year = calendar.get(Calendar.YEAR);
-        System.out.println("aaaa=" + year);
+        System.out.println("Annee=" + year);
         List<Credit> creditdeAnnee = creditRepository.creditParAnnee(year);
         for (Credit c : creditdeAnnee) {
             resultatCredit += this.calcul_Rentabilite_parCreditNonActialise(c);

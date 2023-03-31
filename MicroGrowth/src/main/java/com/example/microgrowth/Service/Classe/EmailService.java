@@ -55,7 +55,7 @@ public String forgetpassword(String email) {
     );
     passwordTokenRepository.save(resetToken);
 
-    String link = "http://localhost:8082/MicroGrowth/user/email/reset/"+token+"/"+email;
+    String link = "https://localhost:8082/MicroGrowth/email/reset/"+token+"/"+email;
     emailSender.send(email, buildEmailReset(u.getFirstName()+' '+ u.getLasttName(),link));
     return token;
 }
@@ -69,7 +69,7 @@ public String forgetpassword(String email) {
         }
 
         User u = userRepo.findByEmail(email);//.orElse(null);
-        String link = "http://localhost:8082/MicroGrowth/user/ConfirmeCompte/"+email;
+        String link = "https://localhost:8082/MicroGrowth/ConfirmeCompte/"+email;
         emailSender.send(email, BuildConfirmeCompte(u.getFirstName()+' '+ u.getLasttName(),link));
     }
 

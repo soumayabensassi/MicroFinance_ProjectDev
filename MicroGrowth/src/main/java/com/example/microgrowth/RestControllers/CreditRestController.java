@@ -144,6 +144,7 @@ public class CreditRestController {
    public  double CalculROE()
    {
        double resultatNet=iCredit.CalculResultatNET();
+       System.out.println("Resultat net :" +resultatNet);
        return  resultatNet/2000000;
 
    }
