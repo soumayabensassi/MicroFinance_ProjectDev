@@ -28,9 +28,9 @@ public class PublicationRestControllers {
         return iPublication.selectAll();
     }
 
-    @PostMapping("/user/ajouterPublication")
+    @PostMapping("/user/ajouterPublication/{email}")
 
-    public String ajouter(@RequestBody Publication publication)
+    public String ajouter(@RequestBody Publication publication,@PathVariable String email)
     {List<String> motsARechercher = Arrays.asList("mot1", "mot2", "mot3");
         String texte = publication.getText();
         for (String mot : motsARechercher) {
@@ -38,7 +38,7 @@ public class PublicationRestControllers {
                 texte = texte.replaceAll(mot, "*");
             }
             }
-        publication.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
+        publication.setUsers(iUser.getUserByEmail(email));
 
         publication.setText(texte);
             iPublication.add(publication);
@@ -46,7 +46,7 @@ public class PublicationRestControllers {
 
 
     }
-    @PutMapping("/user//updatePublication")
+    @PutMapping("/user/updatePublication")
     public Publication update(@RequestBody Publication publication)
     {return iPublication.edit(publication);
     }

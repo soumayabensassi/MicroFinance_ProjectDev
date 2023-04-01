@@ -25,11 +25,11 @@ public class LikeRestControllers {
 
 
 
-    @PostMapping("/user/LikerPublication/{idpublication}")
-    public void likerunepublication(@PathVariable int idpublication)
-    {   //String email=iMicroGrowth.getCurrentUserName();
-        String email="soumaya.bensassi@esprit.tn";
-        System.out.println(email);
+    @PostMapping("/user/LikerPublication/{idpublication}/{email}")
+    public void likerunepublication(@PathVariable int idpublication,@PathVariable String email)
+    {
+//    String email=iMicroGrowth.getCurrentUserName();
+//        System.out.println("email:"+email);
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         log.info("likes is : {}",likes);
@@ -42,9 +42,9 @@ public class LikeRestControllers {
             iLike.add(like);
         } else  iLike.deleteById(likes.getIdLike());
     }
-    @PostMapping("/user/LikerComment/{idComment}")
-    public void likerunComment(@PathVariable int idComment)
-    {String email=iMicroGrowth.getCurrentUserName();
+    @PostMapping("/user/LikerComment/{idComment}/{email}")
+    public void likerunComment(@PathVariable int idComment,@PathVariable String email)
+    {//String email=iMicroGrowth.getCurrentUserName();
         Likes likesComment=iLike.verifLikeComment(email,idComment);
         Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
         if (likesComment==null && dislikeComment == null) {

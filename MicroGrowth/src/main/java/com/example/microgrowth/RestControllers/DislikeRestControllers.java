@@ -19,10 +19,9 @@ public class DislikeRestControllers {
     private IPublication iPublication;
     private IComment iComment;
     private IMicroGrowth iMicroGrowth;
-    @PostMapping("/user/DislikerPublication/{idpublication}")
-    public void Dislikerunepublication(@PathVariable int idpublication)
+    @PostMapping("/user/DislikerPublication/{idpublication}/{email}")
+    public void Dislikerunepublication(@PathVariable int idpublication,@PathVariable String email)
     { //String email=iMicroGrowth.getCurrentUserName();
-       String email="soumaya.bensassi@esprit.tn";
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         if (likes==null && dislike == null) {
@@ -34,9 +33,9 @@ public class DislikeRestControllers {
             iDislike.add(d);
         } else  iDislike.deleteById(dislike.getIdDislike());
     }
-    @PostMapping("/user/DislikerComment/{idComment}")
-    public void DislikerunCommant(@PathVariable int idComment)
-    {   String email=iMicroGrowth.getCurrentUserName();
+    @PostMapping("/user/DislikerComment/{idComment}/{email}")
+    public void DislikerunCommant(@PathVariable int idComment,@PathVariable String email)
+    {   //String email=iMicroGrowth.getCurrentUserName();
         Likes likesComment=iLike.verifLikeComment(email,idComment);
         Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
         if (likesComment==null && dislikeComment == null) {
