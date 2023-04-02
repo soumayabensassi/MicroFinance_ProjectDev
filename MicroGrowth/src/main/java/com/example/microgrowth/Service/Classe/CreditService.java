@@ -534,7 +534,7 @@ public class CreditService implements ICredit {
         }
 public double MaxCredit(int nbmois){
        User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
-        double taux=0.3;
+        double taux=0.23;
         double tauxMensuel = taux / 12;
         double MaxCredit=((user.getSalaire()*0.43)*(1 - Math.pow(1 + tauxMensuel, -nbmois))) / tauxMensuel;
         return MaxCredit;
@@ -589,7 +589,7 @@ public double MaxCredit(int nbmois){
         duree.setSpacingAfter(20f);
         document.add(duree);
 
-        Paragraph taux = new Paragraph("Taux d'intérêt : 0.3%", normalFont);
+        Paragraph taux = new Paragraph("Taux d'intérêt : 0.23%", normalFont);
         taux.setSpacingAfter(20f);
         document.add(taux);
 

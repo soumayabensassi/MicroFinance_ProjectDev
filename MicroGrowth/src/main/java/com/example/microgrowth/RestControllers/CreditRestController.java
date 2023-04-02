@@ -40,25 +40,25 @@ public class CreditRestController {
     IInvestment iInvestment;
     @Autowired
     UserRepository userRepository;
-    @GetMapping("/afficherCredits")
+    @GetMapping("/admin/afficherCredits")
     public List<Credit> afficherCredits()
     {
         return iCredit.selectAll();
     }
-    @PostMapping("/ajouterCreditByuser")
+    @PostMapping("/user/ajouterCreditByuser")
     public Credit ajouterCredit_user(@RequestBody Credit credit)
     {
         return iCredit.add_credit_user(credit);
     }
-    @PostMapping("/ajouterCreditByadmin")
+    @PostMapping("/admin/ajouterCreditByadmin")
     public Credit ajouterCredit_admin(@RequestBody Credit credit)
     {
         return iCredit.add_credit_admin(credit);
     }
-    @PutMapping("/updateCredit")
+    @PutMapping("/admin/updateCredit")
     public Credit updateCredit(@RequestBody Credit credit)
     {return iCredit.edit(credit);}
-    @GetMapping("/afficherCreditbyID/{id}")
+    @GetMapping("/admin/afficherCreditbyID/{id}")
     public Credit AfficherCreditByID(@PathVariable int id)
     {
         return iCredit.SelectById(id);
@@ -69,7 +69,7 @@ public class CreditRestController {
         iCredit.deleteById(id);
     }
 
-    @GetMapping("/AfficherScoreCredit/{id}")
+    @GetMapping("/admin/AfficherScoreCredit/{id}")
     public int afficherScore(@PathVariable int id)
     {
         return iCredit.scoreCredit(id);
@@ -78,7 +78,7 @@ public class CreditRestController {
     //public int afficherscore(@PathVariable int idUser, @PathVariable int idCredit,@PathVariable int idCompte){
 //return iCredit.afficherScore()    }
 
-    @GetMapping("/afficherTableauCredit/{id}")
+    @GetMapping("/user/afficherTableauCredit/{id}")
     public void calcul_tableau_credit(@PathVariable int id){
         iCredit.calcul_tableau_credit(creditRepository.findById(id).orElse(null));
     }
@@ -164,11 +164,11 @@ public class CreditRestController {
     public List<Credit> afficherCreditRem(){
         return creditRepository.selectCreditRembourseeParMois();
     }
-    @PostMapping("/accordePenalite")
+    @PostMapping("/admin/accordePenalite")
     public  void Accorde_penalite(){
         iCredit.Accorde_penalite();
     }
-    @GetMapping("/export-to-pdf-credits")
+    @GetMapping("/admin/export-to-pdf-credits")
     public void generatePdfFile(HttpServletResponse response) throws DocumentException, IOException
     {
         response.setContentType("application/pdf");
@@ -189,11 +189,11 @@ EmailService emailService;
         System.out.println(user.getEmail());
         emailService.sendCalcukCredit(user);
     }
-    @GetMapping("/SimulateurCredit/{montant}/{nbmois}")
+    @GetMapping("/user/SimulateurCredit/{montant}/{nbmois}")
     void SimulateurCredit(@PathVariable float montant,@PathVariable int nbmois){
         iCredit.SimulateurCredit(montant,nbmois);
     }
-    @PostMapping("/envoyerProposition/{nbmois}")
+    @PostMapping("/user/envoyerProposition/{nbmois}")
     public ResponseEntity<String> PropCredit(@PathVariable int nbmois){
         try {
 
