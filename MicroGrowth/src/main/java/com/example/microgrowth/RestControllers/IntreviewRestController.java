@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class IntreviewRestController {
     IIntreview iIntreview;
-    @PostMapping("/AffecterIntreviewCredit/{idcredit}")
+    @PostMapping("/admin/AffecterIntreviewCredit/{id}")
     public Intreview add_intreview(@PathVariable int idcredit,@RequestBody Intreview intreview)
     {
         return iIntreview.add_intreview(idcredit,intreview);

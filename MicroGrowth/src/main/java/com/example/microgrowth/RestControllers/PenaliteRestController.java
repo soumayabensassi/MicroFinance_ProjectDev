@@ -35,7 +35,7 @@ public class PenaliteRestController {
     }
 
 }
-@GetMapping("/StatistiquePenalite/{mois}")
+@GetMapping("/admin/StatistiquePenalite/{mois}")
     void afficherStatPenalite(@PathVariable int mois){
         System.out.println(iPenalite.statistique_penalite_mois(mois));
 }
