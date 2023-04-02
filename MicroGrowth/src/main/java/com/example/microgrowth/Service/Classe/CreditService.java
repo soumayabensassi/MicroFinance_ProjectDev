@@ -25,7 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.internet.MimeMultipart;
 @AllArgsConstructor
 @Service
 public class CreditService implements ICredit {
@@ -57,7 +56,10 @@ public class CreditService implements ICredit {
         c.setDemandDate(date_now);
         c.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
         c.setIntrestRaiting(calculateInterestRate(c));
+        float tauxMensuel = c.getIntrestRaiting() / 12;
 
+        float coefficient = (float) Math.pow(1 + tauxMensuel, c.getDuree()*12);
+        c.setMonthlyAmount((c.getAmount_credit()*tauxMensuel*coefficient)/(coefficient-1));
         //iMicroGrowth.getUser(iMicroGrowth.getCurrentUserName());
         // c.setUsers(iMicroGrowth.getUser("aziz2000cherif1@gmail.com"));
         //float ca=calcul_taux(c.getAmount_credit(),c.getDuree() );
@@ -523,7 +525,7 @@ public class CreditService implements ICredit {
 
             double tauxMensuel = taux / 12;
             double mensualite = (MontantCredit * tauxMensuel) / (1 - Math.pow(1 + tauxMensuel, -nbmois));
-
+            System.out.println("Le Montant est :"+ MontantCredit);
             System.out.println("Taux d'intérêt annuel : " + taux);
             System.out.println("Mensualité : " + mensualite);
             System.out.println("Coût total sans assurance : " + (mensualite * nbmois - MontantCredit));
@@ -590,6 +592,7 @@ public double MaxCredit(int nbmois){
         Paragraph taux = new Paragraph("Taux d'intérêt : 0.3%", normalFont);
         taux.setSpacingAfter(20f);
         document.add(taux);
+
 
         // Fermer le document
         document.close();
