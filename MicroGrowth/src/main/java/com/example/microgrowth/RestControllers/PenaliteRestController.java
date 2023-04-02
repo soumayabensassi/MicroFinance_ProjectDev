@@ -23,7 +23,7 @@ public class PenaliteRestController {
     private EmailService emailService;
     CreditRepository creditRepository;
 
-    @GetMapping("/SendPenaliteEmail/{id}")
+    @GetMapping("/admin/SendPenaliteEmail/{id}")
     void SendEmailPenalite(@PathVariable int id){
         int user_id= creditRepository.SelectUserFromCredit(id);
         User user=userRepository.findById(user_id).get();

@@ -209,12 +209,12 @@ EmailService emailService;
     public double MaxCredit(@PathVariable int nbmois){
         return iCredit.MaxCredit(nbmois);
 }
-@PostMapping("/refuserCredit/{id}")
+@PostMapping("/admin/refuserCredit/{id}")
     void RefuserCredit(@PathVariable int id){
 
         iCredit.RefuserCreditAuUser(creditRepository.findById(id).get());
 }
-    @PostMapping("/AccepterCredit/{id}")
+    @PostMapping("/admin/AccepterCredit/{id}")
     void AccepterCredit(@PathVariable int id){
 
         iCredit.AffecterCreditAuUser(creditRepository.findById(id).get());
