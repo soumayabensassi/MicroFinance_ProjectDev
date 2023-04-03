@@ -51,7 +51,7 @@ public class InsuranceService implements IInsuranceService {
     }
 
     @Override
-    public List<String> getUserEmail(Date d) {
+    public List<String> getUserEmail(String d) {
         return insuranceRepository.selectEmailUser(d);
     }
 

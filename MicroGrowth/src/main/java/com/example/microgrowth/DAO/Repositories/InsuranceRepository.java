@@ -12,8 +12,8 @@ import java.util.List;
 public interface InsuranceRepository extends JpaRepository<Inssurance,Integer> {
     @Query(value = "select u.email from inssurance a join user u on a.users_id_user=u.id_user" +
             " join transaction t on u.id_user=t.users_id_user where  " +
-            "  t.date_transaction='2023-04-03' and t.rib_receiver='1'  and " +
+            "  t.date_transaction=?1 and t.rib_receiver='1'  and " +
             "t.categorie_transaction='INSURANCE' ", nativeQuery = true)
-    List<String> selectEmailUser(Date d);
+    List<String> selectEmailUser(String d);
 
 }

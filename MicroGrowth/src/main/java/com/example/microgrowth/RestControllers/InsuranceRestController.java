@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -135,13 +137,16 @@ public class InsuranceRestController {
     @Scheduled(fixedRate = 20000)
     //@Scheduled(cron = "0 0 0 * * ?")
     public void SendReceiptEmail() throws MessagingException
-    { Date date_now = new Date();
+    { LocalDate date_now =  LocalDate.now();
         System.out.println(date_now);
-        System.out.println(iInsuranceService.getUserEmail(date_now));
-        for (String e:iInsuranceService.getUserEmail(date_now))
+
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date=date_now.format(formatter);
+        System.out.println(iInsuranceService.getUserEmail(date));
+        for (String e:iInsuranceService.getUserEmail(date))
              {
                  System.out.println(e);
-            emailReceiptInsurance.sendHtmlEmail(e,"Insurance",emailReceiptInsurance.EmailReceipt("Hello User",10,"This is your",date_now));
+            emailReceiptInsurance.sendHtmlEmail(e,"Insurance",emailReceiptInsurance.EmailReceipt("Hello User",10,"This is your",date));
         }
     }
 

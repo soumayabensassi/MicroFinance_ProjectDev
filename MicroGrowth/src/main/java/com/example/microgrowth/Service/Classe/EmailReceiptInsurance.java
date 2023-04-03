@@ -28,7 +28,7 @@ public class EmailReceiptInsurance {
         mailSender.send(message);
     }
 
-    public String EmailReceipt (String name , float amount , String description , Date purchase_date) {
+    public String EmailReceipt (String name , float amount , String description , String purchase_date) {
         String supportUrl = "MicroGrowthUrl" ;
 
         return  "<span class=\"preheader\">This is a receipt for your recent purchase on " + purchase_date + ". No payment is due with this receipt.</span>\n" +
