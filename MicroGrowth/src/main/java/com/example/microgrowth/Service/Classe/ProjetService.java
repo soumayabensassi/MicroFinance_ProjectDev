@@ -11,11 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ProjetService implements IProjet {
      ProjetRepository projetRepository;
-     HistoriqueBourseRepository HistoriqueRep;
+
     @Override
     public void add(Projet projet) {
          projetRepository.save(projet);
-        HistoriqueRep.save(projet);
+
 
     }
 
