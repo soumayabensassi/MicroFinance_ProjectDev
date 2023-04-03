@@ -8,6 +8,7 @@ import com.example.microgrowth.DAO.Repositories.TrainingRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Classe.TrainingService;
 import com.example.microgrowth.Service.Classe.UserService;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IRating;
 import com.example.microgrowth.Service.Interfaces.ITrainingService;
 import com.example.microgrowth.Service.Interfaces.IUser;
@@ -29,16 +30,22 @@ public class RatingRestController {
 
     @Autowired
     private TrainingRepository trainingRepository;
-
+    @Autowired
     private TrainingService trainingService;
+    @Autowired
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+   @Autowired
+    private IMicroGrowth iMicroGrowth;
 
-    @PostMapping("ratings/{trainingId}/{userId}/{score}")
-    public ResponseEntity<?> createRating(@PathVariable int trainingId, @PathVariable int userId, @PathVariable int score) {
+    @PostMapping("/user/ratings/{trainingId}/{score}")
+    public ResponseEntity<?> createRating(@PathVariable int trainingId,  @PathVariable int score) {
+        System.out.println("email");
+        String email=iMicroGrowth.getCurrentUserName();
+        System.out.println(email);
         Training event = trainingRepository.findById(trainingId);
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findByEmail(email);
 
         Optional<Rating> existingRating = ratingRepository.findByTrainingsAndUsers(event, user);
         if (existingRating.isPresent()) {
@@ -57,10 +64,11 @@ public class RatingRestController {
 
 
     }
-    @DeleteMapping("/deleteratings/{userId}/{trainingId}")
-    public ResponseEntity<?> deleteEventRating(@PathVariable int trainingId, @PathVariable int userId) {
+    @DeleteMapping("/user/deleteratings/{trainingId}")
+    public ResponseEntity<?> deleteEventRating(@PathVariable int trainingId) {
+        String email=iMicroGrowth.getCurrentUserName();
         Training event = trainingRepository.findById(trainingId);
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findByEmail(email);
         //int rating=ratingRepository.findById(ratingId).get().getId();
         Rating rating=new Rating();
         Optional<Rating> existingRating = ratingRepository.findByTrainingsAndUsers(event, user);

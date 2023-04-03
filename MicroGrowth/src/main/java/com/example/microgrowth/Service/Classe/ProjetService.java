@@ -16,7 +16,6 @@ public class ProjetService implements IProjet {
     public void add(Projet projet) {
          projetRepository.save(projet);
 
-
     }
 
     @Override

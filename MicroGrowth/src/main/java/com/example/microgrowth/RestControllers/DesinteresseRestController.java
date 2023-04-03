@@ -3,10 +3,7 @@ package com.example.microgrowth.RestControllers;
 import com.example.microgrowth.DAO.Entities.Desinteresse;
 import com.example.microgrowth.DAO.Entities.Interesse;
 import com.example.microgrowth.DAO.Repositories.DesIntresseRepository;
-import com.example.microgrowth.Service.Interfaces.IDesintresseService;
-import com.example.microgrowth.Service.Interfaces.IInteresseService;
-import com.example.microgrowth.Service.Interfaces.ITrainingService;
-import com.example.microgrowth.Service.Interfaces.IUser;
+import com.example.microgrowth.Service.Interfaces.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,11 +19,13 @@ public class DesinteresseRestController {
     private IDesintresseService iDesintresseService;
     private IInteresseService iInteresseService;
     private ITrainingService iTrainingService;
+    private IMicroGrowth iMicroGrowth;
 
-    @PostMapping("/Desinteresse/{email}/{idtraining}")
+    @PostMapping("/user/Desinteresse/{idtraining}")
 
-    public void Desiniteressetraining(@PathVariable String email,@PathVariable int idtraining)
+    public void Desiniteressetraining(@PathVariable int idtraining)
     {
+        String email=iMicroGrowth.getCurrentUserName();
         Interesse interesse=iInteresseService.verifInteresse(email,idtraining);
         Desinteresse desinteresse=iDesintresseService.verifDesinsteresse(email,idtraining);
         if (interesse==null && desinteresse == null) {

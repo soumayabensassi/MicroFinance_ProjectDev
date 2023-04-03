@@ -16,6 +16,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Modifying
     @Query("UPDATE User a " + "SET a.password = ?1    WHERE a.email = ?2")
     void resetPassword(String password,String email);
+
+    @Query("SELECT COUNT(u.idUser) FROM User u")
+    int countAllUsers();
     Optional<User> findById(int id);
     User findByFirstName(String username);
 

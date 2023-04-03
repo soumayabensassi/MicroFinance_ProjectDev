@@ -10,6 +10,7 @@ import com.example.microgrowth.Service.Classe.BonDeCommandeService;
 import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Classe.UserService;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ import java.util.Date;
 public class InvestmentRestControllers  {
     @Autowired
     private EmailService EmailService;
-
+    IMicroGrowth iMicroGrowth;
    private BonDeCommandeService bonDeCommande;
     InvestmentRepository investmentRepository;
     @Autowired
@@ -53,9 +54,10 @@ public class InvestmentRestControllers  {
         return IInvestment.selectAll();
     }
 
-    @PostMapping("/admin/ajouterInvestment")
-    public Investment ajouter(@RequestBody Investment inv) throws MessagingException{
-        EmailService.sendNotificationEmail("omezzinemariem@gmail.com");
+    @PostMapping("/user/ajouterInvestment")
+    public Investment ajouter(@RequestBody Investment inv){
+        
+        EmailService.sendNotificationEmail(iMicroGrowth.getCurrentUserName());
 
         return IInvestment.add(inv);
     }

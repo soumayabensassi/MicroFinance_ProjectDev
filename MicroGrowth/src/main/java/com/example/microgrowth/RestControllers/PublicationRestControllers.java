@@ -21,7 +21,7 @@ public class PublicationRestControllers {
     private IPublication iPublication;
     private IUser iUser;
     private IMicroGrowth iMicroGrowth;
-    @GetMapping("/admin/afficherPublication")
+    @GetMapping("/afficherPublication")
     public List<Publication> afficher()
     {
         return iPublication.selectAll();
@@ -45,7 +45,7 @@ public class PublicationRestControllers {
 
 
     }
-    @PutMapping("/user//updatePublication")
+    @PutMapping("/user/updatePublication")
     public Publication update(@RequestBody Publication publication)
     {return iPublication.edit(publication);
     }
