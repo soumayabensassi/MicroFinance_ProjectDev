@@ -24,7 +24,7 @@ public class KPIInsuranceRestController {
 
     // Financial KPIs
 
-    @GetMapping("/financial/CustomerKPI/{n}")
+    @GetMapping("/admin/financial/CustomerKPI/{n}")
     public double financialKPI1(@PathVariable float n ) {
         // n: cost of sales and marketing
         float userCount = userRepository.countAllUsers();
@@ -33,20 +33,20 @@ public class KPIInsuranceRestController {
         return n / Ncustomer;
     }
 
-    @GetMapping("/financial/CashFlowKPI")
+    @GetMapping("/admin/financial/CashFlowKPI")
     public double financialKPI2(@RequestParam float j,@RequestParam float p) {
 
         return p-j;
     }
 
-    @GetMapping("/financial/EPS-KPI")
+    @GetMapping("/admin/financial/EPS-KPI")
     public double financialKPI3(@RequestParam int s, @RequestParam float l) {
 
         float income =bankAccountRepository.getAmountByRib("1") - l ; // Income inventory
         return income / s;
     }
 
-    @GetMapping("/financial/ProfitMarginKPI")
+    @GetMapping("/admin/financial/ProfitMarginKPI")
     public double financialKPI4(@RequestParam float l) {
 
         float Revenue = bankAccountRepository.getAmountByRib("1");; //  revenue
@@ -58,15 +58,15 @@ public class KPIInsuranceRestController {
 
     // Insurance Agency KPIs
 
-    @GetMapping("/insurance/PRR-KPI")
-    public double insuranceKPI5( @RequestParam int g , @RequestParam int h ) {
+    @GetMapping("/admin/insurance/PRR-KPI")
+    public double insuranceKPI5( @RequestParam float g , @RequestParam float h ) {
         // KPI: Policy Retention Rate
         // g : Policies Renewed
         // h : Total Policies
         return g / h;
     }
 
-    @GetMapping("/insurance/Satisfaction-KPI")
+    @GetMapping("/admin/insurance/Satisfaction-KPI")
     public float insuranceKPI6() {
         // Formula: Satisfaction Ratio= 1 - ( Non-Satisfied Customers / Total Customers )
          float userCount = userRepository.countAllUsers();
