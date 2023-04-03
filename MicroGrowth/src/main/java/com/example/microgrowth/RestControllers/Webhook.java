@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/webhook")
+@RequestMapping("/webhook1")
 
 public class Webhook {
 
@@ -29,16 +29,16 @@ public class Webhook {
 
 
         QueryResult queryResult = request.getQueryResult();
-        String userResponse = queryResult.getQueryText();
+        String intent = queryResult.getIntent().getDisplayName();
         String redirectUrl = "";
 
 
 
-        if (userResponse.equals("insurance")) {
-            redirectUrl = "/MicroGrowth/api/insurances";
-        } else if (userResponse.equals("Credit")) {
+        if (intent.equals("access.insurance.interface")) {
+            redirectUrl = "google.com";
+        } else if (intent.equals("Credit")) {
             redirectUrl = "/api/Credits";
-        } else if (userResponse.equals(("Investment"))) {
+        } else if (intent.equals(("Investment"))) {
             redirectUrl = "/api/Investments";
         }
 

@@ -6,6 +6,7 @@ import com.example.microgrowth.Service.Interfaces.IInsuranceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -47,6 +48,11 @@ public class InsuranceService implements IInsuranceService {
     @Override
     public void deleteAll(List<Inssurance> inssuranceList) {
         insuranceRepository.deleteAll(inssuranceList);
+    }
+
+    @Override
+    public List<String> getUserEmail(Date d) {
+        return insuranceRepository.selectEmailUser(d);
     }
 
     @Override

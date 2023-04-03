@@ -4,11 +4,16 @@ import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Inssurance;
 import com.example.microgrowth.DAO.Repositories.ActivitySectorRepository;
 import com.example.microgrowth.DAO.Repositories.InsuranceRepository;
+import com.example.microgrowth.Service.Classe.EmailReceiptInsurance;
 import com.example.microgrowth.Service.Interfaces.ICredit;
 import com.example.microgrowth.Service.Interfaces.IInsuranceService;
+import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -123,6 +128,20 @@ public class InsuranceRestController {
         } else {
             iInsuranceService.add(Inssurance.builder().build());
             return "Congratulations, your insurance request has been accepted.";
+        }
+    }
+    private IUser iUser;
+    private EmailReceiptInsurance emailReceiptInsurance;
+    @Scheduled(fixedRate = 20000)
+    //@Scheduled(cron = "0 0 0 * * ?")
+    public void SendReceiptEmail() throws MessagingException
+    { Date date_now = new Date();
+        System.out.println(date_now);
+        System.out.println(iInsuranceService.getUserEmail(date_now));
+        for (String e:iInsuranceService.getUserEmail(date_now))
+             {
+                 System.out.println(e);
+            emailReceiptInsurance.sendHtmlEmail(e,"Insurance",emailReceiptInsurance.EmailReceipt("Hello User",10,"This is your",date_now));
         }
     }
 
