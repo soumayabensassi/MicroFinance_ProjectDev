@@ -38,7 +38,7 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
             " join transaction t on u.id_user=t.users_id_user join " +
             "transaction_bank_account_list tb on u.id_user=tb.transaction_list_id_transaction" +
             " and c.date_echeance=t.date_transaction and t.rib_receiver='1' and " +
-            "t.amount_transaction=c.monthly_amount ", nativeQuery = true)
+            "t.amount_transaction=c.monthly_amount and t.categorie_transaction='CREDIT' ", nativeQuery = true)
     List<Credit> selectCreditRembourseeParMois();
     @Query(value ="select c.users_id_user from credit c where c.id_credit=?1" , nativeQuery = true)
     int SelectUserFromCredit(int i);
