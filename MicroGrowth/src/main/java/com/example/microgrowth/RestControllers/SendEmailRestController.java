@@ -14,14 +14,14 @@ private EmailService emailService;
 //        return emailService.forgetpassword(email);
 //    }
 
-    @PostMapping("/SendEmailForgetpassword/{email}")
+    @PostMapping("/user/password/{email}")
     public String test(@PathVariable String email) {
 
 //        return "done";
         return emailService.forgetpassword(email);
 
     }
-    @GetMapping("/email/reset/{token}/{email}/{password}")
+    @GetMapping("/user/email/reset/{token}/{email}/{password}")
     public String reset(@PathVariable("token") String token,@PathVariable("email") String email,@PathVariable("password") String password) {
         return emailService.resetPassword(token,email,password);
     }

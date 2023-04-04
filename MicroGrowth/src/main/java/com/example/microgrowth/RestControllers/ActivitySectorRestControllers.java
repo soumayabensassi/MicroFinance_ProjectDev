@@ -10,27 +10,27 @@ import java.util.List;
 @AllArgsConstructor
 public class ActivitySectorRestControllers {
     private IActivitySector iActivitySector;
-    @GetMapping("/admin/afficherActivitySectors")
+    @GetMapping("/afficherActivitySectors")
     public List<ActivitySector> afficher()
     {
         return iActivitySector.selectAll();
     }
-    @PostMapping("/admin/ajouterActivitySector")
+    @PostMapping("/ajouterActivitySector")
 
     public ActivitySector ajouter(@RequestBody ActivitySector activitySector)
     {
         return iActivitySector.add(activitySector);
     }
-    @PutMapping("/admin/updateActivitySector")
+    @PutMapping("/updateActivitySector")
     public ActivitySector update(@RequestBody ActivitySector activitySector)
     {return iActivitySector.edit(activitySector);
     }
-    @GetMapping("/admin/AfficherActivitySectorbyID/{id}")
+    @GetMapping("/AfficherActivitySectorbyID/{id}")
     public ActivitySector AfficherByID(@PathVariable int id)
     {
         return iActivitySector.SelectById(id);
     }
-    @DeleteMapping("/admin/deleteActivitySector/{id}")
+    @DeleteMapping("/deleteActivitySector/{id}")
     public void delete(@PathVariable int id)
     {
         iActivitySector.deleteById(id);

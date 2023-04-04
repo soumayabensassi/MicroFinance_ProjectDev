@@ -92,7 +92,7 @@ EmailSenderService emailSenderService;
             //message.setText((body));
             message.setSubject(subject);
             //Complaint complaint=new Complaint();
-            String htmlBody = "<html><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><body><p>Bonjour,</p><p>Etes-vous satisfait du traitement? :</p><a href=\"https://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/satisfait\" class='button'>OUI</a></body><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><a href=\"https://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/nonsatisfait\" class='button'>NON</a><p>Merci,</p><p>L'équipe de Spring</p></body></html>";
+            String htmlBody = "<html><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><body><p>Bonjour,</p><p>Etes-vous satisfait du traitement? :</p><a href=\"http://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/satisfait\" class='button'>OUI</a></body><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><a href=\"http://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/nonsatisfait\" class='button'>NON</a><p>Merci,</p><p>L'équipe de Spring</p></body></html>";
 
             message.setText(htmlBody, true);
 
@@ -113,6 +113,6 @@ EmailSenderService emailSenderService;
         Double nonsatisfait=complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale();
         String satis=Double.toString(satisfait);
         String nonsatis=Double.toString(nonsatisfait);
-        return "Le pourcentage des users satisfaits :"+satis+"%\n Le pourcentage des users non satisfaits"+nonsatis+"%";
+        return "Le pourcentage des users satisfaits :"+satis+"\n Le pourcentage des users non satisfaits"+nonsatis;
     }
 }

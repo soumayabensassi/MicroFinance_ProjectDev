@@ -1,20 +1,22 @@
 package com.example.microgrowth.RestControllers;
 
+import com.example.microgrowth.DAO.Entities.ActivitySector;
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Inssurance;
-import com.example.microgrowth.DAO.Repositories.ActivitySectorRepository;
+import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.InsuranceRepository;
-import com.example.microgrowth.Service.Classe.EmailReceiptInsurance;
+import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Interfaces.ICredit;
 import com.example.microgrowth.Service.Interfaces.IInsuranceService;
-import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.List;
 
@@ -22,93 +24,72 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/insurances")
+@RequestMapping("/api/inssurances")
 
 public class InsuranceRestController {
     private IInsuranceService iInsuranceService;
-
     @GetMapping("/afficher-insurance")
-    public List<Inssurance> afficher() {
+    public List<Inssurance> afficher(){
         return iInsuranceService.selectAll();
 
     }
-
-    @GetMapping("/afficher-amount/{idInsurance}")
-    public float afficheramountAvecIdInsurance(@PathVariable int idInsurance) {
-        return iInsuranceService.selectById(idInsurance).getAmount();
-    }
-
     @PostMapping("/ajouter-Insurance")
-    public Inssurance ajouter(@RequestBody Inssurance insurance) {
-        return iInsuranceService.add(insurance);
+    public Inssurance ajouter(@RequestBody Inssurance insurance){
+        return  iInsuranceService.add(insurance);
 
     }
-
     @PutMapping("/update-Insurance")
     public Inssurance update(@RequestBody Inssurance inssurance) {
         return iInsuranceService.edit(inssurance);
     }
-
     @GetMapping("/afficherAvecIdInsurance/{idInsurance}")
 
     public Inssurance afficherAvecIdInsurance(@PathVariable int idInsurance) {
         return iInsuranceService.selectById(idInsurance);
     }
-
     @DeleteMapping("/deleteInsurance/{idInsurance}")
-    public void delete(@PathVariable int idInsurance) {
+    public void delete(@PathVariable int idInsurance)
+    {
 
         iInsuranceService.deleteById(idInsurance);
     }
 
 
     private InsuranceRepository insuranceRepository;
-    private ActivitySectorRepository activitySectorRepository;
+
 
 
     @PostMapping("/calculate-monthly-payment")
-    public double calculateMonthlyPayment(@RequestParam float loanAmount, @RequestParam double interestRate) {
+    public ResponseEntity<Double> calculateMonthlyPayment(@RequestParam Double loanAmount) {
 
-        double monthlyInterestRate = interestRate / 12;
-        //Long loanTerm = (Insurance.getDuration())/30;
+        Double interestRate = 0.12;
+        Double monthlyInterestRate = interestRate / 12;
+        //Long loanTerm = (Inssurance.getDuration())/30;
         int loanTerm = 1;
+        Double monthlyPaymentAmount = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -12 * loanTerm));
 
         // return the monthly payment amount
-        return (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -12 * loanTerm));
-    }
-
-
-    @PostMapping("/calculate-monthly-paymentS")
-    public double calculateMonthlyPaymentS(@RequestParam int idS, @RequestParam float TotalInsuredValue, @RequestParam float Deductible) {
-
-        double interestRate = activitySectorRepository.getInterestRateByIdSecteur(idS);
-        double monthlyInterestRate = interestRate / 12;
-        //Long loanTerm = (Insurance.getDuration())/30;
-        int loanTerm = 1;
-        float CorrelationRatio = activitySectorRepository.getCorrelationRatioByIdSecteur(idS);
-
-
-        // return the monthly payment amount
-        return (CorrelationRatio * (TotalInsuredValue - Deductible) * monthlyInterestRate) / 12;
+        return new ResponseEntity<>(monthlyPaymentAmount, HttpStatus.OK);
     }
 
 
     private ICredit iCredit;
 
     @PostMapping("/insurancerequestC")
-    public String applyForInsuranceC(@RequestParam int income, @RequestParam String mail, @RequestParam int Score) {
+    public String applyForInsuranceC(@RequestParam  int income, @RequestParam String mail, @RequestParam int Score) {
 
 
-        List<Credit> lcredit = iCredit.SelectByEmail(mail);
-        int S = 0;
+
+        List<Credit> lcredit=iCredit.SelectByEmail(mail);
+        int S=0;
         for (Credit l : lcredit) {
-            S += l.getAmount_credit();
+            S+=l.getAmount_credit();
         }
         System.out.println(S);
         double dti = calculateDTI(income, S);
         int creditScore = Score;
 
-        if (dti > 0.43 || creditScore < 85) {
+        if (dti > 0.43 || creditScore < 600) {
             return "Sorry, your insurance request has been refused.";
         } else {
             return "Congratulations, your insurance request has been accepted.";
@@ -119,46 +100,22 @@ public class InsuranceRestController {
         return debt / income;
     }
 
-    @PostMapping("/insurancerequest-KPI")
-    public String applyForInsurance(@RequestParam int income, @RequestParam int debt) {
+    @PostMapping("/insurancerequest")
+    public String applyForInsurance(@RequestParam  int income, @RequestParam int debt, @RequestParam int Score) {
+
+
 
 
         double dti = calculateDTI(income, debt);
+        int creditScore = Score;
 
-        if (dti > 0.43) {
+        if (dti > 0.43 || creditScore < 600) {
             return "Sorry, your insurance request has been refused.";
         } else {
-            iInsuranceService.add(Inssurance.builder().build());
             return "Congratulations, your insurance request has been accepted.";
         }
     }
-    private IUser iUser;
-    private EmailReceiptInsurance emailReceiptInsurance;
-    @Scheduled(fixedRate = 20000)
-    //@Scheduled(cron = "0 0 0 * * ?")
-    public void SendReceiptEmail() throws MessagingException
-    { LocalDate date_now =  LocalDate.now();
-        System.out.println(date_now);
 
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date=date_now.format(formatter);
-        System.out.println(iInsuranceService.getUserEmail(date));
-        for (String e:iInsuranceService.getUserEmail(date))
-             {
-                 System.out.println(e);
-            emailReceiptInsurance.sendHtmlEmail(e,"Insurance",emailReceiptInsurance.EmailReceipt("Hello User",10,"This is your",date));
-        }
-    }
-
-    @PostMapping
-    public String handleInsuranceInterface(@RequestBody String message) {
-        // handle incoming message and redirect to appropriate URL
-        if (message.equals("insurance")) {
-            return "redirect:/api/insurances";
-        } else {
-            return "redirect:/home";
-        }
-    }
 
 }
 

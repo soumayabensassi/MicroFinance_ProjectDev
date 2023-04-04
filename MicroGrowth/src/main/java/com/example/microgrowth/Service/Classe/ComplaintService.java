@@ -93,7 +93,7 @@ public class ComplaintService implements IComplaintService {
 
         String recipient = reclamation.getUsers().getEmail();
         String subject = "Confirmation de traitement de votre réclamation";
-        String message = "Bonjour " + reclamation.getUsers().getFirstName() + ",\n\nVotre réclamation a été traitée avec succès.\n\nCliquez sur le lien suivant pour marquer votre réclamation comme traitée :\n\nhttps://localhost:8082/MicroGrowth/" + reclamation.getIdComplaint() + "/traiter\n\nCordialement,\nL'équipe de support technique";
+        String message = "Bonjour " + reclamation.getUsers().getFirstName() + ",\n\nVotre réclamation a été traitée avec succès.\n\nCliquez sur le lien suivant pour marquer votre réclamation comme traitée :\n\nhttp://localhost:8082/MicroGrowth/" + reclamation.getIdComplaint() + "/traiter\n\nCordialement,\nL'équipe de support technique";
 
         sendEmail(recipient, subject, message);
     }

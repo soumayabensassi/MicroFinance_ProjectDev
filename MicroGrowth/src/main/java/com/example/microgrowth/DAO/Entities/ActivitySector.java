@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,8 +20,6 @@ import java.util.List;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         int idSecteur;
         String name;
-        float correlationRatio ;
-        float interestRate ;
         String image_sector;
     @OneToMany(mappedBy = "activiteSecteurs")
     List<Credit> creditList;

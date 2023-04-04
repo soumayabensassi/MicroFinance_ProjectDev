@@ -27,7 +27,7 @@ public class IntreviewService implements IIntreview {
     public Intreview add_intreview(int id_credit, Intreview intreview) {
         String message = "score inferieur à 50";
        intreview.setCredits(creditRepository.findById(id_credit).orElse(null));
-        if (iCredit.scoreCredit(id_credit) > 10) {
+        if (iCredit.scoreCredit(id_credit) > 50) {
             return intreviewRepository.save(intreview);
         } else {
             System.out.println(message);

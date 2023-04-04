@@ -30,20 +30,16 @@ public class RatingRestController {
 
     @Autowired
     private TrainingRepository trainingRepository;
-    @Autowired
+
     private TrainingService trainingService;
-    @Autowired
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
-   @Autowired
     private IMicroGrowth iMicroGrowth;
 
     @PostMapping("/user/ratings/{trainingId}/{score}")
     public ResponseEntity<?> createRating(@PathVariable int trainingId,  @PathVariable int score) {
-        System.out.println("email");
         String email=iMicroGrowth.getCurrentUserName();
-        System.out.println(email);
         Training event = trainingRepository.findById(trainingId);
         User user = userRepository.findByEmail(email);
 

@@ -29,20 +29,6 @@ public class PenaliteService implements IPenalite {
     @Override
     public void annuler_penalite(Penalite a) {
         a.setMontant_penalite(0);
-        a.setPaye(true);
-    }
-
-    @Override
-    public double statistique_penalite_mois(int mois) {
-        int all=penaliteRepository.CountAllPenalite();
-        System.out.println(all);
-        int nb=penaliteRepository.NombrePenaliteParMois(mois);
-        System.out.println(nb);
-        double ratio = (double) nb / all;
-        System.out.println(ratio);
-        return ratio;
-
-
     }
 
 

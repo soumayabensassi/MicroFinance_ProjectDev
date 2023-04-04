@@ -65,6 +65,4 @@ public class UserService implements IUser {
         return userRepository.findByFirstName(username);
     }
 
-
-
 }

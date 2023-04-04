@@ -2,7 +2,6 @@ package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.Inssurance;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IInsuranceService {
@@ -16,7 +15,7 @@ public interface IInsuranceService {
 
 
     void deleteAll(List<Inssurance> inssuranceList);
-    List<String> getUserEmail(String d);
+
 
     void deleteById(int idInsurance);
 }

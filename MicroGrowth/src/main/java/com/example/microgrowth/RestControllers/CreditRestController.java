@@ -1,33 +1,16 @@
 package com.example.microgrowth.RestControllers;
 
-
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.Publication;
-
-import com.example.microgrowth.DAO.Entities.*;
-
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
-import com.example.microgrowth.DAO.Repositories.UserRepository;
-import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Interfaces.ICredit;
-
 import com.example.microgrowth.Service.Interfaces.IInvestment;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-import com.lowagie.text.DocumentException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -36,29 +19,26 @@ import java.util.List;
 public class CreditRestController {
     private ICredit iCredit;
     CreditRepository creditRepository;
-
     IInvestment iInvestment;
-    @Autowired
-    UserRepository userRepository;
-    @GetMapping("/admin/afficherCredits")
+    @GetMapping("/afficherCredits")
     public List<Credit> afficherCredits()
     {
         return iCredit.selectAll();
     }
-    @PostMapping("/user/ajouterCreditByuser")
+@PostMapping("/ajouterCreditByuser")
     public Credit ajouterCredit_user(@RequestBody Credit credit)
     {
         return iCredit.add_credit_user(credit);
     }
-    @PostMapping("/admin/ajouterCreditByadmin")
+    @PostMapping("/ajouterCreditByadmin")
     public Credit ajouterCredit_admin(@RequestBody Credit credit)
     {
         return iCredit.add_credit_admin(credit);
     }
-    @PutMapping("/admin/updateCredit")
+    @PutMapping("/updateCredit")
     public Credit updateCredit(@RequestBody Credit credit)
     {return iCredit.edit(credit);}
-    @GetMapping("/admin/afficherCreditbyID/{id}")
+    @GetMapping("/afficherCreditbyID/{id}")
     public Credit AfficherCreditByID(@PathVariable int id)
     {
         return iCredit.SelectById(id);
@@ -69,7 +49,7 @@ public class CreditRestController {
         iCredit.deleteById(id);
     }
 
-    @GetMapping("/admin/AfficherScoreCredit/{id}")
+    @GetMapping("/AfficherScoreCredit/{id}")
     public int afficherScore(@PathVariable int id)
     {
         return iCredit.scoreCredit(id);
@@ -78,7 +58,7 @@ public class CreditRestController {
     //public int afficherscore(@PathVariable int idUser, @PathVariable int idCredit,@PathVariable int idCompte){
 //return iCredit.afficherScore()    }
 
-    @GetMapping("/user/afficherTableauCredit/{id}")
+    @GetMapping("/afficherTableauCredit/{id}")
     public void calcul_tableau_credit(@PathVariable int id){
         iCredit.calcul_tableau_credit(creditRepository.findById(id).orElse(null));
     }
@@ -144,7 +124,6 @@ public class CreditRestController {
    public  double CalculROE()
    {
        double resultatNet=iCredit.CalculResultatNET();
-       System.out.println("Resultat net :" +resultatNet);
        return  resultatNet/2000000;
 
    }
@@ -165,58 +144,8 @@ public class CreditRestController {
     public List<Credit> afficherCreditRem(){
         return creditRepository.selectCreditRembourseeParMois();
     }
-    @PostMapping("/admin/accordePenalite")
-    public  void Accorde_penalite(){
-        iCredit.Accorde_penalite();
-    }
-    @GetMapping("/admin/export-to-pdf-credits")
-    public void generatePdfFile(HttpServletResponse response) throws DocumentException, IOException
-    {
-        response.setContentType("application/pdf");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String currentDateTime = dateFormat.format(new Date());
-        String headerkey = "Content-Disposition";
-        String headervalue = "attachment; filename=credit" + currentDateTime + ".pdf";
-        response.setHeader(headerkey, headervalue);
-        List < Credit > listofCredits = creditRepository.findAll();
-        PdfGeneratorCredit generator = new PdfGeneratorCredit();
-
-        generator.generate(listofCredits, response);
-}
-EmailService emailService;
-    @GetMapping("/ProposerCredit/{id}")
-    void SendEmailPenalite(@PathVariable int id) {
-        User user = userRepository.findById(id).get();
-        System.out.println(user.getEmail());
-        emailService.sendCalcukCredit(user);
-    }
-    @GetMapping("/user/SimulateurCredit/{montant}/{nbmois}")
-    void SimulateurCredit(@PathVariable float montant,@PathVariable int nbmois){
-        iCredit.SimulateurCredit(montant,nbmois);
-    }
-    @PostMapping("/user/envoyerProposition/{nbmois}")
-    public ResponseEntity<String> PropCredit(@PathVariable int nbmois){
-        try {
-
-            iCredit.genererCreditPDF(nbmois);
-            iCredit.envoyerCreditParEmail();
-        } catch (IOException | javax.mail.MessagingException | DocumentException e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok("Added successfully.");
-    }
-@GetMapping("/MaxCredit/{nbmois}")
-    public double MaxCredit(@PathVariable int nbmois){
-        return iCredit.MaxCredit(nbmois);
-}
-@PostMapping("/admin/refuserCredit/{id}")
-    void RefuserCredit(@PathVariable int id){
-
-        iCredit.RefuserCreditAuUser(creditRepository.findById(id).get());
-}
-    @PostMapping("/admin/AccepterCredit/{id}")
-    void AccepterCredit(@PathVariable int id){
-
-        iCredit.AffecterCreditAuUser(creditRepository.findById(id).get());
+    @PostMapping("/accordePenalite")
+    public  void Accorde_penalite(@RequestBody Penalite p){
+        iCredit.Accorde_penalite(p);
     }
 }

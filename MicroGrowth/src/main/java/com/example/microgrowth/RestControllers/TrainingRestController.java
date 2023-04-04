@@ -41,7 +41,7 @@ public class TrainingRestController {
     public boolean hasEightDigits(String title) {
         return (title.length() <= 10 );}
     //@EventListener(ApplicationReadyEvent.class)
-    @PostMapping("/admin/ajouterTraining")
+    @PostMapping("/ajouterTraining")
     public ResponseEntity<?>ajouterT(@RequestBody Training training) throws MessagingException {
         boolean test = hasEightDigits(training.getTitle());
         boolean testDate = training.getStartDate().before(training.getFinishdate());
@@ -64,7 +64,7 @@ public class TrainingRestController {
     }
         else{
         for(User us : trainingRepository.selectUsers()) {
-            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/ASUS/OneDrive/Bureau/pidev/logo.pdf");
+            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Documents/aff.pdf");
         }
         iTrainingService.add(training);
         return ResponseEntity.status(HttpStatus.OK).body("ajout done");}
@@ -90,7 +90,7 @@ public class TrainingRestController {
     {return iTrainingService.edit(training);
     }
     @Scheduled(cron = "0 0 * * * *")
-    @DeleteMapping("/deleteExpTraining")
+    @DeleteMapping("/admin/deleteExpTraining")
     public void supprimerTE() throws MessagingException {
 
 

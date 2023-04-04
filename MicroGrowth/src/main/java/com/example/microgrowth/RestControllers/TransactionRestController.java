@@ -1,6 +1,6 @@
 package com.example.microgrowth.RestControllers;
 
-
+import com.example.microgrowth.DAO.Entities.Publication;
 import com.example.microgrowth.DAO.Entities.Transaction;
 import com.example.microgrowth.DAO.Util.TransactionPDFExporter;
 import com.example.microgrowth.Service.Classe.TransactionService;
@@ -101,11 +101,7 @@ public class TransactionRestController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Transfer Successful");
     }
 
-    @PostMapping("makePayment")
-    public ResponseEntity<String> makePayment(@RequestBody Transaction t){
-        iTransaction.makeTransfer(t);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Payment successful");
-    }
+
 
 
 }

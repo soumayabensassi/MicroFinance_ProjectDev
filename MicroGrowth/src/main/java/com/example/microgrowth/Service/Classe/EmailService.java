@@ -55,7 +55,7 @@ public String forgetpassword(String email) {
     );
     passwordTokenRepository.save(resetToken);
 
-    String link = "https://localhost:8082/MicroGrowth/email/reset/"+token+"/"+email;
+    String link = "http://localhost:8082/MicroGrowth/user/email/reset/"+token+"/"+email;
     emailSender.send(email, buildEmailReset(u.getFirstName()+' '+ u.getLasttName(),link));
     return token;
 }
@@ -69,7 +69,7 @@ public String forgetpassword(String email) {
         }
 
         User u = userRepo.findByEmail(email);//.orElse(null);
-        String link = "https://localhost:8082/MicroGrowth/ConfirmeCompte/"+email;
+        String link = "http://localhost:8082/MicroGrowth/user/ConfirmeCompte/"+email;
         emailSender.send(email, BuildConfirmeCompte(u.getFirstName()+' '+ u.getLasttName(),link));
     }
 
@@ -288,20 +288,8 @@ public String forgetpassword(String email) {
 
     public void sendPenaliteEmail(String userEmail) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setSubject("Avertissement pour dépassement de pénalités");
-        msg.setText("Cher Mr,\n" +
-                "\n" +
-                "Nous vous écrivons pour vous informer que vous avez dépassé les trois pénalités autorisées pour le mois en cours. Comme vous le savez, notre entreprise a une politique stricte en matière de retards de paiement afin d'assurer une relation commerciale saine et équitable avec tous nos clients.\n" +
-                "\n" +
-                "Nous vous rappelons que chaque pénalité entraîne des frais supplémentaires qui s'accumulent avec le temps et peuvent avoir un impact négatif sur votre cote de crédit. Nous vous encourageons donc à régler rapidement vos paiements afin d'éviter de nouveaux frais.\n" +
-                "\n" +
-                "Nous sommes conscients que des retards de paiement peuvent arriver à tout le monde, et nous sommes toujours prêts à trouver des solutions pour vous aider à respecter vos obligations financières. Si vous avez des difficultés pour payer vos factures, nous vous invitons à nous contacter immédiatement pour discuter des options de paiement possibles.\n" +
-                "\n" +
-                "Nous espérons que cette situation sera résolue rapidement, et nous vous remercions de votre compréhension.\n" +
-                "\n" +
-                "Cordialement,\n" +
-                "\n" +
-                "MicroGrowth");
+        msg.setSubject("You have depassed 3 penalities");
+        msg.setText("You have depassed 3 penalities");
         msg.setTo(userEmail);
         msg.setFrom("myriambrahmi23@gmail.com");
 
@@ -310,26 +298,6 @@ public String forgetpassword(String email) {
         System.out.println("email sent succefully");
     }
 
-    public void sendCalcukCredit(User user) {
-        float salaire = user.getSalaire();
-        if (salaire < 2000 && salaire > 800) {
-            SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setSubject("Montant Credit");
-
-            double montant = ((((salaire * 0.43)) * 12) / 1.2) * 5;
-            String m = Double.toString(montant);
-            msg.setText("You can have a loan of " + m);
-            // msg.setText("taux : 20%");
-            msg.setTo(user.getEmail());
-            msg.setFrom("myriambrahmi23@gmail.com");
-
-            // Envoyer le message
-            javaMailSender.send(msg);
-            System.out.println("email sent succefully");
-        }
-
-
-    }
     public void sendNotificationEmailComplaint(String userEmail) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject("Réception de réclamation confirmé");

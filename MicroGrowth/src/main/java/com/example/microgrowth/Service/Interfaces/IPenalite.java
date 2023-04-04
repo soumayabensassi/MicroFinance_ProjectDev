@@ -9,6 +9,5 @@ public interface IPenalite {
 
     void deleteById(int id);
     void annuler_penalite(Penalite a);
-    double statistique_penalite_mois(int mois);
 
 }

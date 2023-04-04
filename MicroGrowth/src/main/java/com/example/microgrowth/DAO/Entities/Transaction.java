@@ -22,8 +22,6 @@ public class Transaction implements Serializable {
     int idTransaction;
     @Enumerated(EnumType.STRING)
     Type_Transaction typeTransaction;
-    @Enumerated(EnumType.STRING)
-    CategorieTransaction categorieTransaction;
     @Temporal(TemporalType.DATE)
     Date dateTransaction;
     float amountTransaction;

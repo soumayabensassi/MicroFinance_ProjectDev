@@ -1,98 +1,63 @@
 package com.example.microgrowth.Service.Classe;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
-
-import com.itextpdf.text.*;
+import com.example.microgrowth.DAO.Entities.Investment;
+import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.Service.Interfaces.IInvestment;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.microgrowth.DAO.Entities.Investment;
-import com.example.microgrowth.DAO.Entities.MethodInvestissement;
-import com.example.microgrowth.Service.Interfaces.IInvestment;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import java.io.ByteArrayOutputStream;
 
 @Service
 public class BonDeCommandeService {
-    @Autowired
-    private List<Investment> listInvestments ;
 
+    @Autowired
     private IInvestment iInvestment;
 
-    public BonDeCommandeService(List<Investment> listInvestments) {
-        this.listInvestments = listInvestments;
+    public byte[] genererBonDeCommande(User utilisateur, Investment investment) {
 
+        // Initialisation du document
+        Document document = new Document(PageSize.A4);
 
-    }
+        // Initialisation du flux de sortie
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-    private void writeTableHeader(PdfPTable table) {
-        PdfPCell cell = new PdfPCell();
-        cell.setBackgroundColor(new BaseColor(Color.BLACK.getRed(), Color.BLACK.getGreen(), Color.BLACK.getBlue()));
+        try {
+            // Création du writer PDF
+            PdfWriter.getInstance(document, outputStream);
 
-        cell.setPadding(5);
+            // Ouverture du document
+            document.open();
 
-        Font font = FontFactory.getFont(FontFactory.HELVETICA);
-        font.setColor(new BaseColor(Color.WHITE.getRed(), Color.WHITE.getGreen(), Color.WHITE.getBlue()));
+            // Ajout des informations de l'utilisateur
+            document.add(new Paragraph("Nom: " + utilisateur.getFirstName()));
+            document.add(new Paragraph("Prénom: " + utilisateur.getLasttName()));
+            document.add(new Paragraph("Adresse: " + utilisateur.getPhone()));
+            document.add(new Paragraph("Email: " + utilisateur.getEmail()));
+            document.add(new Paragraph("Cin: " + utilisateur.getCin()));
+            document.add(new Paragraph("téléphone"+utilisateur.getPhone()));
+            document.add(new Paragraph("Profession"+utilisateur.getProfession()));
 
-        cell.setPhrase(new Paragraph("ID d'investissement ", font));
-        table.addCell(cell);
+            double taux = iInvestment.calculerTauxInteret(investment.getMethodInvestissement(), investment.getAmountInves(), investment.getDuree());
+            double interet = iInvestment.calculerInteret(investment.getMethodInvestissement(), investment.getAmountInves(), investment.getDuree());
 
-        cell.setPhrase(new Paragraph("MethodInvestissement", font));
-        table.addCell(cell);
+            // Ajout des informations de l'investissement
+            document.add(new Paragraph("identifiant: " + investment.getIdInvestment()));
+            document.add(new Paragraph("Montant investi: " + investment.getAmountInves() + " €"));
+            document.add(new Paragraph("Intérêt: " + interet + " €"));
+            document.add(new Paragraph("Taux: " + taux + " %"));
 
-        cell.setPhrase(new Paragraph("AmountInves", font));
-        table.addCell(cell);
-
-        cell.setPhrase(new Paragraph("Duree", font));
-        table.addCell(cell);
-
-        cell.setPhrase(new Paragraph("Date", font));
-        table.addCell(cell);
-    }
-
-    private void writeTableData(PdfPTable table) {
-        MethodInvestissement methodInvestissement;
-
-        for (Investment inv : listInvestments) {
-            table.addCell(String.valueOf(inv.getIdInvestment()));
-            table.addCell(String.valueOf(inv.getMethodInvestissement()));
-            table.addCell(String.valueOf(inv.getAmountInves()));
-            table.addCell(String.valueOf(inv.getDuree()));
-            table.addCell(String.valueOf(inv.getDateInv()));
-
+            // Fermeture du document
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
 
-    public void export(HttpServletResponse response) throws DocumentException, IOException {
-        Document document = new Document();
-        PdfWriter.getInstance(document, response.getOutputStream());
-
-        document.open();
-
-        BaseColor color = new BaseColor(Color.BLACK.getRGB());
-        Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, color);
-
-        Paragraph p = new Paragraph("Investissements", font);
-
-        p.setAlignment(Paragraph.ALIGN_CENTER);
-        document.add(p);
-
-        PdfPTable table = new PdfPTable(5);
-        table.setWidthPercentage(100f);
-        table.setWidths(new float[] { 1.5f, 3.5f, 3.0f, 3.0f, 3.0f});
-        table.setSpacingBefore(10);
-
-        writeTableHeader(table);
-        writeTableData(table);
-
-        document.add(table);
-
-        document.close();
+        // Retour du flux de sortie sous forme de tableau de bytes
+        return outputStream.toByteArray();
     }
 }

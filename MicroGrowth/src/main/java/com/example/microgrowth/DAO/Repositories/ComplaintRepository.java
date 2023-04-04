@@ -6,17 +6,10 @@ import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.DAO.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-@Repository
-
 public interface ComplaintRepository extends JpaRepository<Complaint,Integer> {
-
-    @Query("SELECT COUNT(DISTINCT c.users.idUser) FROM Complaint c")
-    Long countUniqueUsersWithComplaints();
-
-
     @Query( "select c from Complaint c where c.state=true")
     List<Complaint> selectByState1();
     @Query(value = "select u from User u ")

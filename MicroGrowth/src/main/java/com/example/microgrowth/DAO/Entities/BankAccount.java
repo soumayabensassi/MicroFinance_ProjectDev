@@ -2,7 +2,6 @@ package com.example.microgrowth.DAO.Entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,13 +23,10 @@ import java.util.List;
         float Amount;
 
         float COVER=100;
-    long CURRENT_WITHDRAWAL_PER_DAY=300;
-    long CURRENT_CARDPAYMENT_PER_DAY=300;
-    long CURRENT_BANKTRANSFER_PER_DAY=300;
+
     long MAX_WITHDRAWL_PER_DAY = 300;
     long MAX_CARDPAYMENT_PER_DAY = 300;
     long MAX_BANKTRANSFER_PER_DAY=300;
-
 
     int MAX_OCC_PER_DAY = 3;
 

@@ -91,7 +91,7 @@ public class TrainingService implements ITrainingService {
         //List<User> listU = trainingRepository.selectUsers();
 
         for(User us : trainingRepository.selectUsers()) {
-            senderService.sendEmail(us.getEmail(), " Evenement PréExpiré", "Evenement Expiré", "C:/Users/ASUS/OneDrive/Bureau/pidev/logo.pdf");
+            senderService.sendEmail(us.getEmail(), " Evenement PréExpiré", "Evenement Expiré", "C:/Users/HP/Documents/mir.pdf");
         }
     }
 
