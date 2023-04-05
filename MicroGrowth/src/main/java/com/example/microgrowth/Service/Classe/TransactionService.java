@@ -130,6 +130,7 @@ if (t.getTypeTransaction().equals(Type_Transaction.WITHDRAWAL))    {        if(t
             }}
            else throw new NotFoundException("withdrawal not allowed");
         }
+        @Override
     public void makePayment(Transaction t) {
         List<Transaction> toDayTransactions = transactionRepository
                 .findAllByDateTransactionAndRibSource(new Date(), t.getRibSource())
