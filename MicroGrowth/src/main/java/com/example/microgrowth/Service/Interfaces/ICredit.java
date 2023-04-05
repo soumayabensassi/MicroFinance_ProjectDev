@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ICredit {
     
-    Credit add_credit_user(Credit c);
+    String add_credit_user(Credit c);
 
     Credit add_credit_admin(Credit c);
 
