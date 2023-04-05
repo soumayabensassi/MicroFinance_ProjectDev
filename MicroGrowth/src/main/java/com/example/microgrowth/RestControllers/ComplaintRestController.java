@@ -112,8 +112,8 @@ EmailSenderService emailSenderService;
     }
     @RequestMapping("/stat")
     public String statistique(){
-         Double satisfait=complaintRepository.calculsatisfait(RetourComplaint.SATISFAIT)/complaintRepository.totale();
-        Double nonsatisfait=complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale();
+         Double satisfait=(complaintRepository.calculsatisfait(RetourComplaint.SATISFAIT)/complaintRepository.totale())*100;
+        Double nonsatisfait=(complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale())*100;
         String satis=Double.toString(satisfait);
         String nonsatis=Double.toString(nonsatisfait);
         return "Le pourcentage des users satisfaits :"+satis+"%\n Le pourcentage des users non satisfaits"+nonsatis+"%";
