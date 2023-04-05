@@ -34,7 +34,7 @@ public class TransactionRestController {
     @Autowired
     private TransactionService service;
 
-    @GetMapping("/export/pdf")
+    @GetMapping("/user/export/pdf")
     public void exportToPDF(HttpServletResponse response,@RequestParam String Rib) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -51,30 +51,30 @@ public class TransactionRestController {
 
     }
 
-    @GetMapping("/showTransaction")
+    @GetMapping("/user/showTransaction")
     public List<Transaction> afficher()
     {
         return iTransaction.selectAll();
     }
 
-    @PostMapping("/addTransaction")
+    @PostMapping("/admin/addTransaction")
 
     public Transaction ajouter(@RequestBody Transaction transaction)
     {
         return iTransaction.add(transaction);
     }
 
-    @PutMapping("/updateTransaction")
+    @PutMapping("/admin/updateTransaction")
     public Transaction update(@RequestBody Transaction transaction)
     {return iTransaction.edit(transaction);}
 
-    @GetMapping("/showTransactionByID/{id}")
+    @GetMapping("/admin/showTransactionByID/{id}")
     public Transaction AfficherByID(@PathVariable int id)
     {
         return iTransaction.SelectById(id);
     }
 
-    @DeleteMapping("/deleteTransaction/{id}")
+    @DeleteMapping("/admin/deleteTransaction/{id}")
     public void delete(@PathVariable int id)
     {
         iTransaction.deleteById(id);
@@ -82,26 +82,26 @@ public class TransactionRestController {
 
 
 
-    @PostMapping("/makeDeposit")
+    @PostMapping("/user/makeDeposit")
     public ResponseEntity<String> makeDeposit(@RequestBody Transaction t){
         iTransaction.makeDeposit(t);
         return ResponseEntity.ok().body("Deposit Successful");
 
     }
-    @PostMapping("/makeWithdrawal")
+    @PostMapping("/user/makeWithdrawal")
     public ResponseEntity<String> makeWithdrawal(@RequestBody Transaction t){
         iTransaction.makeWithdrawal(t);
             return ResponseEntity.ok().body("Withdrawal Successful");
 
     }
 
-    @PostMapping("makeTransfer")
+    @PostMapping("/user/makeTransfer")
     public ResponseEntity<String> makeTransfer(@RequestBody Transaction t){
         iTransaction.makeTransfer(t);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Transfer Successful");
     }
 
-    @PostMapping("makePayment")
+    @PostMapping("/user/makePayment")
     public ResponseEntity<String> makePayment(@RequestBody Transaction t){
         iTransaction.makeTransfer(t);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Payment successful");
