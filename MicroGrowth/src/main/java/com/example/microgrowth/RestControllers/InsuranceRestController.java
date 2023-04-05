@@ -146,11 +146,8 @@ public class InsuranceRestController {
         for (String e:iInsuranceService.getUserEmail(date))
              {
                  System.out.println(e);
-<<<<<<< Updated upstream
             emailReceiptInsurance.sendHtmlEmail(e,"Insurance",emailReceiptInsurance.EmailReceipt("Hello User",10,"This is your",date));
-=======
-            emailReceiptInsurance.sendHtmlEmail(e,"Insurance",emailReceiptInsurance.EmailReceipt("User",10,"This is your",date_now));
->>>>>>> Stashed changes
+
         }
     }
 
