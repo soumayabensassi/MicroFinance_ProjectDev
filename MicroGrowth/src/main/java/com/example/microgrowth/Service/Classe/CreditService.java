@@ -615,9 +615,9 @@ public double MaxCredit(int nbmois){
         User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
         String smtpHost = "smtp.gmail.com";
         String smtpPort = "587";
-        String smtpUsername = "soumaya.bensasi@gmail.com";
-        String smtpPassword = "dqkzvtpkbedszvcq";
-        String sender = "soumaya.bensasi@gmail.com";
+        String smtpUsername = "microfinance.pidev@gmail.com";
+        String smtpPassword = "eouuvoarsmurejid";
+        String sender = "microfinance.pidev@gmail.com";
         String subject = "Montant maximum du Crédit";
 
         Properties props = new Properties();

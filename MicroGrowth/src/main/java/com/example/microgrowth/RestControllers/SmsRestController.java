@@ -17,7 +17,7 @@ public class SmsRestController {
     @GetMapping(value = "/sendSMS")
     public ResponseEntity<String> sendSMS() {
 
-        Twilio.init("ACbefcebcd919893a1dd413e7a6c06d7fd", "5c8080a85e3b4eb905967b4d5b0a2e59");
+//        Twilio.init("ACbefcebcd919893a1dd413e7a6c06d7fd", "dfa1b6f93845e9377b10517a0fc1d792");
 
         Message.creator(new PhoneNumber("+21653367057"),
                 new PhoneNumber("+15075843922"), "Hello from Twilio 📞").create();
