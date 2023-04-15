@@ -41,7 +41,7 @@ public class PublicationRestControllers {
         publication.setUsers(iUser.getUserByEmail(email));
 
         publication.setText(texte);
-            iPublication.add(publication);
+        iPublication.add(publication);
             return "ajout done";
 
 
@@ -67,7 +67,7 @@ public class PublicationRestControllers {
         publication.setState(true);
         iPublication.edit(publication);
     }
-    @PostMapping("/admin/AfficheraprouvePublication")
+    @PostMapping("/AfficheraprouvePublication")
     public List<Publication> AprouvePublication()
     {
 
