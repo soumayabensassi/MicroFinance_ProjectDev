@@ -1,35 +1,48 @@
 package com.example.microgrowth.RestControllers;
+import java.text.*;
 
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Investment;
 import com.example.microgrowth.DAO.Entities.MethodInvestissement;
 import com.example.microgrowth.DAO.Entities.User;
+import com.example.microgrowth.DAO.Repositories.InvestmentRepository;
 import com.example.microgrowth.Service.Classe.BonDeCommandeService;
 import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Classe.UserService;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.Resource;
 
 import javax.mail.MessagingException;
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.util.*;
+import javax.servlet.http.HttpServletResponse;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
+
+
+
+
+
 
 @RestController
 @AllArgsConstructor
 public class InvestmentRestControllers  {
     @Autowired
     private EmailService EmailService;
-    @Autowired
-    private BonDeCommandeService bonDeCommandeService;
+    IMicroGrowth iMicroGrowth;
+   private BonDeCommandeService bonDeCommande;
+    InvestmentRepository investmentRepository;
     @Autowired
     private UserService userService;
     private IInvestment IInvestment;
@@ -41,9 +54,10 @@ public class InvestmentRestControllers  {
         return IInvestment.selectAll();
     }
 
-    @PostMapping("/admin/ajouterInvestment")
-    public Investment ajouter(@RequestBody Investment inv) throws MessagingException{
-        EmailService.sendNotificationEmail("omezzinemariem@gmail.com");
+    @PostMapping("/user/ajouterInvestment")
+    public Investment ajouter(@RequestBody Investment inv){
+        
+        EmailService.sendNotificationEmail(iMicroGrowth.getCurrentUserName());
 
         return IInvestment.add(inv);
     }
@@ -79,20 +93,22 @@ public class InvestmentRestControllers  {
         return Tauxinteret;
     }
 
-    @GetMapping("/{investmentId}/bon-de-commande")
-    public ResponseEntity<byte[]> generateBonDeCommande(@PathVariable int investmentId) {
+   @GetMapping("/user/export/pdfinvestissement")
+    public void exportToPDF(HttpServletResponse response, @RequestParam int id) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
 
-        Investment investment = IInvestment.selectById(investmentId);
-        User user = Iuser.SelectById(investment.getUsers().getIdUser());
-        byte[] pdfBytes = bonDeCommandeService.genererBonDeCommande(user, investment);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.builder("attachment")
-                .filename("bon_de_commande.pdf")
-                .build());
-        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=investments_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
+       List <Investment> listInvestments =  investmentRepository.getlistByidUser(id);
+
+        BonDeCommandeService bonDeCommandeService = new BonDeCommandeService(listInvestments);
+        bonDeCommandeService.export(response);
     }
-    @GetMapping("admin/RevenuIInvesstisement")
+    @GetMapping("/admin/RevenuIInvesstisement")
     public Double getRevenusInvesstisement()
     {
         double resultat=0;
@@ -105,5 +121,20 @@ public class InvestmentRestControllers  {
 
         return  resultat;
     }
+
+    @GetMapping("/admin/ponzii/{iduser}")
+    public List<String> calculerTauxPonzii(@PathVariable int iduser) {
+        return IInvestment.calculerTauxPonzii(iduser);
+    }
+
+    @RestController
+    public class SessionController {
+
+        @GetMapping("/admin/session/{n}/{x}")
+        public double getSession(@PathVariable double n, @PathVariable double x) {
+            return IInvestment.session(n, x);
+        }
+    }
+
 
 }

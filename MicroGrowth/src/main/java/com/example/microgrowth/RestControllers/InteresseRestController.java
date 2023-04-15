@@ -2,16 +2,13 @@ package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.Desinteresse;
 import com.example.microgrowth.DAO.Entities.Interesse;
-import com.example.microgrowth.Service.Interfaces.IDesintresseService;
-import com.example.microgrowth.Service.Interfaces.IInteresseService;
-import com.example.microgrowth.Service.Interfaces.ITrainingService;
-import com.example.microgrowth.Service.Interfaces.IUser;
+import com.example.microgrowth.Service.Interfaces.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sun.security.krb5.internal.crypto.Des;
+
 
 @RestController
 @AllArgsConstructor
@@ -21,10 +18,12 @@ public class InteresseRestController {
     private IInteresseService iInteresseService;
     private IDesintresseService iDesintresseService;
     private ITrainingService iTrainingService;
+    private IMicroGrowth iMicroGrowth;
 
-    @PostMapping("/Interessetraining/{email}/{idtraining}")
-    public void Interessetraining(@PathVariable String email, @PathVariable int idtraining)
+    @PostMapping("/user/Interessetraining/{idtraining}")
+    public void Interessetraining( @PathVariable int idtraining)
     {
+        String email=iMicroGrowth.getCurrentUserName();
         Interesse interesse=iInteresseService.verifInteresse(email,idtraining);
         Desinteresse desinteresse=iDesintresseService.verifDesinsteresse(email,idtraining);
         log.info("likes is : {}",interesse);

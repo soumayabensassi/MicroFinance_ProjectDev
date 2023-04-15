@@ -1,5 +1,6 @@
 package com.example.microgrowth.Service.Interfaces;
 
+import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.DAO.Entities.User;
 
 
@@ -15,5 +16,7 @@ public interface IUser {
     User SelectById(int id);
     void deleteById(int id);
     User getUserByEmail(String email);
+    User getUserById(int id);
+    //List<User> searchUser(String query);
 }
 
