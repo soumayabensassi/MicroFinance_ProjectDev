@@ -134,7 +134,7 @@ public class InsuranceRestController {
     }
     private IUser iUser;
     private EmailReceiptInsurance emailReceiptInsurance;
-    @Scheduled(fixedRate = 20000)
+    //@Scheduled(fixedRate = 20000)
     //@Scheduled(cron = "0 0 0 * * ?")
     public void SendReceiptEmail() throws MessagingException
     { LocalDate date_now =  LocalDate.now();
