@@ -22,7 +22,7 @@ public class Complaint implements Serializable {
     int idComplaint;
     //@Temporal(TemporalType.DATE)
     //@NotNull(message = "Le champ nom ne peut pas être vide")
-    LocalDateTime date;
+    Date date;
     //@NotNull(message = "Le champ nom ne peut pas être vide")
     String subject;
    // @NotNull(message = "Le champ nom ne peut pas être vide")
