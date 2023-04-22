@@ -21,21 +21,23 @@ public class Training implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idTraining;
-    @NotNull(message = "Ce champ  ne peut pas être vide")
+    //@NotNull(message = "Ce champ  ne peut pas être vide")
+    @Column(nullable = false)
     String title;
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
+    // @NotNull(message = "Le champ nom ne peut pas être vide")
     Date startDate;
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     Date finishdate;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+
     boolean state;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     float price;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     int nbrOfPlace;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     String subject;
     @ManyToMany
     List<User> userList;

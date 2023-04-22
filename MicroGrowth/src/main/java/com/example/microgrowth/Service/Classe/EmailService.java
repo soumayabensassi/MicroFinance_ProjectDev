@@ -303,7 +303,7 @@ public String forgetpassword(String email) {
                 "\n" +
                 "MicroGrowth");
         msg.setTo(userEmail);
-        msg.setFrom("myriambrahmi23@gmail.com");
+        msg.setFrom("microfinance.pidev@gmail.com");
 
         // Envoyer le message
         javaMailSender.send(msg);

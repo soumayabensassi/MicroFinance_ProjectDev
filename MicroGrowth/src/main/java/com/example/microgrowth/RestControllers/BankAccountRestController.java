@@ -14,30 +14,30 @@ public class BankAccountRestController {
 public IBankAccount iBankAccount;
 
 
-    @GetMapping("/showBankAccount")
+    @GetMapping("/admin/showBankAccount")
     public List<BankAccount> afficher()
     {
         return iBankAccount.selectAll();
     }
 
-    @PostMapping("/addBankAccount")
+    @PostMapping("/admin/addBankAccount")
 
     public BankAccount ajouter(@RequestBody BankAccount bankAccount)
     {
         return iBankAccount.add(bankAccount);
     }
 
-    @PutMapping("/updateBankAccount")
+    @PutMapping("/admin/updateBankAccount")
     public BankAccount update(@RequestBody BankAccount bankAccount)
     {return iBankAccount.edit(bankAccount);}
 
-    @GetMapping("/showBankAccount/{id}")
+    @GetMapping("/admin/showBankAccount/{id}")
     public BankAccount AfficherByID(@PathVariable int id)
     {
         return iBankAccount.SelectById(id);
     }
 
-    @DeleteMapping("/deleteBankAccount/{id}")
+    @DeleteMapping("/admin/deleteBankAccount/{id}")
     public void delete(@PathVariable int id)
     {
         iBankAccount.deleteById(id);

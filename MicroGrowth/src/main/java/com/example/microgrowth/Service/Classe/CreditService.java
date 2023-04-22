@@ -44,8 +44,10 @@ public class CreditService implements ICredit {
 
 
     @Override
-    public Credit add_credit_user(Credit c) {
+    public String add_credit_user(Credit c) {
         Calendar calendar = Calendar.getInstance();
+        String messageA="Le montant doit etre positif";
+        String messageB="Ajout avec succès";
         //calendar.setTime(c.getObtainingDate());
 // Ajouter 30 jours à la date
         calendar.add(Calendar.DATE, 30);
@@ -67,8 +69,13 @@ public class CreditService implements ICredit {
         // c.setUsers(iMicroGrowth.getUser("aziz2000cherif1@gmail.com"));
         //float ca=calcul_taux(c.getAmount_credit(),c.getDuree() );
         ///c.setIntrestRaiting(ca);
-
-        return creditRepository.save(c);
+        if (c.getAmount_credit()>0) {
+            creditRepository.save(c);
+            System.out.println("Le montant doit etre positif");
+            return messageB;
+        }
+        else {
+        return messageA;}
     }
 
     @Override
@@ -608,9 +615,9 @@ public double MaxCredit(int nbmois){
         User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
         String smtpHost = "smtp.gmail.com";
         String smtpPort = "587";
-        String smtpUsername = "soumaya.bensasi@gmail.com";
-        String smtpPassword = "dqkzvtpkbedszvcq";
-        String sender = "soumaya.bensasi@gmail.com";
+        String smtpUsername = "microfinance.pidev@gmail.com";
+        String smtpPassword = "eouuvoarsmurejid";
+        String sender = "microfinance.pidev@gmail.com";
         String subject = "Montant maximum du Crédit";
 
         Properties props = new Properties();

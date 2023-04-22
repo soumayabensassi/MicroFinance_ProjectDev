@@ -54,7 +54,7 @@ public class ProjetRestController {
     public void recalculerObligation(@PathVariable Long projetId,@RequestParam("investment") double investment){
         iProjet.recalculerObligation(projetId,investment);
     }
-    @PostMapping("/admin/stockInterest")
+    @PostMapping("/stockInterest")
     public Double calculateAnnualReturn(
             @RequestParam("purchasePrice") Double purchasePrice,
             @RequestParam("currentPrice") Double currentPrice,

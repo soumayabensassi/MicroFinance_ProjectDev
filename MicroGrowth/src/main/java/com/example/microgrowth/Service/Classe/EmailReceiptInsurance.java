@@ -39,7 +39,7 @@ public class EmailReceiptInsurance {
                 "        <tr>\n" +
                 "          <td class=\"email-masthead\">\n" +
                 "            <a href=\"https://example.com\" class=\"f-fallback email-masthead_name\">\n" +
-                "            [ MicroGrowth ]\n" +
+                "             MicroGrowth \n" +
                 "          </a>\n" +
                 "          </td>\n" +
                 "        </tr>\n" +
@@ -55,12 +55,12 @@ public class EmailReceiptInsurance {
                 "                    <p>Thanks for choosing [MicroGrowth]. This email is the receipt for your insurance payment. No payment is due.</p>\n" +
                 "                    <p>This payment will appear as “Deposit” on your credit card statement.</p>\n" +
                 "                    <table class=\"purchase\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n" +
-                "                      {{#each purchases}}\n" +
+                "                      \n" +
                 "                      <tr>\n" +
                 "                        <td width=\"80%\" class=\"purchase_item\"><span class=\"f-fallback\">" + description + "</span></td>\n" +
                 "                        <td class=\"align-right\" width=\"20%\" class=\"purchase_item\"><span class=\"f-fallback\">" + amount + "</span></td>\n" +
                 "                      </tr>\n" +
-                "                      {{/each}}\n" +
+                "                      \n" +
                 "                      <tr>\n" +
                 "                        <td width=\"80%\" class=\"purchase_footer\" valign=\"middle\">\n" +
                 "                          <p class=\"f-fallback purchase_total purchase_total--label\">Total</p>\n" +
@@ -71,7 +71,7 @@ public class EmailReceiptInsurance {
                 "                      </tr>\n" +
                 "                    </table>\n" +
                 "                    <p>If you have any questions about this receipt, simply reply to this email or reach out to our <a href=\"" + supportUrl + "\">support team</a> for help.</p>\n" +
-                "                    <p>Cheers,\n" +
+                "                    <p>Sincerely,\n" +
                 "                      <br>The MicroGrowth team</p>\n" +
                 "<table class=\"email-wrapper\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\">\n" +
                 "  <tr>\n" +
@@ -103,7 +103,7 @@ public class EmailReceiptInsurance {
                 "                          <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\n" +
                 "                            <tr>\n" +
                 "                              <td align=\"center\">\n" +
-                "                                <a href=\"{{action_url}}\" class=\"f-fallback button button--blue\" target=\"_blank\">Download as PDF</a>\n" +
+                "                                <a href=\" class=\"f-fallback button button--blue\" target=\"_blank\">Download as PDF</a>\n" +
                 "                              </td>\n" +
                 "                            </tr>\n" +
                 "                          </table>\n" +
@@ -126,7 +126,7 @@ public class EmailReceiptInsurance {
                 "            <tr>\n" +
                 "              <td class=\"content-cell\" align=\"center\">\n" +
                 "                <p class=\"f-fallback sub align-center\">\n" +
-                "                  [MicroGrowth, Marketing Team]\n" +
+                "                  MicroGrowth, Marketing Team\n" +
                 "                  <br>Esprit\n" +
                 "                  <br>Pleasure making business with you ! \n" +
                 "                </p>\n" +

@@ -17,7 +17,7 @@ public interface IBankAccount {
     void resetLimit();
 
     @Scheduled(cron = "0 0 1 * * ")
-    abstract void notifUpdate();
+     void notifUpdate();
 
     //void notifUpdate();
 

@@ -1,11 +1,21 @@
 package com.example.microgrowth.Model;
 
-import java.util.Map;
+import lombok.AllArgsConstructor;
 
+import java.util.Map;
+@AllArgsConstructor
 public class WebhookResponse {
+
     private String fulfillmentText;
     private String source;
     private Map<String, Object> payload;
+
+    public WebhookResponse(String fulfillmentText) {
+        this.fulfillmentText = fulfillmentText ;
+    }
+    public WebhookResponse (){
+
+    }
 
     public String getFulfillmentText() {
         return fulfillmentText;

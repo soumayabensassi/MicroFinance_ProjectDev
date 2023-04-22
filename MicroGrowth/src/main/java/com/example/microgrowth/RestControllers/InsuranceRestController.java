@@ -27,7 +27,7 @@ import java.util.List;
 public class InsuranceRestController {
     private IInsuranceService iInsuranceService;
 
-    @GetMapping("/afficher-insurance")
+    @GetMapping("/admin/afficher-insurance")
     public List<Inssurance> afficher() {
         return iInsuranceService.selectAll();
 
@@ -44,18 +44,18 @@ public class InsuranceRestController {
 
     }
 
-    @PutMapping("/update-Insurance")
+    @PutMapping("/admin/update-Insurance")
     public Inssurance update(@RequestBody Inssurance inssurance) {
         return iInsuranceService.edit(inssurance);
     }
 
-    @GetMapping("/afficherAvecIdInsurance/{idInsurance}")
+    @GetMapping("/admin/afficherAvecIdInsurance/{idInsurance}")
 
     public Inssurance afficherAvecIdInsurance(@PathVariable int idInsurance) {
         return iInsuranceService.selectById(idInsurance);
     }
 
-    @DeleteMapping("/deleteInsurance/{idInsurance}")
+    @DeleteMapping("/admin/deleteInsurance/{idInsurance}")
     public void delete(@PathVariable int idInsurance) {
 
         iInsuranceService.deleteById(idInsurance);
@@ -95,7 +95,7 @@ public class InsuranceRestController {
 
     private ICredit iCredit;
 
-    @PostMapping("/insurancerequestC")
+    @PostMapping("/admin/insurancerequestC")
     public String applyForInsuranceC(@RequestParam int income, @RequestParam String mail, @RequestParam int Score) {
 
 
@@ -147,17 +147,14 @@ public class InsuranceRestController {
              {
                  System.out.println(e);
             emailReceiptInsurance.sendHtmlEmail(e,"Insurance",emailReceiptInsurance.EmailReceipt("Hello User",10,"This is your",date));
+
         }
     }
 
-    @PostMapping
-    public String handleInsuranceInterface(@RequestBody String message) {
-        // handle incoming message and redirect to appropriate URL
-        if (message.equals("insurance")) {
-            return "redirect:/api/insurances";
-        } else {
-            return "redirect:/home";
-        }
+
+    @PostMapping("/calculateTotalAmount")
+    public float calculateTotalAmount ( @RequestParam int id , @RequestParam float interestRate){
+        return iInsuranceService.selectById(id).getAmount()*(1+interestRate);
     }
 
 }
