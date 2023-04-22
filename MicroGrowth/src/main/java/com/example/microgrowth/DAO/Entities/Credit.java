@@ -45,6 +45,8 @@ public class Credit implements Serializable {
     User users;
 
     @ManyToOne
+    @JsonIgnore
+
     ActivitySector activiteSecteurs;
      @OneToOne (cascade = CascadeType.ALL)
      Intreview intreviews;

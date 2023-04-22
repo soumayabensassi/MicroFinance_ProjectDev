@@ -30,7 +30,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+@CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class CreditRestController {
@@ -218,5 +218,9 @@ EmailService emailService;
     void AccepterCredit(@PathVariable int id){
 
         iCredit.AffecterCreditAuUser(creditRepository.findById(id).get());
+    }
+    @GetMapping("/user/afficherPacks")
+    public List<Credit> afficherPacks(){
+        return creditRepository.CreditsPack();
     }
 }
