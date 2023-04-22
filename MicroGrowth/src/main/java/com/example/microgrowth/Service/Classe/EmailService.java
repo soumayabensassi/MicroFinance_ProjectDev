@@ -55,7 +55,7 @@ public String forgetpassword(String email) {
     );
     passwordTokenRepository.save(resetToken);
 
-    String link = "http://localhost:8082/MicroGrowth/user/email/reset/"+token+"/"+email;
+    String link = "http://localhost:4200/updatepPassword/"+token+"/"+email;
     emailSender.send(email, buildEmailReset(u.getFirstName()+' '+ u.getLasttName(),link));
     return token;
 }
@@ -69,7 +69,7 @@ public String forgetpassword(String email) {
         }
 
         User u = userRepo.findByEmail(email);//.orElse(null);
-        String link = "http://localhost:8082/MicroGrowth/user/ConfirmeCompte/"+email;
+        String link = "http://localhost:4200/confirmeCompte/"+email;
         emailSender.send(email, BuildConfirmeCompte(u.getFirstName()+' '+ u.getLasttName(),link));
     }
 
@@ -98,30 +98,6 @@ public String forgetpassword(String email) {
         userRepo.resetPassword(encodedPassword, email);
         return "confirmed";
     }
-
-//    @Transactional
-//    public String confirmToken(String token) {
-//        ConfirmationToken confirmationToken = confirmationTokenService
-//                .getToken(token)
-//                .orElseThrow(() ->
-//                        new IllegalStateException("token not found"));
-//
-//        if (confirmationToken.getConfirmedAt() != null) {
-//            throw new IllegalStateException("email already confirmed");
-//        }
-//
-//        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
-//
-//        if (expiredAt.isBefore(LocalDateTime.now())) {
-//            throw new IllegalStateException("token expired");
-//        }
-//
-//        confirmationTokenService.setConfirmedAt(token);
-//        appUserService.enableAppUser(
-//                confirmationToken.getUser().getEmail());
-//        return "confirmed";
-//    }
-
 
     private String buildEmailReset(String name, String link) {
     //return "<p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for calling us. Please click on the below link to reset your password: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> " + link + " <br> <p> Activate Now </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>";
@@ -288,8 +264,20 @@ public String forgetpassword(String email) {
 
     public void sendPenaliteEmail(String userEmail) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setSubject("You have depassed 3 penalities");
-        msg.setText("You have depassed 3 penalities");
+        msg.setSubject("Avertissement pour dépassement de pénalités");
+        msg.setText("Cher Mr,\n" +
+                "\n" +
+                "Nous vous écrivons pour vous informer que vous avez dépassé les trois pénalités autorisées pour le mois en cours. Comme vous le savez, notre entreprise a une politique stricte en matière de retards de paiement afin d'assurer une relation commerciale saine et équitable avec tous nos clients.\n" +
+                "\n" +
+                "Nous vous rappelons que chaque pénalité entraîne des frais supplémentaires qui s'accumulent avec le temps et peuvent avoir un impact négatif sur votre cote de crédit. Nous vous encourageons donc à régler rapidement vos paiements afin d'éviter de nouveaux frais.\n" +
+                "\n" +
+                "Nous sommes conscients que des retards de paiement peuvent arriver à tout le monde, et nous sommes toujours prêts à trouver des solutions pour vous aider à respecter vos obligations financières. Si vous avez des difficultés pour payer vos factures, nous vous invitons à nous contacter immédiatement pour discuter des options de paiement possibles.\n" +
+                "\n" +
+                "Nous espérons que cette situation sera résolue rapidement, et nous vous remercions de votre compréhension.\n" +
+                "\n" +
+                "Cordialement,\n" +
+                "\n" +
+                "MicroGrowth");
         msg.setTo(userEmail);
         msg.setFrom("microfinance.pidev@gmail.com");
 
@@ -298,6 +286,26 @@ public String forgetpassword(String email) {
         System.out.println("email sent succefully");
     }
 
+    public void sendCalcukCredit(User user) {
+        float salaire = user.getSalaire();
+        if (salaire < 2000 && salaire > 800) {
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setSubject("Montant Credit");
+
+            double montant = ((((salaire * 0.43)) * 12) / 1.2) * 5;
+            String m = Double.toString(montant);
+            msg.setText("You can have a loan of " + m);
+            // msg.setText("taux : 20%");
+            msg.setTo(user.getEmail());
+            msg.setFrom("myriambrahmi23@gmail.com");
+
+            // Envoyer le message
+            javaMailSender.send(msg);
+            System.out.println("email sent succefully");
+        }
+
+
+    }
     public void sendNotificationEmailComplaint(String userEmail) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject("Réception de réclamation confirmé");

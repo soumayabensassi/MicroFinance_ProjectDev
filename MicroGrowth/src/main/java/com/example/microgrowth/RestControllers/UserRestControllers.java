@@ -15,8 +15,10 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class UserRestControllers {
     private IUser iUser;
+    private IMicroGrowth iMicroGrowth;
     private EmailService emailService;
     @GetMapping("/admin/afficheruser")
     public List<User> afficher()
@@ -64,6 +66,11 @@ public class UserRestControllers {
     {
         return iUser.SelectById(id);
     }
+    @GetMapping("/AfficherUserByemail/{email}")
+    public User AfficherByemail(@PathVariable String email)
+    {
+        return iUser.getUserByEmail(email);
+    }
     @DeleteMapping("/admin/deleteUserbyID/{id}")
     public void delete(@PathVariable int id)
     {
@@ -75,5 +82,10 @@ public class UserRestControllers {
         User u=iUser.getUserByEmail(email);
         u.setActive(true);
         iUser.edit(u);
+    }
+    @GetMapping("/session")
+    public User getUSerCnnetcte()
+    {
+        return iUser.getUserByEmail( iMicroGrowth.getCurrentUserName());
     }
 }

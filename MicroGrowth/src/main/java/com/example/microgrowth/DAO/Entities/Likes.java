@@ -16,7 +16,6 @@ public class Likes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idLike;
-    int nbr;
     @ManyToOne
     User users;
     @ManyToOne

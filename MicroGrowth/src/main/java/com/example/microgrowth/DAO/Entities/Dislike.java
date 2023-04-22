@@ -17,7 +17,6 @@ public class Dislike implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idDislike;
-    int nbr;
     @ManyToOne
     User users;
     @ManyToOne

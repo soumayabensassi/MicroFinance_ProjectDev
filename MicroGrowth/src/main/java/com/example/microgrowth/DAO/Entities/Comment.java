@@ -21,7 +21,6 @@ public class Comment implements Serializable {
     @Column(nullable = false)
     String text;
     @ManyToOne
-    @JsonIgnore
     User users;
     @ManyToOne
     Publication publications;

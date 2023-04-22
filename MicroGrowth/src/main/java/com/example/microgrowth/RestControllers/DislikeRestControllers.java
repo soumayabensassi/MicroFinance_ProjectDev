@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class DislikeRestControllers {
     private IDislike iDislike;
     private ILike iLike;
@@ -18,9 +19,9 @@ public class DislikeRestControllers {
     private IPublication iPublication;
     private IComment iComment;
     private IMicroGrowth iMicroGrowth;
-    @PostMapping("/user/DislikerPublication/{idpublication}")
-    public void Dislikerunepublication(@PathVariable int idpublication)
-    { String email=iMicroGrowth.getCurrentUserName();
+    @PostMapping("/user/DislikerPublication/{idpublication}/{email}")
+    public void Dislikerunepublication(@PathVariable int idpublication,@PathVariable String email)
+    { //String email=iMicroGrowth.getCurrentUserName();
         Likes likes=iLike.verifLikePublication(email,idpublication);
         Dislike dislike=iDislike.verifDislikePublication(email,idpublication);
         if (likes==null && dislike == null) {
@@ -32,9 +33,9 @@ public class DislikeRestControllers {
             iDislike.add(d);
         } else  iDislike.deleteById(dislike.getIdDislike());
     }
-    @PostMapping("/user/DislikerComment/{idComment}")
-    public void DislikerunCommant(@PathVariable int idComment)
-    {   String email=iMicroGrowth.getCurrentUserName();
+    @PostMapping("/user/DislikerComment/{idComment}/{email}")
+    public void DislikerunCommant(@PathVariable int idComment,@PathVariable String email)
+    {   //String email=iMicroGrowth.getCurrentUserName();
         Likes likesComment=iLike.verifLikeComment(email,idComment);
         Dislike dislikeComment=iDislike.verifDislikeComment(email,idComment);
         if (likesComment==null && dislikeComment == null) {
@@ -45,5 +46,10 @@ public class DislikeRestControllers {
             Dislike d=new Dislike(iUser.getUserByEmail(email),iComment.SelectById(idComment));
             iDislike.add(d);
         } else  iDislike.deleteById(dislikeComment.getIdDislike());
+    }
+    @GetMapping("totalDisLike/{id}")
+    public int  getTotalDislike(@PathVariable int id)
+    {
+        return iDislike.totalDisLike(id);
     }
 }

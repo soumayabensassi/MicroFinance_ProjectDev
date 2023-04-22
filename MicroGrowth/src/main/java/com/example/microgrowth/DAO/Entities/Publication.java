@@ -24,7 +24,6 @@ public class Publication implements Serializable {
     String text;
     Boolean state = false;
     @ManyToOne
-    @JsonIgnore
     User users;
     @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL)
     @JsonIgnore
