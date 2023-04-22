@@ -17,5 +17,6 @@ public interface ITransaction {
     void makeTransfer(Transaction t);
     void makeWithdrawal(Transaction t);
 
+     void makePayment( Transaction t);
 
 }

@@ -31,6 +31,7 @@ public class ComplaintRestController {
     private EmailService senderService;
     private IComplaintService iComplaintService;
     private ComplaintService complaintService;
+    IMicroGrowth iMicroGrowth;
     private  ComplaintRepository complaintRepository;
     private IMicroGrowth  iMicroGrowth;
     @GetMapping("/admin/afficherC")
@@ -42,9 +43,15 @@ public class ComplaintRestController {
     public Complaint ajouterC(@RequestBody Complaint complaint){
         Date d=new Date();
         complaint.setDate(d);
+<<<<<<< HEAD
         // for(User us : complaintRepository.selectUsers()) {
         senderService.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
         // }
+=======
+       // for(User us : complaintRepository.selectUsers()) {
+            senderService.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
+       // }
+>>>>>>> main
         complaint.setState(false);
         return iComplaintService.add(complaint);
     }
@@ -112,8 +119,8 @@ EmailSenderService emailSenderService;
     }
     @RequestMapping("/stat")
     public String statistique(){
-         Double satisfait=complaintRepository.calculsatisfait(RetourComplaint.SATISFAIT)/complaintRepository.totale();
-        Double nonsatisfait=complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale();
+         Double satisfait=(complaintRepository.calculsatisfait(RetourComplaint.SATISFAIT)/complaintRepository.totale())*100;
+        Double nonsatisfait=(complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale())*100;
         String satis=Double.toString(satisfait);
         String nonsatis=Double.toString(nonsatisfait);
         return "Le pourcentage des users satisfaits :"+satis+"\n Le pourcentage des users non satisfaits"+nonsatis;

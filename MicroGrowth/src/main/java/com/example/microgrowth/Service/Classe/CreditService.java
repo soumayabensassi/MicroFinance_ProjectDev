@@ -39,9 +39,15 @@ public class CreditService implements ICredit {
     @Autowired
     IInvestment iInvestment;
     @Override
-    public Credit add_credit_user(Credit c) {
+    public String add_credit_user(Credit c) {
         Calendar calendar = Calendar.getInstance();
+<<<<<<< HEAD
         calendar.setTime(c.getObtainingDate());
+=======
+        String messageA="Le montant doit etre positif";
+        String messageB="Ajout avec succès";
+        //calendar.setTime(c.getObtainingDate());
+>>>>>>> main
 // Ajouter 30 jours à la date
         calendar.add(Calendar.DATE, 30);
         Date dateApresAjout = calendar.getTime();
@@ -52,8 +58,13 @@ public class CreditService implements ICredit {
         c.setDemandDate(date_now);
         //float ca=calcul_taux(c.getAmount_credit(),c.getDuree() );
         ///c.setIntrestRaiting(ca);
-
-        return creditRepository.save(c);
+        if (c.getAmount_credit()>0) {
+            creditRepository.save(c);
+            System.out.println("Le montant doit etre positif");
+            return messageB;
+        }
+        else {
+        return messageA;}
     }
 
     @Override
@@ -413,6 +424,204 @@ public class CreditService implements ICredit {
     }
 
 
+<<<<<<< HEAD
+=======
+    @Override
+    public void RefuserCreditAuUser(Credit credit) {
+        credit.setState(0);
+        creditRepository.save(credit);//1:en cours  0:refus  2:accordé
+    }
+
+    @Override
+    public float calculateInterestRate(Credit c) {
+
+        float baseInterestRate = 0.2f; // taux d'intérêt de base pour la microfinance
+        float interestRate = baseInterestRate;
+        User user = userRepository.findById(c.getUsers().getIdUser()).orElse(null);
+        Date date_now = new Date();
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        String yearString = yearFormat.format(date_now);
+        int year1 = Integer.parseInt(yearString);
+
+        SimpleDateFormat yearFormat2 = new SimpleDateFormat("yyyy");
+        String yearString2 = yearFormat.format(user.getDateNaissance());
+        int year2 = Integer.parseInt(yearString2);
+        // Vérification de l'âge du client
+        int age = year1 - year2;
+
+        double ageFactor = 1.0;
+        if (age < 25) {
+            ageFactor = 1.2; // augmentation de 20% du taux d'intérêt pour les jeunes emprunteurs
+        } else if (age >= 65) {
+            ageFactor = 0.9; // diminution de 10% du taux d'intérêt pour les emprunteurs âgés
+        }
+        interestRate *= ageFactor;
+
+        // Vérification du niveau de revenu du client
+        double income = user.getSalaire();
+        double incomeFactor = 1.0;
+        if (income < 500) {
+            incomeFactor = 1.3; // augmentation de 30% du taux d'intérêt pour les emprunteurs à faible revenu
+        } else if (income >= 1000) {
+            incomeFactor = 0.8; // diminution de 20% du taux d'intérêt pour les emprunteurs à revenu élevé
+        }
+        interestRate *= incomeFactor;
+
+        // Vérification de l'historique de crédit du client
+
+        double creditHistoryFactor = 1.0;
+        if (user.isHistoriqueCredit()==false) {
+            creditHistoryFactor = 1.2; // augmentation de 50% du taux d'intérêt pour les emprunteurs ayant déjà fait défaut
+        }
+            interestRate *= creditHistoryFactor;
+
+            // Vérification de la durée du prêt
+            int loanTerm =c.getDuree();
+            double loanTermFactor = 1.0;
+            if (loanTerm < 6) {
+                loanTermFactor = 1.3; // augmentation de 30% du taux d'intérêt pour les prêts de courte durée
+            } else if (loanTerm > 12) {
+                loanTermFactor = 0.9; // diminution de 10% du taux d'intérêt pour les prêts de longue durée
+            }
+            interestRate *= loanTermFactor;
+
+            // Vérification du montant du prêt demandé par le client
+            double loanAmount = c.getAmount_credit();
+            double loanAmountFactor = 1.0;
+            if (loanAmount > 2000) {
+                loanAmountFactor = 1.2; // augmentation de 20% du taux d'intérêt pour les montants de prêt élevés
+            }
+            interestRate *= loanAmountFactor;
+
+            return interestRate;
+
+        }
+        public void SimulateurCredit(float MontantCredit , int nbmois){
+            double taux = 0.23  ;
+//            float salaire=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()).getSalaire();
+
+
+            double tauxMensuel = taux / 12;
+            double mensualite = (MontantCredit * tauxMensuel) / (1 - Math.pow(1 + tauxMensuel, -nbmois));
+            System.out.println("Le Montant est :"+ MontantCredit);
+            System.out.println("Taux d'intérêt annuel : " + taux);
+            System.out.println("Mensualité : " + mensualite);
+            System.out.println("Coût total sans assurance : " + (mensualite * nbmois - MontantCredit));
+
+
+        }
+public double MaxCredit(int nbmois){
+       User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
+        double taux=0.23;
+        double tauxMensuel = taux / 12;
+        double MaxCredit=((user.getSalaire()*0.43)*(1 - Math.pow(1 + tauxMensuel, -nbmois))) / tauxMensuel;
+        return MaxCredit;
+}
+    public File genererCreditPDF(int nbmois) throws IOException, DocumentException {
+        User user = iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
+        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("credit.pdf"));
+
+        // Ajouter le header
+        HeaderFooter header = new HeaderFooter(new Phrase("MicroGrowth"), false);
+        header.setAlignment(Element.ALIGN_CENTER);
+        document.setHeader(header);
+
+        // Ajouter le footer
+        Font FooterFont = new Font(Font.HELVETICA, 7, Font.NORMAL);
+
+        Paragraph footerText = new Paragraph("Le résultat de cette simulation est non contractuel et revêt un caractère strictement informatif.\n" +
+                "Elle ne prend pas en compte le coût des assurances nécessaires au crédit, ni la TVA réglementaire. Il ne s’agit en aucun cas\n" +
+                "d’un engagement de la part de MicroGrowth qui se réserve le droit de modifier à tout moment l’une ou l’autre des données et des\n" +
+                "conditions de financement de ses offres de crédits.",FooterFont);
+
+        footerText.setSpacingBefore(10f); // ajoute un espace de 10 points avant le texte du footer
+
+        HeaderFooter footer = new HeaderFooter(footerText, new Phrase(" - Page ",FooterFont));
+        footer.setAlignment(Element.ALIGN_LEFT);
+        document.setFooter(footer);
+
+
+        // Ouvrir le document
+        document.open();
+
+        // Ajouter le logo
+        Image logo = Image.getInstance("logo_MicroGrowth.png");
+        logo.scaleAbsolute(100f, 100f);
+        logo.setAlignment(Element.ALIGN_CENTER);
+        document.add(logo);
+
+        // Ajouter les informations du contrat
+        double max = MaxCredit(nbmois);
+        Font boldFont = new Font(Font.HELVETICA, 16, Font.BOLD);
+        Font normalFont = new Font(Font.HELVETICA, 12, Font.NORMAL);
+        Paragraph montantMax = new Paragraph("Montant maximum : " + max + " dinars", boldFont);
+        montantMax.setSpacingAfter(20f);
+        document.add(montantMax);
+
+        Paragraph mensualite = new Paragraph("Mensualité : " + user.getSalaire()*0.43 + " dinars", normalFont);
+        mensualite.setSpacingAfter(20f);
+        document.add(mensualite);
+
+        Paragraph duree = new Paragraph("Durée : " + nbmois + " mois", normalFont);
+        duree.setSpacingAfter(20f);
+        document.add(duree);
+
+        Paragraph taux = new Paragraph("Taux d'intérêt : 0.23%", normalFont);
+        taux.setSpacingAfter(20f);
+        document.add(taux);
+
+
+        // Fermer le document
+        document.close();
+        return null;
+    }
+    public void envoyerCreditParEmail() throws javax.mail.MessagingException {
+        User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
+        String smtpHost = "smtp.gmail.com";
+        String smtpPort = "587";
+        String smtpUsername = "microfinance.pidev@gmail.com";
+        String smtpPassword = "eouuvoarsmurejid";
+        String sender = "microfinance.pidev@gmail.com";
+        String subject = "Montant maximum du Crédit";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", smtpHost);
+        props.put("mail.smtp.port", smtpPort);
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(smtpUsername, smtpPassword);
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(sender));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+        message.setSubject(subject);
+
+        // Créer le contenu du message
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setText("Bonjour Mr"+ user.getLasttName()+" "+ user.getFirstName() + ",\n\nVeuillez trouver ci-joint le montant maximal que vous pouvez emprunter \""  + "\".");
+
+        // Créer la pièce jointe PDF
+        MimeBodyPart pdfAttachment = new MimeBodyPart();
+        DataSource source = new FileDataSource("credit.pdf");
+        pdfAttachment.setDataHandler(new DataHandler(source));
+        pdfAttachment.setFileName("credit.pdf");
+
+        // Ajouter la pièce jointe PDF au message
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        multipart.addBodyPart(pdfAttachment);
+        message.setContent(multipart);
+        // Envoyer le message
+        Transport.send(message);
+    }
+>>>>>>> main
 
 }
 
