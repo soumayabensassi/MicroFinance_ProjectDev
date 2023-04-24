@@ -69,8 +69,13 @@ public class CreditRestController {
     {
         return iCredit.SelectById(id);
     }
-    @DeleteMapping("/deleteCredit/{id}")
+    @DeleteMapping("/admin/deleteCreditAdmin/{id}")
     public void delete(@PathVariable int id)
+    {
+        iCredit.deleteById(id);
+    }
+    @DeleteMapping("/user/deleteCreditUser/{id}")
+    public void deleteCreditUser(@PathVariable int id)
     {
         iCredit.deleteById(id);
     }
