@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,5 +24,6 @@ import java.util.List;
         float interestRate ;
         String image_sector;
     @OneToMany(mappedBy = "activiteSecteurs")
+            @JsonIgnore
     List<Credit> creditList;
 }

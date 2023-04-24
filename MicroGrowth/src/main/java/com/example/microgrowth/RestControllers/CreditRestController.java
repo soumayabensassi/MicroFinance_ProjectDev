@@ -63,6 +63,12 @@ public class CreditRestController {
     {
         return iCredit.SelectById(id);
     }
+    @GetMapping("/user/afficherCreditbyID/{id}")
+
+    public Credit AfficherCreditByIDuser(@PathVariable int id)
+    {
+        return iCredit.SelectById(id);
+    }
     @DeleteMapping("/deleteCredit/{id}")
     public void delete(@PathVariable int id)
     {
