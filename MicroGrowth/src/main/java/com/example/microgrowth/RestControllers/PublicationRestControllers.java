@@ -46,9 +46,11 @@ public class PublicationRestControllers {
 
 
     }
-    @PutMapping("/user/updatePublication")
-    public Publication update(@RequestBody Publication publication)
-    {return iPublication.edit(publication);
+    @PutMapping("/user/updatePublication/{id}")
+    public Publication update(@RequestBody Publication publication,@PathVariable int id)
+    {   Publication p=iPublication.SelectById(id);
+        p.setText(publication.getText());
+        return iPublication.edit(p);
     }
     @GetMapping("/afficherPublicationbyID/{id}")
     public Publication AfficherByID(@PathVariable int id)

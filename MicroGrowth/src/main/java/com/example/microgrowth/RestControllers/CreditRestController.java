@@ -161,6 +161,11 @@ public class CreditRestController {
         iCredit.ajouter_date_30(creditRepository.findById(id).orElse(null));
         return null;
     }
+    @GetMapping("/admin/revenuCredit")
+    public double revenuCredit()
+    {
+       return iCredit.CalculActifCredit();
+    }
     @GetMapping("/creditremboursee")
     public List<Credit> afficherCreditRem(){
         return creditRepository.selectCreditRembourseeParMois();
