@@ -12,36 +12,37 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class ProjetRestController {
 
    private IProjet iProjet;
    private IInvestment IInvestment;
     ProjetRepository projetRepository;
 
-    @GetMapping("/admin/afficherProjet")
+    @GetMapping("/afficherProjet")
     public List<Projet> afficher (){
 
         return iProjet.selectAll();
     }
 
-    @PostMapping("/admin/ajouterProjet")
-    public void ajouter(@RequestBody  Projet projet) {
+    @PostMapping("/ajouterProjet")
+    public void ajouter(@RequestBody Projet projet) {
 
          iProjet.add(projet);
     }
 
-    @DeleteMapping("/admin/deleteProjetbyID/{id}")
+    @DeleteMapping("/deleteProjetbyID/{id}")
     public void delete(@PathVariable Long id)
     {
         iProjet.deleteById(id);
     }
 
-    @PutMapping("/admin/modifierProjet/{id}")
+    @PutMapping("/modifierProjet/{id}")
     public Projet modif(@RequestBody  Projet projet){
 
         return iProjet.modif(projet);
     }
-    @PostMapping("/admin/{projetId}/calculerRendementAnnuel/{investissementId}")
+    @PostMapping("/calculerRendementAnnuel/{investissementId}/{projetId}")
     public Double calculerRendementAnnuel(@PathVariable Long projetId, @PathVariable int investissementId,
             @RequestParam("investissementInitial") double investissementInitial , @RequestParam("tauxRendement") double tauxRendement
     ) {
@@ -50,7 +51,7 @@ public class ProjetRestController {
         double rendementAnnuel = iProjet.calculerRendementAnnuel(investissement.getAmountInves(), projet.getTauxRendement());
         return rendementAnnuel;
     }
-    @PostMapping("/admin/restObligation/{projetId}")
+    @PostMapping("/restObligation/{projetId}")
     public void recalculerObligation(@PathVariable Long projetId,@RequestParam("investment") double investment){
         iProjet.recalculerObligation(projetId,investment);
     }

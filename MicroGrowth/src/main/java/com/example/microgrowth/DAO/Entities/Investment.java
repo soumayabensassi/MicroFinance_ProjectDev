@@ -34,11 +34,14 @@ import java.util.Set;
     @DecimalMin(value = "0.0", message = "Le montant d'investissement doit être supérieur à 0")
         double amountInves;
         int  duree;
+        int quantity;
+        int idProject;
 
         @Enumerated(EnumType.STRING)
         MethodInvestissement methodInvestissement;
         @Temporal(TemporalType.DATE)
         Date DateInv = new Date();
+
     @JsonIgnore
         @ManyToOne
         User users;

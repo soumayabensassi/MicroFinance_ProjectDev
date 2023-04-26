@@ -37,6 +37,7 @@ import java.util.Date;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class InvestmentRestControllers  {
     @Autowired
     private EmailService EmailService;
@@ -49,12 +50,12 @@ public class InvestmentRestControllers  {
     @Autowired
     private IUser Iuser;
 
-    @GetMapping("/admin/afficherInvestment")
+    @GetMapping("/afficherInvestment")
     public List<Investment> afficher (){
         return IInvestment.selectAll();
     }
 
-    @PostMapping("/user/ajouterInvestment")
+    @PostMapping("/ajouterInvestment")
     public Investment ajouter(@RequestBody Investment inv){
         
         EmailService.sendNotificationEmail(iMicroGrowth.getCurrentUserName());
@@ -62,19 +63,19 @@ public class InvestmentRestControllers  {
         return IInvestment.add(inv);
     }
 
-    @DeleteMapping("/admin/deleteInvestmentbyID/{id}")
+    @DeleteMapping("/deleteInvestmentbyID/{id}")
     public void delete(@PathVariable int id)
     {
         IInvestment.deleteById(id);
     }
 
-    @PutMapping("/admin/modifierInvestment/{id}")
+    @PutMapping("/modifierInvestment/{id}")
     public Investment modif(@RequestBody Investment inv){
 
         return IInvestment.modif(inv);
     }
 
-    @PostMapping("/admin/interet")
+    @PostMapping("/interet")
     public double calculerInteret(
             @RequestParam MethodInvestissement methodInvestissement,
             @RequestParam double amountInves,
@@ -85,7 +86,7 @@ public class InvestmentRestControllers  {
         return interet;
     }
 
-    @PostMapping("/admin/calculerTauxInteret")
+    @PostMapping("/calculerTauxInteret")
     public double calculerTauxInteret1(@RequestParam MethodInvestissement methodInvestissement,
                                        @RequestParam double amountInves,
                                        @RequestParam int duree) {
@@ -93,7 +94,7 @@ public class InvestmentRestControllers  {
         return Tauxinteret;
     }
 
-   @GetMapping("/user/export/pdfinvestissement")
+   @GetMapping("/exportpdfinvestissement")
     public void exportToPDF(HttpServletResponse response, @RequestParam int id) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -108,7 +109,7 @@ public class InvestmentRestControllers  {
         BonDeCommandeService bonDeCommandeService = new BonDeCommandeService(listInvestments);
         bonDeCommandeService.export(response);
     }
-    @GetMapping("/admin/RevenuIInvesstisement")
+    @GetMapping("/RevenuIInvesstisement")
     public Double getRevenusInvesstisement()
     {
         double resultat=0;
@@ -122,7 +123,7 @@ public class InvestmentRestControllers  {
         return  resultat;
     }
 
-    @GetMapping("/admin/ponzii/{iduser}")
+    @GetMapping("/ponzii/{iduser}")
     public List<String> calculerTauxPonzii(@PathVariable int iduser) {
         return IInvestment.calculerTauxPonzii(iduser);
     }
@@ -130,7 +131,7 @@ public class InvestmentRestControllers  {
     @RestController
     public class SessionController {
 
-        @GetMapping("/admin/session/{n}/{x}")
+        @GetMapping("/session/{n}/{x}")
         public double getSession(@PathVariable double n, @PathVariable double x) {
             return IInvestment.session(n, x);
         }
