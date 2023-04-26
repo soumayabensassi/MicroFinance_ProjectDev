@@ -34,4 +34,7 @@ public class Publication implements Serializable {
     @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL)
     @JsonIgnore
     List<Dislike> dislikeList;
+    int nombreLike;
+    int nombreDislike;
+
 }
