@@ -24,4 +24,6 @@ public class Comment implements Serializable {
     User users;
     @ManyToOne
     Publication publications;
+    int nombreLikeComment;
+    int nombreDislikeComment;
 }

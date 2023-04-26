@@ -11,6 +11,9 @@ import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +38,18 @@ public class UserRestControllers {
     public boolean hasEightDigits(Long number) {
         return (number >= 10000000L && number <= 99999999L);//La première condition vérifie si "number" est supérieur ou égal à 10^7 (ce qui correspond à un nombre à 8 chiffres ou plus).
         //La deuxième condition vérifie si "number" est inférieur ou égal à 10^8 - 1 (ce qui correspond à un nombre à 8 chiffres ou moins).
+    }
+    @GetMapping("/roles")
+    public String[] getRoles() {
+        // Récupérer l'objet d'authentification à partir du contexte de sécurité
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Récupérer les rôles de l'utilisateur à partir de l'objet d'authentification
+        String[] roles = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toArray(String[]::new);
+
+        return roles;
     }
     @PostMapping("/ajouteruser")
 

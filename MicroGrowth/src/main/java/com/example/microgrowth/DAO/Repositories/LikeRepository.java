@@ -12,4 +12,6 @@ public interface LikeRepository extends JpaRepository<Likes,Integer> {
     Likes findByUsersEmailAndCommentIdComment(String email,int i);
     @Query(value = "SELECT COUNT(l.id_like)FROM likes l WHERE l.publications_id_publication=?1",nativeQuery = true)
     int totalLiike(int id);
+    @Query(value = "SELECT COUNT(l.id_like)FROM likes l WHERE l.comment_id_comment=?1",nativeQuery = true)
+    int totalLiikeComment(int id);
 }

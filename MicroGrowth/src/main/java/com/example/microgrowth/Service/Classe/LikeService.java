@@ -40,4 +40,9 @@ public class LikeService implements ILike {
     public int totalLike(int id) {
         return likeRepository.totalLiike(id);
     }
+
+    @Override
+    public int totalLikeComment(int id) {
+        return likeRepository.totalLiikeComment(id);
+    }
 }

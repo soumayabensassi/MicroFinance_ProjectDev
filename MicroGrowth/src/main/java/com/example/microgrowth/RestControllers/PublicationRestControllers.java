@@ -39,7 +39,8 @@ public class PublicationRestControllers {
             }
             }
         publication.setUsers(iUser.getUserByEmail(email));
-
+        publication.setNombreLike(0);
+        publication.setNombreDislike(0);
         publication.setText(texte);
         iPublication.add(publication);
             return "ajout done";
@@ -69,7 +70,7 @@ public class PublicationRestControllers {
         publication.setState(true);
         iPublication.edit(publication);
     }
-    @PostMapping("/AfficheraprouvePublication")
+    @GetMapping ("/AfficheraprouvePublication")
     public List<Publication> AprouvePublication()
     {
 
