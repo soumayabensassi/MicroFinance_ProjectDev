@@ -58,6 +58,7 @@ public class InvestmentRestControllers  {
     public Investment ajouter(@RequestBody Investment inv){
         
         EmailService.sendNotificationEmail(iMicroGrowth.getCurrentUserName());
+        inv.setUsers(Iuser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
 
         return IInvestment.add(inv);
     }
