@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="381da76e-e92a-4776-8f48-dca25a0094db" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="2283d564-a242-44ba-868d-7a74076d9efa" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,50 +13,48 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectId" id="2M5V2PIVE2q0IkAshYDyFMhAMQC" />
+  <component name="ProjectId" id="2OxwGGXC9zKBMwahAmlaKB01b4L" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/omezz/OneDrive/Documents/GitHub/MicroFinance_ProjectDev/MicroGrowth",
+    "last_opened_file_path": "D:/examenblanc",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "spring.configuration.checksum": "d8ee72c95eda6250aed7db35bf39a0ed",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager">
-    <configuration name="MicroGrowthApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="MicroGrowth" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.microgrowth.MicroGrowthApplication" />
+    <configuration name="ExamenblancApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="examenblanc" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.examenblanc.ExamenblancApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -67,17 +63,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="381da76e-e92a-4776-8f48-dca25a0094db" name="Changes" comment="" />
-      <created>1677057222272</created>
+      <changelist id="2283d564-a242-44ba-868d-7a74076d9efa" name="Changes" comment="" />
+      <created>1682515474289</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1677057222272</updated>
-      <workItem from="1677057223493" duration="923000" />
-      <workItem from="1677061190632" duration="164000" />
-      <workItem from="1677061367772" duration="16000" />
-      <workItem from="1677061392929" duration="43000" />
-      <workItem from="1682522925131" duration="1950000" />
-      <workItem from="1682535471295" duration="49000" />
+      <updated>1682515474289</updated>
+      <workItem from="1682515476366" duration="837000" />
     </task>
     <servers />
   </component>
