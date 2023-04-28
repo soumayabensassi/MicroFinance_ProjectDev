@@ -9,4 +9,6 @@ public interface IDislike {
     void deleteById(int id);
     Dislike verifDislikePublication(String email,int i);
     Dislike verifDislikeComment(String email,int i);
+    int totalDisLike(int id);
+    int totalDisLikeComment(int id);
 }

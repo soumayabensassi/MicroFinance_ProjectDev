@@ -13,7 +13,6 @@ public class LikeService implements ILike {
    private LikeRepository likeRepository;
     @Override
     public Likes add(Likes a) {
-        a.setNbr(1);
         return likeRepository.save(a);
     }
 
@@ -35,5 +34,15 @@ public class LikeService implements ILike {
     @Override
     public Likes verifLikeComment(String email, int i) {
         return likeRepository.findByUsersEmailAndCommentIdComment(email,i);
+    }
+
+    @Override
+    public int totalLike(int id) {
+        return likeRepository.totalLiike(id);
+    }
+
+    @Override
+    public int totalLikeComment(int id) {
+        return likeRepository.totalLiikeComment(id);
     }
 }

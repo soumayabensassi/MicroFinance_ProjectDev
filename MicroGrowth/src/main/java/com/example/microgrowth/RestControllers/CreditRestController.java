@@ -30,7 +30,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+@CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class CreditRestController {
@@ -60,6 +60,12 @@ public class CreditRestController {
     {return iCredit.edit(credit);}
     @GetMapping("/admin/afficherCreditbyID/{id}")
     public Credit AfficherCreditByID(@PathVariable int id)
+    {
+        return iCredit.SelectById(id);
+    }
+    @GetMapping("/user/afficherCreditbyID/{id}")
+
+    public Credit AfficherCreditByIDuser(@PathVariable int id)
     {
         return iCredit.SelectById(id);
     }
@@ -161,6 +167,11 @@ public class CreditRestController {
         iCredit.ajouter_date_30(creditRepository.findById(id).orElse(null));
         return null;
     }
+    @GetMapping("/admin/revenuCredit")
+    public double revenuCredit()
+    {
+       return iCredit.CalculActifCredit();
+    }
     @GetMapping("/creditremboursee")
     public List<Credit> afficherCreditRem(){
         return creditRepository.selectCreditRembourseeParMois();
@@ -218,5 +229,9 @@ EmailService emailService;
     void AccepterCredit(@PathVariable int id){
 
         iCredit.AffecterCreditAuUser(creditRepository.findById(id).get());
+    }
+    @GetMapping("/user/afficherPacks")
+    public List<Credit> afficherPacks(){
+        return creditRepository.CreditsPack();
     }
 }

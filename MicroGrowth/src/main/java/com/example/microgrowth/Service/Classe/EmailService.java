@@ -55,7 +55,7 @@ public String forgetpassword(String email) {
     );
     passwordTokenRepository.save(resetToken);
 
-    String link = "https://localhost:8082/MicroGrowth/email/reset/"+token+"/"+email;
+    String link = "http://localhost:4200/updatepPassword/"+token+"/"+email;
     emailSender.send(email, buildEmailReset(u.getFirstName()+' '+ u.getLasttName(),link));
     return token;
 }
@@ -69,7 +69,7 @@ public String forgetpassword(String email) {
         }
 
         User u = userRepo.findByEmail(email);//.orElse(null);
-        String link = "https://localhost:8082/MicroGrowth/ConfirmeCompte/"+email;
+        String link = "http://localhost:4200/confirmeCompte/"+email;
         emailSender.send(email, BuildConfirmeCompte(u.getFirstName()+' '+ u.getLasttName(),link));
     }
 
@@ -98,30 +98,6 @@ public String forgetpassword(String email) {
         userRepo.resetPassword(encodedPassword, email);
         return "confirmed";
     }
-
-//    @Transactional
-//    public String confirmToken(String token) {
-//        ConfirmationToken confirmationToken = confirmationTokenService
-//                .getToken(token)
-//                .orElseThrow(() ->
-//                        new IllegalStateException("token not found"));
-//
-//        if (confirmationToken.getConfirmedAt() != null) {
-//            throw new IllegalStateException("email already confirmed");
-//        }
-//
-//        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
-//
-//        if (expiredAt.isBefore(LocalDateTime.now())) {
-//            throw new IllegalStateException("token expired");
-//        }
-//
-//        confirmationTokenService.setConfirmedAt(token);
-//        appUserService.enableAppUser(
-//                confirmationToken.getUser().getEmail());
-//        return "confirmed";
-//    }
-
 
     private String buildEmailReset(String name, String link) {
     //return "<p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for calling us. Please click on the below link to reset your password: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> " + link + " <br> <p> Activate Now </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>";
