@@ -55,7 +55,7 @@ public class InvestmentRestControllers  {
         return IInvestment.selectAll();
     }
 
-    @PostMapping("/ajouterInvestment")
+    @PostMapping("/user/ajouterInvestment")
     public Investment ajouter(@RequestBody Investment inv){
         
         EmailService.sendNotificationEmail(iMicroGrowth.getCurrentUserName());
