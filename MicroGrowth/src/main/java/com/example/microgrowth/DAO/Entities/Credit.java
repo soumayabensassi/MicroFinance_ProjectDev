@@ -36,6 +36,7 @@ public class Credit implements Serializable {
     @Column(nullable = false)
     float monthlyAmount;
     int state;
+    int score_credit;
     boolean pack;
     boolean garanties;
     int penalites;

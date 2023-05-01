@@ -14,6 +14,7 @@ import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Interfaces.ICredit;
 
 import com.example.microgrowth.Service.Interfaces.IInvestment;
+import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -38,6 +39,7 @@ public class CreditRestController {
     CreditRepository creditRepository;
 
     IInvestment iInvestment;
+    IUser iUser;
     @Autowired
     UserRepository userRepository;
     @GetMapping("/admin/afficherCredits")
@@ -45,14 +47,16 @@ public class CreditRestController {
     {
         return iCredit.selectAll();
     }
-    @PostMapping("/user/ajouterCreditByuser")
-    public String ajouterCredit_user(@RequestBody Credit credit)
+    @PostMapping("/user/ajouterCreditByuser/{email}")
+    public String ajouterCredit_user(@RequestBody Credit credit,@PathVariable String email)
     {
+        credit.setUsers(iUser.getUserByEmail(email));
+        //credit.setScore_credit(iCredit.scoreCredit(credit.getIdCredit(),email));
         return iCredit.add_credit_user(credit);
     }
-    @PostMapping("/admin/ajouterCreditByadmin")
-    public Credit ajouterCredit_admin(@RequestBody Credit credit)
-    {
+    @PostMapping("/admin/ajouterCreditByadmin/{email}")
+    public Credit ajouterCredit_admin(@RequestBody Credit credit,@PathVariable String email)
+    { credit.setUsers(iUser.getUserByEmail(email));
         return iCredit.add_credit_admin(credit);
     }
     @PutMapping("/admin/updateCredit")
@@ -83,15 +87,16 @@ public class CreditRestController {
     @GetMapping("/admin/AfficherScoreCredit/{id}")
     public int afficherScore(@PathVariable int id)
     {
-        return iCredit.scoreCredit(id);
+        String email="aziz.cherif1@esprit.tn";
+        return iCredit.scoreCredit(id,email);
     }
    // @GetMapping("/afficherScoreCredit/{idUser}/{idCredit}/{idCompte}")
     //public int afficherscore(@PathVariable int idUser, @PathVariable int idCredit,@PathVariable int idCompte){
 //return iCredit.afficherScore()    }
 
     @GetMapping("/user/afficherTableauCredit/{id}")
-    public void calcul_tableau_credit(@PathVariable int id){
-        iCredit.calcul_tableau_credit(creditRepository.findById(id).orElse(null));
+    public float[][] calcul_tableau_credit(@PathVariable int id){
+       return iCredit.calcul_tableau_credit(creditRepository.findById(id).get());
     }
 
     @GetMapping("/admin/CalculRentabilité")
@@ -207,8 +212,8 @@ EmailService emailService;
         emailService.sendCalcukCredit(user);
     }
     @GetMapping("/user/SimulateurCredit/{montant}/{nbmois}")
-    void SimulateurCredit(@PathVariable float montant,@PathVariable int nbmois){
-        iCredit.SimulateurCredit(montant,nbmois);
+    double[] SimulateurCredit(@PathVariable float montant,@PathVariable int nbmois){
+        return iCredit.SimulateurCredit(montant,nbmois);
     }
     @PostMapping("/user/envoyerProposition/{nbmois}")
     public ResponseEntity<String> PropCredit(@PathVariable int nbmois){
@@ -238,5 +243,16 @@ EmailService emailService;
     @GetMapping("/user/afficherPacks")
     public List<Credit> afficherPacks(){
         return creditRepository.CreditsPack();
+    }
+
+    @PostMapping("/user/demanderPack/{idcredit}/{email}")
+    void accorderPack(@PathVariable int idcredit, @PathVariable String email){
+        Credit credit=creditRepository.findById(idcredit).get();
+        credit.setUsers(iUser.getUserByEmail(email));
+        iCredit.accorderPack(idcredit);
+    }
+    @GetMapping("/user/afficherMesCredit/{email}")
+    public List<Credit> afficherMesCredit(@PathVariable String email){
+        return creditRepository.afficherMesCredits(email);
     }
 }
