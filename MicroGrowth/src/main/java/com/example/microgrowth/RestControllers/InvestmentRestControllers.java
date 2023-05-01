@@ -94,7 +94,7 @@ public class InvestmentRestControllers  {
         return Tauxinteret;
     }
 
-   @GetMapping("/user/export/pdfinvestissement")
+   @GetMapping("/exportpdfinvestissement")
     public void exportToPDF(HttpServletResponse response, @RequestParam int id) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
