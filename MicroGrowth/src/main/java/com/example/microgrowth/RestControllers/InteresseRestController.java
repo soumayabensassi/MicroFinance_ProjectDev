@@ -21,10 +21,10 @@ public class InteresseRestController {
     private ITrainingService iTrainingService;
     private IMicroGrowth iMicroGrowth;
 
-    @PostMapping("/user/Interessetraining/{idtraining}/{email}")
-    public void Interessetraining( @PathVariable int idtraining,@PathVariable String email)
+    @PostMapping("/user/Interessetraining/{idtraining}")
+    public void Interessetraining( @PathVariable int idtraining)
     {
-        //String email=iMicroGrowth.getCurrentUserName();
+        String email=iMicroGrowth.getCurrentUserName();
         Interesse interesse=iInteresseService.verifInteresse(email,idtraining);
         Desinteresse desinteresse=iDesintresseService.verifDesinsteresse(email,idtraining);
         Training p=iTrainingService.selectById(idtraining);

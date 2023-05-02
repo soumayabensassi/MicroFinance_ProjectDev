@@ -20,10 +20,10 @@ public class ParticiperRestController {
     private INonParticiperService iNonParticiperService;
     private ITrainingService iTrainingService;
     private IMicroGrowth iMicroGrowth;
-    @PostMapping("/user/Participer/{idtraining}/{email}")
-    public void participertraining( @PathVariable int idtraining,@PathVariable String email)
+    @PostMapping("/user/Participer/{idtraining}")
+    public void participertraining( @PathVariable int idtraining)
     {
-        //String email=iMicroGrowth.getCurrentUserName();
+        String email=iMicroGrowth.getCurrentUserName();
         Participer participer=iParticiperService.verifParticip(email,idtraining);
         NonParticiper nonParticiper=iNonParticiperService.verifNonParticip(email,idtraining);
         Training p=iTrainingService.selectById(idtraining);

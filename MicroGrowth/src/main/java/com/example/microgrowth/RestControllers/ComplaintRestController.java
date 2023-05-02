@@ -33,7 +33,7 @@ public class ComplaintRestController {
     private ComplaintService complaintService;
     IMicroGrowth iMicroGrowth;
     private  ComplaintRepository complaintRepository;
-    @GetMapping("/admin/afficherC")
+    @GetMapping("/afficherC")
     public List<Complaint> afficherC(){
 
         return iComplaintService.selectAll();
