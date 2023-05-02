@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -31,7 +32,7 @@ public class Training implements Serializable  {
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     Date finishdate;
-
+    String image;
     boolean state;
     @Column(nullable = false)
     float price;
@@ -40,12 +41,22 @@ public class Training implements Serializable  {
     @Column(nullable = false)
     String subject;
     @ManyToMany
+            @JsonIgnore
     List<User> userList;
     @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
     List<Participer> participerList;
     @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
     List<NonParticiper> nonparticiperList;
     @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
     List<Rating> rating;
+    @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
+    List<Interesse> interesselist;
 
+
+    int nombreInteresse;
+    int nombreParticiper;
 }

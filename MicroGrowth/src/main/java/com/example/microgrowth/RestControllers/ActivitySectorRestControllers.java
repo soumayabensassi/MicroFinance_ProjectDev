@@ -15,6 +15,11 @@ public class ActivitySectorRestControllers {
     {
         return iActivitySector.selectAll();
     }
+    @GetMapping("afficherActivitySectors")
+    public List<ActivitySector> afficher1()
+    {
+        return iActivitySector.selectAll();
+    }
     @PostMapping("/admin/ajouterActivitySector")
 
     public ActivitySector ajouter(@RequestBody ActivitySector activitySector)

@@ -2,12 +2,11 @@ package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.Inssurance;
 
-import java.util.Date;
 import java.util.List;
 
 public interface IInsuranceService {
     Inssurance add(Inssurance inssurance);
-    Inssurance edit(Inssurance inssurance);
+    Inssurance edit( Inssurance inssurance);
     List<Inssurance> selectAll();
     Inssurance selectById(int idInsurance);
 

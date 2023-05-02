@@ -6,7 +6,6 @@ import com.example.microgrowth.Service.Interfaces.IInsuranceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,7 +20,7 @@ public class InsuranceService implements IInsuranceService {
     }
 
     @Override
-    public Inssurance edit(Inssurance inssurance) {
+    public Inssurance edit( Inssurance inssurance) {
         return insuranceRepository.save(inssurance);
     }
 

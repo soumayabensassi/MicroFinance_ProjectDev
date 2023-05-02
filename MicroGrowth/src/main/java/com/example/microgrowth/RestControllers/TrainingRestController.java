@@ -41,7 +41,7 @@ public class TrainingRestController {
     public boolean hasEightDigits(String title) {
         return (title.length() <= 10 );}
     //@EventListener(ApplicationReadyEvent.class)
-    @PostMapping("/admin/ajouterTraining")
+    @PostMapping("/ajouterTraining")
     public ResponseEntity<?>ajouterT(@RequestBody Training training) throws MessagingException {
         boolean test = hasEightDigits(training.getTitle());
         boolean testDate = training.getStartDate().before(training.getFinishdate());
