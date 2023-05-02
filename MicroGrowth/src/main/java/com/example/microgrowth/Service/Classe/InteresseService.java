@@ -26,4 +26,9 @@ public class InteresseService implements IInteresseService {
     public Interesse verifInteresse(String email, int i) {
         return interesseRepository.findByUsersEmailAndTrainingsIdTraining(email, i);
     }
+
+    @Override
+    public int totalInteresse(int id) {
+        return interesseRepository.totalinteresse(id);
+    }
 }
