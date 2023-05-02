@@ -23,16 +23,20 @@ public class PenaliteRestController {
     private EmailService emailService;
     CreditRepository creditRepository;
 
-    @GetMapping("/SendPenaliteEmail/{id}")
+    @GetMapping("/admin/SendPenaliteEmail/{id}")
     void SendEmailPenalite(@PathVariable int id){
         int user_id= creditRepository.SelectUserFromCredit(id);
         User user=userRepository.findById(user_id).get();
         System.out.println(user.getEmail());
 
-        if(penaliteRepository.countPenaliteParCredit(id)==3){
+        if(penaliteRepository.countPenaliteParCredit(id)==1){
 
     emailService.sendPenaliteEmail(user.getEmail());
     }
 
+}
+@GetMapping("/admin/StatistiquePenalite/{mois}")
+    void afficherStatPenalite(@PathVariable int mois){
+        System.out.println(iPenalite.statistique_penalite_mois(mois));
 }
 }

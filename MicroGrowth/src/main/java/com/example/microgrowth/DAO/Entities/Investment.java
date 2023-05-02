@@ -35,13 +35,11 @@ import java.util.Set;
         double amountInves;
         int  duree;
 
-
         @Enumerated(EnumType.STRING)
         MethodInvestissement methodInvestissement;
         @Temporal(TemporalType.DATE)
         Date DateInv = new Date();
 
-    @JsonIgnore
         @ManyToOne
         User users;
     @JsonIgnore

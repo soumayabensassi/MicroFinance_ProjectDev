@@ -2,7 +2,6 @@ package com.example.microgrowth.RestControllers;
 
 import com.example.microgrowth.DAO.Entities.NonParticiper;
 import com.example.microgrowth.DAO.Entities.Participer;
-import com.example.microgrowth.DAO.Entities.Training;
 import com.example.microgrowth.Service.Interfaces.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,19 +19,16 @@ public class ParticiperRestController {
     private INonParticiperService iNonParticiperService;
     private ITrainingService iTrainingService;
     private IMicroGrowth iMicroGrowth;
-    @PostMapping("/user/Participer/{idtraining}/{email}")
-    public void participertraining( @PathVariable int idtraining,@PathVariable String email)
+    @PostMapping("/user/Participer/{idtraining}")
+    public void participertraining( @PathVariable int idtraining)
     {
-        //String email=iMicroGrowth.getCurrentUserName();
+        String email=iMicroGrowth.getCurrentUserName();
         Participer participer=iParticiperService.verifParticip(email,idtraining);
         NonParticiper nonParticiper=iNonParticiperService.verifNonParticip(email,idtraining);
-        Training p=iTrainingService.selectById(idtraining);
         log.info("likes is : {}",participer);
         if (participer==null && nonParticiper == null) {
             Participer participer1=new Participer(iUser.getUserByEmail(email),iTrainingService.selectById(idtraining));
             iParticiperService.add(participer1);
-            p.setNombreParticiper(iParticiperService.totalParticiper(idtraining));
-            iTrainingService.edit(p);
         } else if (participer==null && nonParticiper!=null) {
             iNonParticiperService.deleteById(nonParticiper.getIdNonParticiper());
             Participer participer1=new Participer(iUser.getUserByEmail(email),iTrainingService.selectById(idtraining));

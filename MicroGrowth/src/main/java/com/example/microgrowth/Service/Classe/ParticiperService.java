@@ -27,14 +27,4 @@ public class ParticiperService implements IParticiperService {
     public Participer verifParticip(String email, int i) {
         return participerRepository.findByUsersEmailAndTrainingsIdTraining(email, i);
     }
-    @Override
-    public int totalParticiper(int id) {
-        return participerRepository.totalParticiper(id);
-    }
-
-    @Override
-    public Participer edit(Participer p) {
-        return participerRepository.save(p);
-    }
-
 }

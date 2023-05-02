@@ -31,7 +31,7 @@ public class Training implements Serializable  {
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     Date finishdate;
-    String image;
+
     boolean state;
     @Column(nullable = false)
     float price;
@@ -47,10 +47,5 @@ public class Training implements Serializable  {
     List<NonParticiper> nonparticiperList;
     @OneToMany(mappedBy = "trainings")
     List<Rating> rating;
-    @OneToMany(mappedBy = "trainings")
-    List<Interesse> interesselist;
 
-
-    int nombreInteresse;
-    int nombreParticiper;
 }

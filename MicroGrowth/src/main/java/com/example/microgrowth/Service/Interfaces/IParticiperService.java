@@ -7,6 +7,4 @@ public interface IParticiperService {
     Participer add(Participer p);
     void deleteById(int id);
     Participer verifParticip(String email, int i);
-    public int totalParticiper(int id);
-    Participer edit(Participer p);
 }

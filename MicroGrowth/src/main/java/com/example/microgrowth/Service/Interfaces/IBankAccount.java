@@ -14,13 +14,11 @@ public interface IBankAccount {
     List<BankAccount> selectAll();
     BankAccount SelectById(int id);
     void deleteById(int id);
-
     void resetLimit();
 
     @Scheduled(cron = "0 0 1 * * ")
      void notifUpdate();
 
     //void notifUpdate();
-
 
 }

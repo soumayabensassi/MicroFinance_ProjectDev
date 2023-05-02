@@ -50,6 +50,11 @@ public class InsuranceService implements IInsuranceService {
     }
 
     @Override
+    public List<String> getUserEmail(String d) {
+        return insuranceRepository.selectEmailUser(d);
+    }
+
+    @Override
     public void deleteById(int idInsurance) {
         insuranceRepository.deleteById(idInsurance);
     }

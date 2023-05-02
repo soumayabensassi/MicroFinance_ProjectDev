@@ -15,7 +15,7 @@ public interface IInsuranceService {
 
 
     void deleteAll(List<Inssurance> inssuranceList);
-
+    List<String> getUserEmail(String d);
 
     void deleteById(int idInsurance);
 }

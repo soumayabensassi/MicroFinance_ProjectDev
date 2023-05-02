@@ -28,36 +28,23 @@ import java.util.List;
 @AllArgsConstructor
 @EnableScheduling
 public class ComplaintRestController {
-
-    private EmailSenderService senderService;
-    private EmailService senderService1;
+    private EmailService senderService;
     private IComplaintService iComplaintService;
     private ComplaintService complaintService;
-
+    IMicroGrowth iMicroGrowth;
     private  ComplaintRepository complaintRepository;
-
-    private IMicroGrowth  iMicroGrowth;
-
-
-    @GetMapping("/afficherC")
-
+    @GetMapping("/admin/afficherC")
     public List<Complaint> afficherC(){
 
         return iComplaintService.selectAll();
     }
     @PostMapping("/user/ajouterComplaint")
-    public Complaint ajouterC(@RequestBody Complaint complaint) throws MessagingException {
+    public Complaint ajouterC(@RequestBody Complaint complaint){
         Date d=new Date();
         complaint.setDate(d);
-
        // for(User us : complaintRepository.selectUsers()) {
-           // senderService1.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
+            senderService.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
        // }
-
-//        for(User us : complaintRepository.selectUsers()) {
-//            senderService.sendEmail(us.getEmail(), " Réception de réclamation confirmé ", "Bien reçu, votre récalmation a été bien enregistrée. Je vous prie de patienter. Votre récalamation sera traitée dans les 24h ", "C:/Users/HP/Pictures/logo.png");
-//        }
-
         complaint.setState(false);
         return iComplaintService.add(complaint);
     }
@@ -108,7 +95,7 @@ EmailSenderService emailSenderService;
             //message.setText((body));
             message.setSubject(subject);
             //Complaint complaint=new Complaint();
-            String htmlBody = "<html><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><body><p>Bonjour,</p><p>Etes-vous satisfait du traitement? :</p><a href=\"http://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/satisfait\" class='button'>OUI</a></body><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><a href=\"http://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/nonsatisfait\" class='button'>NON</a><p>Merci,</p><p>L'équipe de Spring</p></body></html>";
+            String htmlBody = "<html><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><body><p>Bonjour,</p><p>Etes-vous satisfait du traitement? :</p><a href=\"https://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/satisfait\" class='button'>OUI</a></body><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><a href=\"https://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/nonsatisfait\" class='button'>NON</a><p>Merci,</p><p>L'équipe de Spring</p></body></html>";
 
             message.setText(htmlBody, true);
 
@@ -129,6 +116,6 @@ EmailSenderService emailSenderService;
         Double nonsatisfait=(complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale())*100;
         String satis=Double.toString(satisfait);
         String nonsatis=Double.toString(nonsatisfait);
-        return "Le pourcentage des users satisfaits :"+satis+"\n Le pourcentage des users non satisfaits"+nonsatis;
+        return "Le pourcentage des users satisfaits :"+satis+"%\n Le pourcentage des users non satisfaits"+nonsatis+"%";
     }
 }
