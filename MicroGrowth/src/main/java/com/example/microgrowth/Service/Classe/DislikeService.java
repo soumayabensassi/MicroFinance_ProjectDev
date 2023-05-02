@@ -35,4 +35,9 @@ dislikeRepository.deleteById(id);
     public int totalDisLike(int id) {
         return dislikeRepository.totalDislLike(id);
     }
+
+    @Override
+    public int totalDisLikeComment(int id) {
+        return dislikeRepository.totalDislLikeComment(id);
+    }
 }

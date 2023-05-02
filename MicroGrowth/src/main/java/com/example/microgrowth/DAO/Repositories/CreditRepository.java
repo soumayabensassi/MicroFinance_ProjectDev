@@ -42,6 +42,15 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> selectCreditRembourseeParMois();
     @Query(value ="select c.users_id_user from credit c where c.id_credit=?1" , nativeQuery = true)
     int SelectUserFromCredit(int i);
-
+    @Query(value ="SELECT credit.* from credit WHERE credit.pack=true" ,nativeQuery = true)
+    List<Credit> CreditsPack();
+    @Query(value ="SELECT credit.* from credit WHERE credit.users_id_user=?1" ,nativeQuery = true)
+    List<Credit> CreditsParUser(int iduser);
+    @Query(value ="SELECT credit.* from credit WHERE credit.state=2" ,nativeQuery = true)
+    List<Credit> CreditsAcceptee();
+    @Query(value ="SELECT credit.* from credit WHERE credit.state=0" ,nativeQuery = true)
+    List<Credit> CreditsRefusee();
+    @Query(value ="SELECT credit.* from credit WHERE credit.state=1" ,nativeQuery = true)
+    List<Credit> CreditsEnCours();
 
 }

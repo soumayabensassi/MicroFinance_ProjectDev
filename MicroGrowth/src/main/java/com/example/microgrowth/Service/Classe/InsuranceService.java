@@ -20,7 +20,7 @@ public class InsuranceService implements IInsuranceService {
     }
 
     @Override
-    public Inssurance edit(Inssurance inssurance) {
+    public Inssurance edit( Inssurance inssurance) {
         return insuranceRepository.save(inssurance);
     }
 

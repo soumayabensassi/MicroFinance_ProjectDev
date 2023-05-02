@@ -67,6 +67,8 @@ public class User implements Serializable {
     @JsonIgnore
     List<Publication> publicationList;
     boolean Active;
-
+    @OneToOne
+    @JsonIgnore
+    ImageModel imageModel;
 
 }

@@ -39,16 +39,19 @@ public class PublicationRestControllers {
             }
             }
         publication.setUsers(iUser.getUserByEmail(email));
-
+        publication.setNombreLike(0);
+        publication.setNombreDislike(0);
         publication.setText(texte);
         iPublication.add(publication);
             return "ajout done";
 
 
     }
-    @PutMapping("/user/updatePublication")
-    public Publication update(@RequestBody Publication publication)
-    {return iPublication.edit(publication);
+    @PutMapping("/user/updatePublication/{id}")
+    public Publication update(@RequestBody Publication publication,@PathVariable int id)
+    {   Publication p=iPublication.SelectById(id);
+        p.setText(publication.getText());
+        return iPublication.edit(p);
     }
     @GetMapping("/afficherPublicationbyID/{id}")
     public Publication AfficherByID(@PathVariable int id)
@@ -67,7 +70,7 @@ public class PublicationRestControllers {
         publication.setState(true);
         iPublication.edit(publication);
     }
-    @PostMapping("/AfficheraprouvePublication")
+    @GetMapping ("/AfficheraprouvePublication")
     public List<Publication> AprouvePublication()
     {
 

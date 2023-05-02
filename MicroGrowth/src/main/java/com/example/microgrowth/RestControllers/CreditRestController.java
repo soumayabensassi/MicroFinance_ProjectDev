@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-
+@CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class CreditRestController {
@@ -42,6 +42,12 @@ public class CreditRestController {
     {return iCredit.edit(credit);}
     @GetMapping("/afficherCreditbyID/{id}")
     public Credit AfficherCreditByID(@PathVariable int id)
+    {
+        return iCredit.SelectById(id);
+    }
+    @GetMapping("/user/afficherCreditbyID/{id}")
+
+    public Credit AfficherCreditByIDuser(@PathVariable int id)
     {
         return iCredit.SelectById(id);
     }
@@ -142,6 +148,11 @@ public class CreditRestController {
         iCredit.ajouter_date_30(creditRepository.findById(id).orElse(null));
         return null;
     }
+    @GetMapping("/admin/revenuCredit")
+    public double revenuCredit()
+    {
+       return iCredit.CalculActifCredit();
+    }
     @GetMapping("/creditremboursee")
     public List<Credit> afficherCreditRem(){
         return creditRepository.selectCreditRembourseeParMois();
@@ -149,5 +160,9 @@ public class CreditRestController {
     @PostMapping("/accordePenalite")
     public  void Accorde_penalite(@RequestBody Penalite p){
         iCredit.Accorde_penalite(p);
+    }
+    @GetMapping("/user/afficherPacks")
+    public List<Credit> afficherPacks(){
+        return creditRepository.CreditsPack();
     }
 }
