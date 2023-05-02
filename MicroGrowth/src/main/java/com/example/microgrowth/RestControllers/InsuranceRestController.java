@@ -9,13 +9,11 @@ import com.example.microgrowth.Service.Interfaces.ICredit;
 import com.example.microgrowth.Service.Interfaces.IInsuranceService;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 
@@ -45,7 +43,7 @@ public class InsuranceRestController {
     }
 
     @PutMapping("/admin/update-Insurance")
-    public Inssurance update(@RequestBody Inssurance inssurance) {
+    public Inssurance update( @RequestBody Inssurance inssurance) {
         return iInsuranceService.edit(inssurance);
     }
 
@@ -134,8 +132,7 @@ public class InsuranceRestController {
     }
     private IUser iUser;
     private EmailReceiptInsurance emailReceiptInsurance;
-    @Scheduled(fixedRate = 20000)
-    //@Scheduled(cron = "0 0 0 * * ?")
+
     public void SendReceiptEmail() throws MessagingException
     { LocalDate date_now =  LocalDate.now();
         System.out.println(date_now);
