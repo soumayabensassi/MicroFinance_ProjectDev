@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 @RestController
 @AllArgsConstructor
 @EnableScheduling
+@CrossOrigin(origins="*")
 public class TrainingRestController {
     private ITrainingService iTrainingService;
     private TrainingRepository trainingRepository ;
@@ -38,20 +39,21 @@ public class TrainingRestController {
     private EmailSenderService senderService;
     @Autowired
     private TrainingService trainingService;
-    public boolean hasEightDigits(String title) {
-        return (title.length() <= 10 );}
+//    public boolean hasEightDigits(String title) {
+//        return (title.length() <= 10 );}
     //@EventListener(ApplicationReadyEvent.class)
     @PostMapping("/ajouterTraining")
     public ResponseEntity<?>ajouterT(@RequestBody Training training) throws MessagingException {
-        boolean test = hasEightDigits(training.getTitle());
+       // boolean test = hasEightDigits(training.getTitle());
         boolean testDate = training.getStartDate().before(training.getFinishdate());
         boolean testPrice = training.getPrice()>0.0;
         boolean testNbrP = training.getNbrOfPlace()>0;
 
-        if(!test)
-        {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le titre de la formation doit contenir 8 chiffres");
-        } else if (!testDate) {
+//        if(!test)
+//        {
+//           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("le titre de la formation doit contenir 8 chiffres");
+//        } else
+if (!testDate) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La date de debut doit etre avant la date de fin ");
 
         } else if (!testPrice) {
@@ -63,9 +65,15 @@ public class TrainingRestController {
 
     }
         else{
+
         for(User us : trainingRepository.selectUsers()) {
             senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Documents/aff.pdf");
         }
+
+//        for(User us : trainingRepository.selectUsers()) {
+//            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Pictures/logo.png");
+//      }
+
         iTrainingService.add(training);
         return ResponseEntity.status(HttpStatus.OK).body("ajout done");}
     }
@@ -93,7 +101,9 @@ public class TrainingRestController {
     @DeleteMapping("/admin/deleteExpTraining")
     public void supprimerTE() throws MessagingException {
 
-
+        for(User us : trainingRepository.selectUsers()) {
+            senderService.sendEmail(us.getEmail(), "  Evenement Expiré", "Evenement Expiré! \n On espére que vous avez profité de la qualité de la formation. ", "C:/Users/HP/Pictures/logo.png");
+        }
         iTrainingService.deleteByDate( );
 
 

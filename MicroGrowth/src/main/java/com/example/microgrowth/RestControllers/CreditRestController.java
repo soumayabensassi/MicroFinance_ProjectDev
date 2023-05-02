@@ -25,13 +25,10 @@ public class CreditRestController {
     {
         return iCredit.selectAll();
     }
-<<<<<<< HEAD
-@PostMapping("/ajouterCreditByuser")
-    public Credit ajouterCredit_user(@RequestBody Credit credit)
-=======
+
     @PostMapping("/user/ajouterCreditByuser")
     public String ajouterCredit_user(@RequestBody Credit credit)
->>>>>>> main
+
     {
         return iCredit.add_credit_user(credit);
     }

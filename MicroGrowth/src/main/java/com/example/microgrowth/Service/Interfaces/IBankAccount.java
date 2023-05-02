@@ -1,6 +1,7 @@
 package com.example.microgrowth.Service.Interfaces;
 
 import com.example.microgrowth.DAO.Entities.BankAccount;
+import org.springframework.scheduling.annotation.Scheduled;
 
 
 import java.util.List;
@@ -13,14 +14,13 @@ public interface IBankAccount {
     List<BankAccount> selectAll();
     BankAccount SelectById(int id);
     void deleteById(int id);
-<<<<<<< HEAD
-=======
+
     void resetLimit();
 
     @Scheduled(cron = "0 0 1 * * ")
      void notifUpdate();
 
     //void notifUpdate();
->>>>>>> main
+
 
 }

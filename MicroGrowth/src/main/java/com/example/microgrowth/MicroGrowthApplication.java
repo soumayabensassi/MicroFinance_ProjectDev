@@ -1,13 +1,15 @@
 package com.example.microgrowth;
 
-import com.example.microgrowth.config.SSLVerificationDisabler;
+//import com.example.microgrowth.config.SSLVerificationDisabler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -17,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MicroGrowthApplication {
 
     public static void main(String[] args) throws Exception {
-        SSLVerificationDisabler.disableSSLVerification();
+       // SSLVerificationDisabler.disableSSLVerification();
         SpringApplication.run(MicroGrowthApplication.class, args);
     }
     @Bean
@@ -35,5 +37,10 @@ public class MicroGrowthApplication {
                         .allowedHeaders("*");
             }
         };
+
     }
 }
+
+
+
+

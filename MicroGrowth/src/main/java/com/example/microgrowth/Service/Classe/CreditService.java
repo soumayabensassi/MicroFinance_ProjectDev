@@ -41,13 +41,13 @@ public class CreditService implements ICredit {
     @Override
     public String add_credit_user(Credit c) {
         Calendar calendar = Calendar.getInstance();
-<<<<<<< HEAD
+
         calendar.setTime(c.getObtainingDate());
-=======
+
         String messageA="Le montant doit etre positif";
         String messageB="Ajout avec succès";
         //calendar.setTime(c.getObtainingDate());
->>>>>>> main
+
 // Ajouter 30 jours à la date
         calendar.add(Calendar.DATE, 30);
         Date dateApresAjout = calendar.getTime();
@@ -424,15 +424,14 @@ public class CreditService implements ICredit {
     }
 
 
-<<<<<<< HEAD
-=======
-    @Override
+
+
     public void RefuserCreditAuUser(Credit credit) {
         credit.setState(0);
         creditRepository.save(credit);//1:en cours  0:refus  2:accordé
     }
 
-    @Override
+
     public float calculateInterestRate(Credit c) {
 
         float baseInterestRate = 0.2f; // taux d'intérêt de base pour la microfinance
@@ -510,118 +509,7 @@ public class CreditService implements ICredit {
 
 
         }
-public double MaxCredit(int nbmois){
-       User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
-        double taux=0.23;
-        double tauxMensuel = taux / 12;
-        double MaxCredit=((user.getSalaire()*0.43)*(1 - Math.pow(1 + tauxMensuel, -nbmois))) / tauxMensuel;
-        return MaxCredit;
-}
-    public File genererCreditPDF(int nbmois) throws IOException, DocumentException {
-        User user = iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
-        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("credit.pdf"));
 
-        // Ajouter le header
-        HeaderFooter header = new HeaderFooter(new Phrase("MicroGrowth"), false);
-        header.setAlignment(Element.ALIGN_CENTER);
-        document.setHeader(header);
-
-        // Ajouter le footer
-        Font FooterFont = new Font(Font.HELVETICA, 7, Font.NORMAL);
-
-        Paragraph footerText = new Paragraph("Le résultat de cette simulation est non contractuel et revêt un caractère strictement informatif.\n" +
-                "Elle ne prend pas en compte le coût des assurances nécessaires au crédit, ni la TVA réglementaire. Il ne s’agit en aucun cas\n" +
-                "d’un engagement de la part de MicroGrowth qui se réserve le droit de modifier à tout moment l’une ou l’autre des données et des\n" +
-                "conditions de financement de ses offres de crédits.",FooterFont);
-
-        footerText.setSpacingBefore(10f); // ajoute un espace de 10 points avant le texte du footer
-
-        HeaderFooter footer = new HeaderFooter(footerText, new Phrase(" - Page ",FooterFont));
-        footer.setAlignment(Element.ALIGN_LEFT);
-        document.setFooter(footer);
-
-
-        // Ouvrir le document
-        document.open();
-
-        // Ajouter le logo
-        Image logo = Image.getInstance("logo_MicroGrowth.png");
-        logo.scaleAbsolute(100f, 100f);
-        logo.setAlignment(Element.ALIGN_CENTER);
-        document.add(logo);
-
-        // Ajouter les informations du contrat
-        double max = MaxCredit(nbmois);
-        Font boldFont = new Font(Font.HELVETICA, 16, Font.BOLD);
-        Font normalFont = new Font(Font.HELVETICA, 12, Font.NORMAL);
-        Paragraph montantMax = new Paragraph("Montant maximum : " + max + " dinars", boldFont);
-        montantMax.setSpacingAfter(20f);
-        document.add(montantMax);
-
-        Paragraph mensualite = new Paragraph("Mensualité : " + user.getSalaire()*0.43 + " dinars", normalFont);
-        mensualite.setSpacingAfter(20f);
-        document.add(mensualite);
-
-        Paragraph duree = new Paragraph("Durée : " + nbmois + " mois", normalFont);
-        duree.setSpacingAfter(20f);
-        document.add(duree);
-
-        Paragraph taux = new Paragraph("Taux d'intérêt : 0.23%", normalFont);
-        taux.setSpacingAfter(20f);
-        document.add(taux);
-
-
-        // Fermer le document
-        document.close();
-        return null;
-    }
-    public void envoyerCreditParEmail() throws javax.mail.MessagingException {
-        User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
-        String smtpHost = "smtp.gmail.com";
-        String smtpPort = "587";
-        String smtpUsername = "microfinance.pidev@gmail.com";
-        String smtpPassword = "eouuvoarsmurejid";
-        String sender = "microfinance.pidev@gmail.com";
-        String subject = "Montant maximum du Crédit";
-
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", smtpHost);
-        props.put("mail.smtp.port", smtpPort);
-
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(smtpUsername, smtpPassword);
-            }
-        });
-
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(sender));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
-        message.setSubject(subject);
-
-        // Créer le contenu du message
-
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText("Bonjour Mr"+ user.getLasttName()+" "+ user.getFirstName() + ",\n\nVeuillez trouver ci-joint le montant maximal que vous pouvez emprunter \""  + "\".");
-
-        // Créer la pièce jointe PDF
-        MimeBodyPart pdfAttachment = new MimeBodyPart();
-        DataSource source = new FileDataSource("credit.pdf");
-        pdfAttachment.setDataHandler(new DataHandler(source));
-        pdfAttachment.setFileName("credit.pdf");
-
-        // Ajouter la pièce jointe PDF au message
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
-        multipart.addBodyPart(pdfAttachment);
-        message.setContent(multipart);
-        // Envoyer le message
-        Transport.send(message);
-    }
->>>>>>> main
 
 }
 

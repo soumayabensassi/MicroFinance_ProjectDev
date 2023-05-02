@@ -28,30 +28,36 @@ import java.util.List;
 @AllArgsConstructor
 @EnableScheduling
 public class ComplaintRestController {
-    private EmailService senderService;
+
+    private EmailSenderService senderService;
+    private EmailService senderService1;
     private IComplaintService iComplaintService;
     private ComplaintService complaintService;
-    IMicroGrowth iMicroGrowth;
+
     private  ComplaintRepository complaintRepository;
+
     private IMicroGrowth  iMicroGrowth;
-    @GetMapping("/admin/afficherC")
+
+
+    @GetMapping("/afficherC")
+
     public List<Complaint> afficherC(){
 
         return iComplaintService.selectAll();
     }
     @PostMapping("/user/ajouterComplaint")
-    public Complaint ajouterC(@RequestBody Complaint complaint){
+    public Complaint ajouterC(@RequestBody Complaint complaint) throws MessagingException {
         Date d=new Date();
         complaint.setDate(d);
-<<<<<<< HEAD
-        // for(User us : complaintRepository.selectUsers()) {
-        senderService.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
-        // }
-=======
+
        // for(User us : complaintRepository.selectUsers()) {
-            senderService.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
+           // senderService1.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
        // }
->>>>>>> main
+
+//        for(User us : complaintRepository.selectUsers()) {
+//            senderService.sendEmail(us.getEmail(), " Réception de réclamation confirmé ", "Bien reçu, votre récalmation a été bien enregistrée. Je vous prie de patienter. Votre récalamation sera traitée dans les 24h ", "C:/Users/HP/Pictures/logo.png");
+//        }
+
         complaint.setState(false);
         return iComplaintService.add(complaint);
     }

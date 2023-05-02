@@ -40,4 +40,14 @@ public class BankAccountService implements IBankAccount {
             bankAccountRepository.deleteById(id);
 
         }
+
+    @Override
+    public void resetLimit() {
+
+    }
+
+    @Override
+    public void notifUpdate() {
+
+    }
 }

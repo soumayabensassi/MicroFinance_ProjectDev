@@ -128,36 +128,24 @@ if (t.getTypeTransaction().equals(Type_Transaction.WITHDRAWAL))    {        if(t
             }}
            else throw new NotFoundException("withdrawal not allowed");
         }
-<<<<<<< HEAD
-=======
+
         @Override
     public void makePayment(Transaction t) {
-        List<Transaction> toDayTransactions = transactionRepository
-                .findAllByDateTransactionAndRibSource(new Date(), t.getRibSource())
-                .orElseThrow(() -> new NotFoundException("not found"));
-        BankAccount bankAccountReceiver = bankAccountRepository.findBankAccountByRib(t.getRibReceiver())
-                .orElseThrow(() -> new NotFoundException("NO ACCOUNT WITH RIB :" + t.getRibReceiver()));
-        BankAccount bankAccountSource= bankAccountRepository.findBankAccountByRib(t.getRibSource())
-                .orElseThrow(() -> new NotFoundException("NO ACCOUNT WITH RIB :" + t.getRibSource()));
-        float somme=0;
-        for(Transaction transaction : toDayTransactions){
-            if(transaction.getTypeTransaction().equals(Type_Transaction.CARD_PAYMENT))
-                somme+=transaction.getAmountTransaction();
+            List<Transaction> toDayTransactions = transactionRepository
+                    .findAllByDateTransactionAndRibSource(new Date(), t.getRibSource())
+                    .orElseThrow(() -> new NotFoundException("not found"));
+            BankAccount bankAccountReceiver = bankAccountRepository.findBankAccountByRib(t.getRibReceiver())
+                    .orElseThrow(() -> new NotFoundException("NO ACCOUNT WITH RIB :" + t.getRibReceiver()));
+            BankAccount bankAccountSource = bankAccountRepository.findBankAccountByRib(t.getRibSource())
+                    .orElseThrow(() -> new NotFoundException("NO ACCOUNT WITH RIB :" + t.getRibSource()));
+            float somme = 0;
+            for (Transaction transaction : toDayTransactions) {
+                if (transaction.getTypeTransaction().equals(Type_Transaction.CARD_PAYMENT))
+                    somme += transaction.getAmountTransaction();
+            }
+            somme += t.getAmountTransaction();
         }
-        somme+=t.getAmountTransaction();
-        if(t !=null
-                && somme < bankAccountSource.getCURRENT_CARDPAYMENT_PER_DAY()
-                && t.getAmountTransaction()<= bankAccountSource.getAmount()+ bankAccountSource.getCOVER())
-        {
-            bankAccountSource.setAmount(bankAccountSource.getAmount()-t.getAmountTransaction());
-            bankAccountReceiver.setAmount(bankAccountReceiver.getAmount()+t.getAmountTransaction());
-            bankAccountSource.setCURRENT_CARDPAYMENT_PER_DAY((long) (bankAccountSource.getCURRENT_CARDPAYMENT_PER_DAY()-t.getAmountTransaction()));
-            if(t.getBankAccountList() == null)
-                t.setBankAccountList(new ArrayList<>());
-            t.getBankAccountList().add(bankAccountSource);
-            t.getBankAccountList().add(bankAccountReceiver);
-            transactionRepository.save(t);
->>>>>>> main
+
 
 
 }
