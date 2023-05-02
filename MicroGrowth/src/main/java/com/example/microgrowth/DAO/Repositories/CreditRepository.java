@@ -42,7 +42,7 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> selectCreditRembourseeParMois();
     @Query(value ="select c.users_id_user from credit c where c.id_credit=?1" , nativeQuery = true)
     int SelectUserFromCredit(int i);
-    @Query(value ="SELECT credit.* from credit WHERE credit.pack=true and credit.users_id_user=null" ,nativeQuery = true)
+    @Query(value ="SELECT credit.* from credit JOIN user on credit.users_id_user=user.id_user JOIN role ON role.idrole=user.roles_idrole WHERE credit.pack=true and role.name='[ROLE_ADMIN]'" ,nativeQuery = true)
     List<Credit> CreditsPack();
     @Query(value ="SELECT credit.* from credit WHERE credit.users_id_user=?1" ,nativeQuery = true)
     List<Credit> CreditsParUser(int iduser);

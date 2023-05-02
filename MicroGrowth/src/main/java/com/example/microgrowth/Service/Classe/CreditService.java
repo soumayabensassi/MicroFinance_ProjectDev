@@ -83,7 +83,7 @@ public class CreditService implements ICredit {
     @Override
     public Credit add_credit_admin(Credit c) {
         c.setPack(true);
-        c.setUsers(null);
+
         return creditRepository.save(c);
     }
 
@@ -636,8 +636,8 @@ public double MaxCredit(int nbmois){
         User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
         String smtpHost = "smtp.gmail.com";
         String smtpPort = "587";
-        String smtpUsername = "microfinance.pidev@gmail.com";
-        String smtpPassword = "eouuvoarsmurejid";
+        String smtpUsername = "microgrowthbank@gmail.com";
+        String smtpPassword = "csodtlrjddawnbzh";
         String sender = "microfinance.pidev@gmail.com";
         String subject = "Montant maximum du Crédit";
 
