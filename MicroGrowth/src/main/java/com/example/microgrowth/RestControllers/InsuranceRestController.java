@@ -132,7 +132,6 @@ public class InsuranceRestController {
     }
     private IUser iUser;
     private EmailReceiptInsurance emailReceiptInsurance;
-
     public void SendReceiptEmail() throws MessagingException
     { LocalDate date_now =  LocalDate.now();
         System.out.println(date_now);

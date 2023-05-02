@@ -58,6 +58,7 @@ public class InvestmentRestControllers  {
     public Investment ajouter(@RequestBody Investment inv){
         
         EmailService.sendNotificationEmail(iMicroGrowth.getCurrentUserName());
+        inv.setUsers(Iuser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
 
         return IInvestment.add(inv);
     }
@@ -93,7 +94,7 @@ public class InvestmentRestControllers  {
         return Tauxinteret;
     }
 
-   @GetMapping("/user/export/pdfinvestissement")
+   @GetMapping("/exportpdfinvestissement")
     public void exportToPDF(HttpServletResponse response, @RequestParam int id) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");

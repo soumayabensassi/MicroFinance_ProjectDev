@@ -41,10 +41,10 @@ public class Credit implements Serializable {
     int penalites;
     float montant_penalites;
     @ManyToOne
- @JsonIgnore
     User users;
 
     @ManyToOne
+
     ActivitySector activiteSecteurs;
      @OneToOne (cascade = CascadeType.ALL)
      Intreview intreviews;

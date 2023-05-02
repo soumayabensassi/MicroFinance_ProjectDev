@@ -14,7 +14,6 @@ public class DislikeService implements IDislike {
 
     @Override
     public Dislike add(Dislike a) {
-        a.setNbr(1);
         return dislikeRepository.save(a);
     }
 
@@ -30,5 +29,15 @@ dislikeRepository.deleteById(id);
     @Override
     public Dislike verifDislikeComment(String email, int i) {
         return dislikeRepository.findByUsersEmailAndCommentIdComment(email,i);
+    }
+
+    @Override
+    public int totalDisLike(int id) {
+        return dislikeRepository.totalDislLike(id);
+    }
+
+    @Override
+    public int totalDisLikeComment(int id) {
+        return dislikeRepository.totalDislLikeComment(id);
     }
 }

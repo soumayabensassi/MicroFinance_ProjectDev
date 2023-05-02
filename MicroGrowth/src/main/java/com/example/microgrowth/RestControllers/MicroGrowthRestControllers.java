@@ -8,17 +8,14 @@ import com.example.microgrowth.DAO.Entities.Role;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.Service.Classe.MicroGrowthService;
 import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
+import com.example.microgrowth.Service.Interfaces.IUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,10 +27,11 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@CrossOrigin("*")
 public class MicroGrowthRestControllers {
     @Autowired
     IMicroGrowth iMicroGrowth;
-
+    IUser iUser;
     @GetMapping("/user/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);

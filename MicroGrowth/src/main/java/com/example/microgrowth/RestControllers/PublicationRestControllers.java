@@ -17,19 +17,20 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin("*")
 public class PublicationRestControllers {
     private IPublication iPublication;
     private IUser iUser;
     private IMicroGrowth iMicroGrowth;
-    @GetMapping("/afficherPublication")
+    @GetMapping("afficherPublication")
     public List<Publication> afficher()
     {
         return iPublication.selectAll();
     }
 
-    @PostMapping("/user/ajouterPublication")
+    @PostMapping("/user/ajouterPublication/{email}")
 
-    public String ajouter(@RequestBody Publication publication)
+    public String ajouter(@RequestBody Publication publication,@PathVariable String email)
     {List<String> motsARechercher = Arrays.asList("mot1", "mot2", "mot3");
         String texte = publication.getText();
         for (String mot : motsARechercher) {
@@ -37,17 +38,20 @@ public class PublicationRestControllers {
                 texte = texte.replaceAll(mot, "*");
             }
             }
-        publication.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
-
+        publication.setUsers(iUser.getUserByEmail(email));
+        publication.setNombreLike(0);
+        publication.setNombreDislike(0);
         publication.setText(texte);
-            iPublication.add(publication);
+        iPublication.add(publication);
             return "ajout done";
 
 
     }
-    @PutMapping("/user/updatePublication")
-    public Publication update(@RequestBody Publication publication)
-    {return iPublication.edit(publication);
+    @PutMapping("/user/updatePublication/{id}")
+    public Publication update(@RequestBody Publication publication,@PathVariable int id)
+    {   Publication p=iPublication.SelectById(id);
+        p.setText(publication.getText());
+        return iPublication.edit(p);
     }
     @GetMapping("/afficherPublicationbyID/{id}")
     public Publication AfficherByID(@PathVariable int id)
@@ -66,7 +70,7 @@ public class PublicationRestControllers {
         publication.setState(true);
         iPublication.edit(publication);
     }
-    @PostMapping("/admin/AfficheraprouvePublication")
+    @GetMapping ("/AfficheraprouvePublication")
     public List<Publication> AprouvePublication()
     {
 

@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -35,11 +37,10 @@ public class User implements Serializable {
     String typeContratEmploi ;
     int proprietaire;
     float salaire;
-    @Temporal(TemporalType.DATE)
     Date dateNaissance;
     boolean historiqueCredit;
     @OneToMany(mappedBy = "users")
-            @JsonIgnore
+    @JsonIgnore
     List<Investment> investmentList;
 
     @OneToMany(mappedBy = "users")
@@ -47,17 +48,17 @@ public class User implements Serializable {
     List<Credit> creditList;
 
     @OneToMany(mappedBy = "users")
-            @JsonIgnore
+    @JsonIgnore
     List<Inssurance> inssuranceList;
     @OneToMany(mappedBy = "users")
-            @JsonIgnore
+    @JsonIgnore
     List<Transaction> transactionList;
 //    @ManyToMany(fetch = FetchType.EAGER) // load the user and load their roles in the db
 //    private Collection<Role> roles = new ArrayList<>();
     @ManyToOne
     Role roles;
     @ManyToMany(mappedBy = "userList")
-            @JsonIgnore
+    @JsonIgnore
     List<Training> trainingList;
     @OneToMany(mappedBy = "users")
     @JsonIgnore
@@ -66,10 +67,8 @@ public class User implements Serializable {
     @JsonIgnore
     List<Publication> publicationList;
     boolean Active;
-    @OneToMany(mappedBy = "users")
-            @JsonIgnore
-    List<Rating> ratingList;
-
-
+    @OneToOne
+    @JsonIgnore
+    ImageModel imageModel;
 
 }
