@@ -33,10 +33,13 @@ public class ParticiperRestController {
             iParticiperService.add(participer1);
             p.setNombreParticiper(iParticiperService.totalParticiper(idtraining));
             iTrainingService.edit(p);
-        } else if (participer==null && nonParticiper!=null) {
+        } else if (participer!=null && nonParticiper!=null) {
+            System.out.println("eeeeeeeee");
             iNonParticiperService.deleteById(nonParticiper.getIdNonParticiper());
             Participer participer1=new Participer(iUser.getUserByEmail(email),iTrainingService.selectById(idtraining));
             iParticiperService.add(participer1);
-        } else  iParticiperService.deleteById(participer.getIdParticiper());
+        } else { iParticiperService.deleteById(participer.getIdParticiper());
+            p.setNombreParticiper(iParticiperService.totalParticiper(idtraining));
+            iTrainingService.edit(p);}
     }
 }

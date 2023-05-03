@@ -38,6 +38,11 @@ public class ComplaintRestController {
 
         return iComplaintService.selectAll();
     }
+    @GetMapping("/afficherCwithuser")
+    public List<Complaint> afficherCwithuser(){
+        String email=iMicroGrowth.getCurrentUserName();
+        return iComplaintService.afficherwithuser(email);
+    }
     @PostMapping("/user/ajouterComplaint")
     public Complaint ajouterC(@RequestBody Complaint complaint){
         Date d=new Date();

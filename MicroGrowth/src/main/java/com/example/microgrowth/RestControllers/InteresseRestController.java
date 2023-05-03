@@ -38,6 +38,8 @@ public class InteresseRestController {
             iDesintresseService.deleteById(desinteresse.getIdDesinteresse());
             Interesse interesse1=new Interesse(iUser.getUserByEmail(email),iTrainingService.selectById(idtraining));
             iInteresseService.add(interesse1);
-        } else  iInteresseService.deleteById(interesse.getIdInteresse());
+        } else { iInteresseService.deleteById(interesse.getIdInteresse());
+            p.setNombreInteresse(iInteresseService.totalInteresse(idtraining));
+            iTrainingService.edit(p);}
     }
 }

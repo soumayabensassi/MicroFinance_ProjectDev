@@ -61,6 +61,11 @@ public class ComplaintService implements IComplaintService {
         complaintRepository.deleteAll(listT);
     }
 
+    @Override
+    public   List<Complaint>  afficherwithuser(String email) {
+        return complaintRepository.selectwithcurrentuser(email);
+    }
+
     private JavaMailSender mailSender;
 
 
