@@ -63,6 +63,11 @@ public class InvestmentRestControllers  {
 
         return IInvestment.add(inv);
     }
+    @GetMapping("/afficherInvbyID/{id}")
+    public Investment AfficherByID(@PathVariable int id)
+    {
+        return IInvestment.selectById(id);
+    }
 
     @DeleteMapping("/deleteInvestmentbyID/{id}")
     public void delete(@PathVariable int id)
