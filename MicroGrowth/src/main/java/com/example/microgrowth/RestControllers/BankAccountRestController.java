@@ -36,7 +36,11 @@ public IBankAccount iBankAccount;
     {
         return iBankAccount.SelectById(id);
     }
-
+    @GetMapping("/admin/showBankAccountbyuser/{id}")
+    public BankAccount AfficherByIDUser(@PathVariable int id)
+    {
+        return iBankAccount.SelectByIdUser(id);
+    }
     @DeleteMapping("/admin/deleteBankAccount/{id}")
     public void delete(@PathVariable int id)
     {
