@@ -15,7 +15,7 @@ public interface IBankAccount {
     BankAccount SelectById(int id);
     void deleteById(int id);
     void resetLimit();
-
+    BankAccount SelectByIdUser(int id);
     @Scheduled(cron = "0 0 1 * * ")
      void notifUpdate();
 

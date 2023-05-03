@@ -5,7 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="381da76e-e92a-4776-8f48-dca25a0094db" name="Changes" comment="">
+<<<<<<< Updated upstream
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/credit.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/logo_MicroGrowth.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/DAO/Entities/CategorieTransaction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/DAO/Entities/PdfGeneratorCredit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/DAO/Entities/Projet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/DAO/Repositories/ProjetRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Model/WebhookRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Model/WebhookResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/RestControllers/KPIInsuranceRestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/RestControllers/ProjetRestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/RestControllers/SmsRestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/RestControllers/Webhook.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Service/Classe/DialogflowService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Service/Classe/EmailReceiptInsurance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Service/Classe/ProjetService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Service/Interfaces/IProjet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/config/SSLVerificationDisabler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/DAO/Entities/Training.java" beforeDir="false" afterPath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/DAO/Entities/Training.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/MicroGrowthApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/MicroGrowthApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/RestControllers/TrainingRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/RestControllers/TrainingRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/MicroGrowth/src/main/java/com/example/microgrowth/Security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MicroGrowth/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MicroGrowth/src/main/resources/application.properties" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +73,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/omezz/OneDrive/Documents/GitHub/MicroFinance_ProjectDev/MicroGrowth",
+    "last_opened_file_path": "C:/Users/HP/Documents/GitHub/MicroFinance_ProjectDev",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -57,7 +84,6 @@
 }]]></component>
   <component name="RunManager">
     <configuration name="MicroGrowthApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="MicroGrowth" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.microgrowth.MicroGrowthApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -76,12 +102,38 @@
       <workItem from="1677061190632" duration="164000" />
       <workItem from="1677061367772" duration="16000" />
       <workItem from="1677061392929" duration="43000" />
-      <workItem from="1682522925131" duration="1950000" />
-      <workItem from="1682535471295" duration="49000" />
+<<<<<<< Updated upstream
+      <workItem from="1680646864938" duration="275000" />
+=======
+      <workItem from="1682584441135" duration="82000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/Gestion-reclamation+formation" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

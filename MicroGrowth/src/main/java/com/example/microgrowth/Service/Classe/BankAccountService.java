@@ -64,6 +64,11 @@ public class BankAccountService implements IBankAccount {
     }
 
     @Override
+    public BankAccount SelectByIdUser(int id) {
+       return this.bankAccountRepository.findBankAccountByUser_IdUser(id);
+    }
+
+    @Override
     @Scheduled(cron = "0 0 1 * * *")
     public void notifUpdate() {
         for (BankAccount bankAccount : bankAccountRepository.findAll()) {

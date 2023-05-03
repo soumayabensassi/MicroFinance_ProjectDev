@@ -37,7 +37,6 @@ import java.util.Date;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "*")
 public class InvestmentRestControllers  {
     @Autowired
     private EmailService EmailService;
@@ -50,7 +49,7 @@ public class InvestmentRestControllers  {
     @Autowired
     private IUser Iuser;
 
-    @GetMapping("/afficherInvestment")
+    @GetMapping("/admin/afficherInvestment")
     public List<Investment> afficher (){
         return IInvestment.selectAll();
     }
@@ -69,19 +68,19 @@ public class InvestmentRestControllers  {
         return IInvestment.selectById(id);
     }
 
-    @DeleteMapping("/deleteInvestmentbyID/{id}")
+    @DeleteMapping("/admin/deleteInvestmentbyID/{id}")
     public void delete(@PathVariable int id)
     {
         IInvestment.deleteById(id);
     }
 
-    @PutMapping("/modifierInvestment/{id}")
+    @PutMapping("/admin/modifierInvestment/{id}")
     public Investment modif(@RequestBody Investment inv){
 
         return IInvestment.modif(inv);
     }
 
-    @PostMapping("/interet")
+    @PostMapping("/admin/interet")
     public double calculerInteret(
             @RequestParam MethodInvestissement methodInvestissement,
             @RequestParam double amountInves,
@@ -92,7 +91,7 @@ public class InvestmentRestControllers  {
         return interet;
     }
 
-    @PostMapping("/calculerTauxInteret")
+    @PostMapping("/admin/calculerTauxInteret")
     public double calculerTauxInteret1(@RequestParam MethodInvestissement methodInvestissement,
                                        @RequestParam double amountInves,
                                        @RequestParam int duree) {
@@ -115,7 +114,7 @@ public class InvestmentRestControllers  {
         BonDeCommandeService bonDeCommandeService = new BonDeCommandeService(listInvestments);
         bonDeCommandeService.export(response);
     }
-    @GetMapping("/RevenuIInvesstisement")
+    @GetMapping("/admin/RevenuIInvesstisement")
     public Double getRevenusInvesstisement()
     {
         double resultat=0;
@@ -129,7 +128,7 @@ public class InvestmentRestControllers  {
         return  resultat;
     }
 
-    @GetMapping("/ponzii/{iduser}")
+    @GetMapping("/admin/ponzii/{iduser}")
     public List<String> calculerTauxPonzii(@PathVariable int iduser) {
         return IInvestment.calculerTauxPonzii(iduser);
     }
@@ -137,7 +136,7 @@ public class InvestmentRestControllers  {
     @RestController
     public class SessionController {
 
-        @GetMapping("/session/{n}/{x}")
+        @GetMapping("/admin/session/{n}/{x}")
         public double getSession(@PathVariable double n, @PathVariable double x) {
             return IInvestment.session(n, x);
         }
