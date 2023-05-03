@@ -9,10 +9,11 @@ import com.example.microgrowth.Service.Interfaces.ICredit;
 import com.example.microgrowth.Service.Interfaces.IPenalite;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class PenaliteRestController {
@@ -23,7 +24,7 @@ public class PenaliteRestController {
     private EmailService emailService;
     CreditRepository creditRepository;
 
-    @GetMapping("/SendPenaliteEmail/{id}")
+    @GetMapping("/admin/SendPenaliteEmail/{id}")
     void SendEmailPenalite(@PathVariable int id){
         int user_id= creditRepository.SelectUserFromCredit(id);
         User user=userRepository.findById(user_id).get();
@@ -35,7 +36,7 @@ public class PenaliteRestController {
     }
 
 }
-@GetMapping("/StatistiquePenalite/{mois}")
+@GetMapping("/admin/StatistiquePenalite/{mois}")
     void afficherStatPenalite(@PathVariable int mois){
         System.out.println(iPenalite.statistique_penalite_mois(mois));
 }

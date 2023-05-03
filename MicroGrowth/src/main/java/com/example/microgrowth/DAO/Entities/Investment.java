@@ -39,7 +39,7 @@ import java.util.Set;
         MethodInvestissement methodInvestissement;
         @Temporal(TemporalType.DATE)
         Date DateInv = new Date();
-    @JsonIgnore
+
         @ManyToOne
         User users;
     @JsonIgnore

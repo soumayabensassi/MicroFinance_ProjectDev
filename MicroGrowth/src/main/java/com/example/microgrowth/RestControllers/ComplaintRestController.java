@@ -8,6 +8,7 @@ import com.example.microgrowth.Service.Classe.ComplaintService;
 import com.example.microgrowth.Service.Classe.EmailSenderService;
 import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Interfaces.IComplaintService;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +22,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 @RestController
 @AllArgsConstructor
@@ -29,20 +31,21 @@ public class ComplaintRestController {
     private EmailService senderService;
     private IComplaintService iComplaintService;
     private ComplaintService complaintService;
+    IMicroGrowth iMicroGrowth;
     private  ComplaintRepository complaintRepository;
-    @GetMapping("/admin/afficherC")
+    @GetMapping("/afficherC")
     public List<Complaint> afficherC(){
 
         return iComplaintService.selectAll();
     }
     @PostMapping("/user/ajouterComplaint")
     public Complaint ajouterC(@RequestBody Complaint complaint){
-        Complaint c =new Complaint();
-        complaint.setDate(LocalDateTime.now());
+        Date d=new Date();
+        complaint.setDate(d);
        // for(User us : complaintRepository.selectUsers()) {
-            senderService.sendNotificationEmailComplaint(c.getUsers().getEmail());
+            senderService.sendNotificationEmailComplaint(iMicroGrowth.getCurrentUserName());
        // }
-        c.setState(false);
+        complaint.setState(false);
         return iComplaintService.add(complaint);
     }
     @GetMapping("/afficherAvecIdC/{idcomplaint}")
@@ -109,8 +112,8 @@ EmailSenderService emailSenderService;
     }
     @RequestMapping("/stat")
     public String statistique(){
-         Double satisfait=complaintRepository.calculsatisfait(RetourComplaint.SATISFAIT)/complaintRepository.totale();
-        Double nonsatisfait=complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale();
+         Double satisfait=(complaintRepository.calculsatisfait(RetourComplaint.SATISFAIT)/complaintRepository.totale())*100;
+        Double nonsatisfait=(complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale())*100;
         String satis=Double.toString(satisfait);
         String nonsatis=Double.toString(nonsatisfait);
         return "Le pourcentage des users satisfaits :"+satis+"%\n Le pourcentage des users non satisfaits"+nonsatis+"%";

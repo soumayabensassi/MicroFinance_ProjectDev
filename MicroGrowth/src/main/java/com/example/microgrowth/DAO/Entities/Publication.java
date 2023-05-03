@@ -24,7 +24,6 @@ public class Publication implements Serializable {
     String text;
     Boolean state = false;
     @ManyToOne
-    @JsonIgnore
     User users;
     @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL)
     @JsonIgnore
@@ -35,4 +34,7 @@ public class Publication implements Serializable {
     @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL)
     @JsonIgnore
     List<Dislike> dislikeList;
+    int nombreLike;
+    int nombreDislike;
+
 }

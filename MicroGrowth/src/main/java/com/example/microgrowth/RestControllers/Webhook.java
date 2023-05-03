@@ -1,5 +1,7 @@
 package com.example.microgrowth.RestControllers;
 
+import com.example.microgrowth.DAO.Entities.Inssurance;
+import com.example.microgrowth.DAO.Repositories.InsuranceRepository;
 import com.example.microgrowth.Model.WebhookRequest;
 import com.example.microgrowth.Model.WebhookResponse;
 import com.google.cloud.dialogflow.v2.QueryResult;
@@ -15,12 +17,13 @@ import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/webhook")
+@RequestMapping("/webhook1")
 
 public class Webhook {
 
 
 
+    private InsuranceRepository insuranceRepository;
 
 
 
@@ -29,17 +32,29 @@ public class Webhook {
 
 
         QueryResult queryResult = request.getQueryResult();
-        String userResponse = queryResult.getQueryText();
+        String intent = queryResult.getIntent().getDisplayName();
+
         String redirectUrl = "";
 
 
 
-        if (userResponse.equals("insurance")) {
-            redirectUrl = "/MicroGrowth/api/insurances";
-        } else if (userResponse.equals("Credit")) {
+        if (intent.equals("access.insurance.interface")) {
+            redirectUrl = "google.com";
+        } else if (intent.equals("Credit")) {
             redirectUrl = "/api/Credits";
-        } else if (userResponse.equals(("Investment"))) {
-            redirectUrl = "/api/Investments";
+        } else if (intent.equals(("insurance.request"))) {
+            String Samount = queryResult.getQueryText();
+            float amount = Float.parseFloat(Samount);
+
+            // Store insurance response in the database
+            Inssurance inssurance = new Inssurance();
+            inssurance.setAmount(amount);
+            insuranceRepository.save(inssurance);
+        } else if ("balance.check".equals(request.getQueryResult().getIntent().getDisplayName())) {
+            // TODO: Retrieve the balance from your entity and return it as a response
+            String balance = "1000"; // Example response
+            return new WebhookResponse("Your balance is $" + balance);
+            
         }
 
         WebhookResponse webhookResponse = new WebhookResponse();

@@ -26,8 +26,8 @@ public class CommentRestControllers {
         return iComment.selectAll();
     }
 
-    @PostMapping("/user/ajouterComment")
-    public String ajouter(@RequestBody Comment comment)
+    @PostMapping("/user/ajouterComment/{id}/{email}")
+    public Comment ajouter(@RequestBody Comment comment,@PathVariable int id,@PathVariable String email)
     {
         List<String> motsARechercher = Arrays.asList("mot1", "mot2", "mot3");
         String texte = comment.getText();
@@ -37,11 +37,12 @@ public class CommentRestControllers {
                 texte = texte.replaceAll(mot, "*");
             }
         }
-            comment.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
+            comment.setUsers(iUser.getUserByEmail(email));
             comment.setText(texte);
            // comment.setUsers();
             iComment.add(comment);
-            return "ajout done";
+            iComment.affecterPubToComment(id,comment.getIdComment());
+            return comment;
 
     }
     @PutMapping("/user/updateComment")
@@ -53,9 +54,19 @@ public class CommentRestControllers {
     {
         return iComment.SelectById(id);
     }
+    @GetMapping("/AfficherCommentbyPUBID/{id}")
+    public List<Comment> AfficherCommentbyPUBID(@PathVariable int id)
+    {
+        return iComment.getCommentBypublicationid(id);
+    }
     @DeleteMapping("/user/deleteComment/{id}")
     public void delete(@PathVariable int id)
     {
         iComment.deleteById(id);
+    }
+    @PostMapping("/affecterPubToComment/{idComment}/{idPublication}")
+    public  void affectation(@PathVariable int idComment,@PathVariable int idPublication)
+    {
+       iComment.affecterPubToComment(idPublication,idComment);
     }
 }

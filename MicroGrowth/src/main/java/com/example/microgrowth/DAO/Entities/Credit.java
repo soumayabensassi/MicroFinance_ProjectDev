@@ -36,15 +36,16 @@ public class Credit implements Serializable {
     @Column(nullable = false)
     float monthlyAmount;
     int state;
+    int score_credit;
     boolean pack;
     boolean garanties;
     int penalites;
     float montant_penalites;
     @ManyToOne
- @JsonIgnore
     User users;
 
     @ManyToOne
+
     ActivitySector activiteSecteurs;
      @OneToOne (cascade = CascadeType.ALL)
      Intreview intreviews;

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ICredit {
     
-    Credit add_credit_user(Credit c);
+    String add_credit_user(Credit c);
 
     Credit add_credit_admin(Credit c);
 
@@ -23,10 +23,10 @@ public interface ICredit {
 
     void deleteById(int id_credit);
     List<Credit> SelectByEmail(String email);
-     int scoreCredit(int id) ;
+     int scoreCredit(int id, String email) ;
      //int afficherScore(User user, Credit credit, BankAcount bankAcount);
     float calcul_taux(float montant,int duree);
-    void calcul_tableau_credit(Credit c);
+    float[][] calcul_tableau_credit(Credit c);
     double calcul_Rentabilite_parCredit(Credit c);
     double calcul_Rentabilite_parCreditNonActialise(Credit c);
     double calcul_Net_Interest_Marge();
@@ -43,11 +43,11 @@ public interface ICredit {
     void RefuserCreditAuUser(Credit credit);
 
      float calculateInterestRate(Credit c) ;
-     void SimulateurCredit(float MontantCredit,int nbmois);
+    double[] SimulateurCredit(float MontantCredit,int nbmois);
     File genererCreditPDF(int nbmois) throws IOException, DocumentException;
     void envoyerCreditParEmail() throws javax.mail.MessagingException;
     double MaxCredit(int nbmois);
-
+     void accorderPack(int id);
 
 
 

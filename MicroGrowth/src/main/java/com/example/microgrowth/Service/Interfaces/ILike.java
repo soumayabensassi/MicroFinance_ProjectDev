@@ -7,4 +7,6 @@ public interface ILike {
     void deleteById(int id);
     Likes verifLikePublication(String email,int i);
     Likes verifLikeComment(String email,int i);
+    int totalLike(int id);
+    int totalLikeComment(int id);
 }

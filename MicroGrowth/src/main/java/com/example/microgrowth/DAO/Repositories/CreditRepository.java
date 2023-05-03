@@ -25,12 +25,12 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     @Query(value = "select SUM(t.amount_transaction) from credit c " +
             "join user u on c.users_id_user=u.id_user join transaction " +
             "t on u.id_user=t.users_id_user where t.rib_receiver='1' " +
-            "and YEAR(t.date_transaction)=?2 and t.type_transaction=\"BANK_TRANSFER\"" +
+            "and YEAR(t.date_transaction)=?2 " +
             "AND u.id_user=?1",nativeQuery = true)
     double SommeDepot(int id,int annee);
     @Query(value = "select t.id_transaction from credit c join user u on c.users_id_user=u.id_user join transaction t " +
             "on u.id_user=t.users_id_user where t.rib_receiver='1' " +
-            " and YEAR(t.date_transaction)=?2 and t.type_transaction=\"BANK_TRANSFER\"" +
+            " and YEAR(t.date_transaction)=?2 " +
             " AND u.id_user=?1",nativeQuery = true)
     List<Integer> listTransactiondelannee(int id, int annee);
 
@@ -38,10 +38,21 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
             " join transaction t on u.id_user=t.users_id_user join " +
             "transaction_bank_account_list tb on u.id_user=tb.transaction_list_id_transaction" +
             " and c.date_echeance=t.date_transaction and t.rib_receiver='1' and " +
-            "t.amount_transaction=c.monthly_amount ", nativeQuery = true)
+            "t.amount_transaction=c.monthly_amount and t.categorie_transaction='CREDIT' ", nativeQuery = true)
     List<Credit> selectCreditRembourseeParMois();
     @Query(value ="select c.users_id_user from credit c where c.id_credit=?1" , nativeQuery = true)
     int SelectUserFromCredit(int i);
-
+    @Query(value ="SELECT credit.* from credit JOIN user on credit.users_id_user=user.id_user JOIN role ON role.idrole=user.roles_idrole WHERE credit.pack=true and role.name='[ROLE_ADMIN]'" ,nativeQuery = true)
+    List<Credit> CreditsPack();
+    @Query(value ="SELECT credit.* from credit WHERE credit.users_id_user=?1" ,nativeQuery = true)
+    List<Credit> CreditsParUser(int iduser);
+    @Query(value ="SELECT credit.* from credit WHERE credit.state=2" ,nativeQuery = true)
+    List<Credit> CreditsAcceptee();
+    @Query(value ="SELECT credit.* from credit WHERE credit.state=0" ,nativeQuery = true)
+    List<Credit> CreditsRefusee();
+    @Query(value ="SELECT credit.* from credit WHERE credit.state=1" ,nativeQuery = true)
+    List<Credit> CreditsEnCours();
+    @Query(value = "SELECT credit.* from credit JOIN user on credit.users_id_user=user.id_user where user.email=?1",nativeQuery = true)
+    List<Credit> afficherMesCredits(String email);
 
 }

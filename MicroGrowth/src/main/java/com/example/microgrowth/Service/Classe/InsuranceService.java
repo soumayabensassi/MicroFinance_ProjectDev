@@ -20,7 +20,7 @@ public class InsuranceService implements IInsuranceService {
     }
 
     @Override
-    public Inssurance edit(Inssurance inssurance) {
+    public Inssurance edit( Inssurance inssurance) {
         return insuranceRepository.save(inssurance);
     }
 
@@ -47,6 +47,11 @@ public class InsuranceService implements IInsuranceService {
     @Override
     public void deleteAll(List<Inssurance> inssuranceList) {
         insuranceRepository.deleteAll(inssuranceList);
+    }
+
+    @Override
+    public List<String> getUserEmail(String d) {
+        return insuranceRepository.selectEmailUser(d);
     }
 
     @Override

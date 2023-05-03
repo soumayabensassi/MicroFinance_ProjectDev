@@ -18,13 +18,13 @@ public class ProjetRestController {
    private IInvestment IInvestment;
     ProjetRepository projetRepository;
 
-    @GetMapping("/admin/afficherProjet")
+    @GetMapping("/afficherProjet")
     public List<Projet> afficher (){
 
         return iProjet.selectAll();
     }
 
-    @PostMapping("/admin/ajouterProjet")
+    @PostMapping("/ajouterProjet")
     public void ajouter(@RequestBody  Projet projet) {
 
          iProjet.add(projet);
@@ -41,7 +41,7 @@ public class ProjetRestController {
 
         return iProjet.modif(projet);
     }
-    @PostMapping("/admin/{projetId}/calculerRendementAnnuel/{investissementId}")
+    @PostMapping("/admin/calculerRendementAnnuel/{investissementId}/{projetId}")
     public Double calculerRendementAnnuel(@PathVariable Long projetId, @PathVariable int investissementId,
             @RequestParam("investissementInitial") double investissementInitial , @RequestParam("tauxRendement") double tauxRendement
     ) {
@@ -54,7 +54,7 @@ public class ProjetRestController {
     public void recalculerObligation(@PathVariable Long projetId,@RequestParam("investment") double investment){
         iProjet.recalculerObligation(projetId,investment);
     }
-    @PostMapping("/admin//stockInterest")
+    @PostMapping("/stockInterest")
     public Double calculateAnnualReturn(
             @RequestParam("purchasePrice") Double purchasePrice,
             @RequestParam("currentPrice") Double currentPrice,

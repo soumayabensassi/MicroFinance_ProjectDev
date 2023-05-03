@@ -26,7 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.internet.MimeMultipart;
 @AllArgsConstructor
 @Service
 public class CreditService implements ICredit {
@@ -45,8 +44,10 @@ public class CreditService implements ICredit {
 
 
     @Override
-    public Credit add_credit_user(Credit c) {
+    public String add_credit_user(Credit c) {
         Calendar calendar = Calendar.getInstance();
+        String messageA="Le montant doit etre positif";
+        String messageB="Ajout avec succès";
         //calendar.setTime(c.getObtainingDate());
 // Ajouter 30 jours à la date
         calendar.add(Calendar.DATE, 30);
@@ -56,17 +57,27 @@ public class CreditService implements ICredit {
         c.setState(1); //1:en cours  0:refus  2:accordé
         Date date_now = new Date();
         c.setDemandDate(date_now);
+
         System.out.println("aaaa");
-        c.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
-        System.out.println(c.getUsers().getFirstName());
+        //c.setUsers(iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
+
+       // System.out.println(c.getUsers().getFirstName());
         c.setIntrestRaiting(calculateInterestRate(c));
-        System.out.println(c.getIntrestRaiting());
+        float tauxMensuel = c.getIntrestRaiting() / 12;
+
+        float coefficient = (float) Math.pow(1 + tauxMensuel, c.getDuree()*12);
+        c.setMonthlyAmount((c.getAmount_credit()*tauxMensuel*coefficient)/(coefficient-1));
         //iMicroGrowth.getUser(iMicroGrowth.getCurrentUserName());
         // c.setUsers(iMicroGrowth.getUser("aziz2000cherif1@gmail.com"));
         //float ca=calcul_taux(c.getAmount_credit(),c.getDuree() );
         ///c.setIntrestRaiting(ca);
-
-        return creditRepository.save(c);
+        if (c.getAmount_credit()>0) {
+            creditRepository.save(c);
+            System.out.println("Le montant doit etre positif");
+            return messageB;
+        }
+        else {
+        return messageA;}
     }
 
     @Override
@@ -103,10 +114,10 @@ public class CreditService implements ICredit {
 
 
     @Override
-    public int scoreCredit(int id) {
+    public int scoreCredit(int id , String email) {
         int score = 0;
-        Credit credit = creditRepository.findById(id).orElse(null);
-        User user = userRepository.findById(credit.getUsers().getIdUser()).orElse(null);
+        Credit credit = creditRepository.findById(id).get();
+        User user = userRepository.findByEmail(email);
         float revenuMensuel = user.getSalaire();
         int ancienneteEmploi = user.getAncienneteEmploi();
         float montantPret = credit.getAmount_credit();
@@ -180,7 +191,7 @@ public class CreditService implements ICredit {
     }
 
     @Override
-    public void calcul_tableau_credit(Credit c) {
+    public float[][] calcul_tableau_credit(Credit c) {
         float amt, interest, monthly_payment;
         float[][] matrice = new float[c.getDuree() * 12][4];
 
@@ -191,20 +202,26 @@ public class CreditService implements ICredit {
 
         matrice[0][3] = amt + matrice[0][1];
 
-
         for (int j = 1; j < c.getDuree() * 12; j++) {
             matrice[j][0] = matrice[j - 1][0] - amt;//montant
             matrice[j][1] = (matrice[j][0] * c.getIntrestRaiting()) / 12;//interet
             matrice[j][2] = matrice[0][0] / (c.getDuree() * 12);//amt
             matrice[j][3] = amt + matrice[j][1];//mensualite
 
-        }
-        for (int j = 0; j < matrice.length; j++) {
-            for (int i = 0; i < 4; i++) {
-                System.out.print(matrice[j][i] + " ");
+            if (j == c.getDuree() * 12 - 1) {
+                // Dernier paiement
+                if (matrice[j][0] != 0) {
+                    matrice[j][3] += matrice[j][0];
+                    amt += matrice[j][0];
+                    matrice[j][0] = 0;
+                    matrice[j][2] = 0;
+                }
+            } else {
+                amt = matrice[0][2];
             }
-            System.out.println();
         }
+
+        return matrice;
     }
 
     @Override
@@ -312,8 +329,8 @@ public class CreditService implements ICredit {
 
         for (Credit c : creditdeAnnee) {
             double test = 0;
-            System.out.println("aaaa=" + c.getUsers().getIdUser());
-            System.out.println("bbbb=" + year);
+            System.out.println("idUser=" + c.getUsers().getIdUser());
+            System.out.println("annee=" + year);
             List<Integer> transaction = creditRepository.listTransactiondelannee(c.getUsers().getIdUser(), year);
             System.out.println(transaction);
             if (!transaction.isEmpty()) {
@@ -321,15 +338,16 @@ public class CreditService implements ICredit {
             }
 
             actif += (c.getMonthlyAmount() * c.getDuree() * 12) - test;
-            System.out.println(actif);
+
         }
+        System.out.println("actif:"+actif);
         return actif;
     }
 
     @Override
     public double CalculActifRéserve() {
 
-        BankAccount bankAccount = bankAccountRepository.getBankAccountByRib("999999999");
+        BankAccount bankAccount = bankAccountRepository.getBankAccountByRib("1");
         return bankAccount.getAmount() * 0.1;
     }
 
@@ -342,7 +360,7 @@ public class CreditService implements ICredit {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         int year = calendar.get(Calendar.YEAR);
-        System.out.println("aaaa=" + year);
+        System.out.println("Annee=" + year);
         List<Credit> creditdeAnnee = creditRepository.creditParAnnee(year);
         for (Credit c : creditdeAnnee) {
             resultatCredit += this.calcul_Rentabilite_parCreditNonActialise(c);
@@ -521,27 +539,40 @@ creditRepository.save(credit);
             return interestRate;
 
         }
-        public void SimulateurCredit(float MontantCredit , int nbmois){
+        public double[] SimulateurCredit(float MontantCredit , int nbmois){
             double taux = 0.23  ;
+            double[] matrice = new double[4];
 //            float salaire=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName()).getSalaire();
 
 
             double tauxMensuel = taux / 12;
             double mensualite = (MontantCredit * tauxMensuel) / (1 - Math.pow(1 + tauxMensuel, -nbmois));
-
+            System.out.println("Le Montant est :"+ MontantCredit);
+            matrice[0]=MontantCredit;
             System.out.println("Taux d'intérêt annuel : " + taux);
+            matrice[1]=taux;
             System.out.println("Mensualité : " + mensualite);
+            matrice[2]=mensualite;;
             System.out.println("Coût total sans assurance : " + (mensualite * nbmois - MontantCredit));
-
-
+            matrice[3]=(mensualite * nbmois - MontantCredit);
+            return matrice;
         }
 public double MaxCredit(int nbmois){
        User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
-        double taux=0.3;
+        double taux=0.23;
         double tauxMensuel = taux / 12;
         double MaxCredit=((user.getSalaire()*0.43)*(1 - Math.pow(1 + tauxMensuel, -nbmois))) / tauxMensuel;
         return MaxCredit;
 }
+
+    @Override
+    public void accorderPack(int id) {
+        Credit credit=creditRepository.findById(id).get();
+        credit.setState(1);
+       // credit.setScore_credit(id);
+        creditRepository.save(credit);
+    }
+
     public File genererCreditPDF(int nbmois) throws IOException, DocumentException {
         User user = iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
         Document document = new Document(PageSize.A4, 50, 50, 50, 50);
@@ -592,9 +623,10 @@ public double MaxCredit(int nbmois){
         duree.setSpacingAfter(20f);
         document.add(duree);
 
-        Paragraph taux = new Paragraph("Taux d'intérêt : 0.3%", normalFont);
+        Paragraph taux = new Paragraph("Taux d'intérêt : 0.23%", normalFont);
         taux.setSpacingAfter(20f);
         document.add(taux);
+
 
         // Fermer le document
         document.close();
@@ -604,9 +636,9 @@ public double MaxCredit(int nbmois){
         User user=iUser.getUserByEmail(iMicroGrowth.getCurrentUserName());
         String smtpHost = "smtp.gmail.com";
         String smtpPort = "587";
-        String smtpUsername = "microgrowth.pi@gmail.com";
-        String smtpPassword = "viqybbgdubrswjnz";
-        String sender = "microgrowth.pi@gmail.com";
+        String smtpUsername = "microgrowthbank@gmail.com";
+        String smtpPassword = "csodtlrjddawnbzh";
+        String sender = "microfinance.pidev@gmail.com";
         String subject = "Montant maximum du Crédit";
 
         Properties props = new Properties();

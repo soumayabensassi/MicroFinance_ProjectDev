@@ -2,6 +2,7 @@ package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Credit;
 import com.example.microgrowth.DAO.Entities.Intreview;
+import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.DAO.Repositories.IntreviewRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
@@ -26,8 +27,10 @@ public class IntreviewService implements IIntreview {
     @Override
     public Intreview add_intreview(int id_credit, Intreview intreview) {
         String message = "score inferieur à 50";
-       intreview.setCredits(creditRepository.findById(id_credit).orElse(null));
-        if (iCredit.scoreCredit(id_credit) > 10) {
+       intreview.setCredits(creditRepository.findById(id_credit).get());
+       Credit credit= creditRepository.findById(id_credit).get();
+       User user=userRepository.findById(credit.getIdCredit()).get();
+        if (iCredit.scoreCredit(id_credit,user.getEmail()) > 10) {
             return intreviewRepository.save(intreview);
         } else {
             System.out.println(message);

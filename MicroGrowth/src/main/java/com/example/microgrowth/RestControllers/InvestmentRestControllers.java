@@ -10,6 +10,7 @@ import com.example.microgrowth.Service.Classe.BonDeCommandeService;
 import com.example.microgrowth.Service.Classe.EmailService;
 import com.example.microgrowth.Service.Classe.UserService;
 import com.example.microgrowth.Service.Interfaces.IInvestment;
+import com.example.microgrowth.Service.Interfaces.IMicroGrowth;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ import java.util.Date;
 public class InvestmentRestControllers  {
     @Autowired
     private EmailService EmailService;
-
+    IMicroGrowth iMicroGrowth;
    private BonDeCommandeService bonDeCommande;
     InvestmentRepository investmentRepository;
     @Autowired
@@ -53,9 +54,11 @@ public class InvestmentRestControllers  {
         return IInvestment.selectAll();
     }
 
-    @PostMapping("/admin/ajouterInvestment")
-    public Investment ajouter(@RequestBody Investment inv) throws MessagingException{
-        EmailService.sendNotificationEmail("omezzinemariem@gmail.com");
+    @PostMapping("/user/ajouterInvestment")
+    public Investment ajouter(@RequestBody Investment inv){
+        
+        EmailService.sendNotificationEmail(iMicroGrowth.getCurrentUserName());
+        inv.setUsers(Iuser.getUserByEmail(iMicroGrowth.getCurrentUserName()));
 
         return IInvestment.add(inv);
     }
@@ -91,7 +94,7 @@ public class InvestmentRestControllers  {
         return Tauxinteret;
     }
 
-   @GetMapping("/user/export/pdfinvestissement")
+   @GetMapping("/exportpdfinvestissement")
     public void exportToPDF(HttpServletResponse response, @RequestParam int id) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");

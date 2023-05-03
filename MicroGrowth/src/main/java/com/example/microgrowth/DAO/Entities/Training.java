@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,29 +22,41 @@ public class Training implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idTraining;
-    @NotNull(message = "Ce champ  ne peut pas être vide")
+    //@NotNull(message = "Ce champ  ne peut pas être vide")
+    @Column(nullable = false)
     String title;
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
+    // @NotNull(message = "Le champ nom ne peut pas être vide")
     Date startDate;
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     Date finishdate;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    String image;
     boolean state;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     float price;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     int nbrOfPlace;
-    @NotNull(message = "Le champ nom ne peut pas être vide")
+    @Column(nullable = false)
     String subject;
     @ManyToMany
+            @JsonIgnore
     List<User> userList;
     @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
     List<Participer> participerList;
     @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
     List<NonParticiper> nonparticiperList;
     @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
     List<Rating> rating;
+    @OneToMany(mappedBy = "trainings")
+    @JsonIgnore
+    List<Interesse> interesselist;
 
+
+    int nombreInteresse;
+    int nombreParticiper;
 }
