@@ -66,6 +66,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "users")
     List<Rating> ratingList;
 
-
+    @OneToOne
+    BankAccount bankAccount;
 
 }

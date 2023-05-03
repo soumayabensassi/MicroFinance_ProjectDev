@@ -22,7 +22,6 @@ import java.util.List;
         int idBank;
         String rib;
         float Amount;
-
         float COVER=100;
     long CURRENT_WITHDRAWAL_PER_DAY=300;
     long CURRENT_CARDPAYMENT_PER_DAY=300;
@@ -41,4 +40,6 @@ import java.util.List;
         @ManyToMany(mappedBy = "bankAccountList")
         List<Transaction> transactionList;
 
+        @OneToOne
+        User user ;
 }
