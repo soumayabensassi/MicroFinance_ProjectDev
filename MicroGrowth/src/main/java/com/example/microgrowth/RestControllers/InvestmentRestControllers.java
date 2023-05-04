@@ -74,7 +74,7 @@ public class InvestmentRestControllers  {
         IInvestment.deleteById(id);
     }
 
-    @PutMapping("/admin/modifierInvestment/{id}")
+    @PutMapping("/modifierInvestment/{id}")
     public Investment modif(@RequestBody Investment inv){
 
         return IInvestment.modif(inv);

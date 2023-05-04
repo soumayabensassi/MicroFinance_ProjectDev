@@ -23,6 +23,11 @@ public class ProjetRestController {
 
         return iProjet.selectAll();
     }
+    @GetMapping("/afficherProjectbyID/{id}")
+    public Projet AfficherByID(@PathVariable Long id)
+    {
+        return iProjet.selectById(id);
+    }
 
     @PostMapping("/ajouterProjet")
     public void ajouter(@RequestBody  Projet projet) {
