@@ -18,4 +18,6 @@ public interface BankAccountRepository extends JpaRepository<BankAccount,Integer
 
 
     BankAccount getBankAccountByRib(String rib);
+    BankAccount findBankAccountByUser_IdUser(int id);
+
 }

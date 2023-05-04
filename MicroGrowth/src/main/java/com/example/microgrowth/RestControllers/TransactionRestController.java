@@ -34,7 +34,7 @@ public class TransactionRestController {
     @Autowired
     private TransactionService service;
 
-    @GetMapping("/user/export/pdf")
+    @GetMapping("/export/pdf")
     public void exportToPDF(HttpServletResponse response,@RequestParam String Rib) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");

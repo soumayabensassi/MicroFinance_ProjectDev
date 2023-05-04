@@ -9,10 +9,11 @@ import com.example.microgrowth.Service.Interfaces.ICredit;
 import com.example.microgrowth.Service.Interfaces.IPenalite;
 import com.example.microgrowth.Service.Interfaces.IUser;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class PenaliteRestController {
