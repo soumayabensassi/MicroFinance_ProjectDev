@@ -1,5 +1,6 @@
 package com.example.microgrowth.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,5 +22,6 @@ import java.util.Date;
         @Temporal(TemporalType.DATE)
         Date dateIntreview;
     @OneToOne(mappedBy = "intreviews")
+    @JsonIgnore
     Credit credits;
 }

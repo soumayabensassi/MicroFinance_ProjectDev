@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class IntreviewService implements IIntreview {
@@ -29,12 +31,15 @@ public class IntreviewService implements IIntreview {
         String message = "score inferieur à 50";
        intreview.setCredits(creditRepository.findById(id_credit).get());
        Credit credit= creditRepository.findById(id_credit).get();
-       User user=userRepository.findById(credit.getIdCredit()).get();
-        if (iCredit.scoreCredit(id_credit,user.getEmail()) > 10) {
-            return intreviewRepository.save(intreview);
-        } else {
-            System.out.println(message);
-            return null;
-        }
+        intreviewRepository.save(intreview);
+            credit.setIntreviews(intreview);
+            creditRepository.save(credit);
+            return intreview;
+
+    }
+
+    @Override
+    public List<Intreview> ListIntreview() {
+        return intreviewRepository.findAll();
     }
 }

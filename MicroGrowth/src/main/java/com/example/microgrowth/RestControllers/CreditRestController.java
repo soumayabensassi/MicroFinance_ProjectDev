@@ -8,6 +8,7 @@ import com.example.microgrowth.DAO.Entities.Publication;
 
 import com.example.microgrowth.DAO.Entities.*;
 
+import com.example.microgrowth.DAO.Repositories.ActivitySectorRepository;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Classe.EmailService;
@@ -40,6 +41,7 @@ public class CreditRestController {
 
     IInvestment iInvestment;
     IUser iUser;
+    ActivitySectorRepository activitySectorRepository;
     @Autowired
     UserRepository userRepository;
     @GetMapping("/admin/afficherCredits")
@@ -57,6 +59,8 @@ public class CreditRestController {
     @PostMapping("/admin/ajouterCreditByadmin/{email}")
     public Credit ajouterCredit_admin(@RequestBody Credit credit,@PathVariable String email)
     { credit.setUsers(iUser.getUserByEmail(email));
+
+        credit.setActiviteSecteurs(activitySectorRepository.findById(1).get());
         return iCredit.add_credit_admin(credit);
     }
     @PutMapping("/admin/updateCredit")
@@ -186,7 +190,7 @@ public class CreditRestController {
     public List<Credit> afficherCreditRem(){
         return creditRepository.selectCreditRembourseeParMois();
     }
-    @PostMapping("/admin/accordePenalite")
+        @PostMapping("/admin/accordePenalite")
     public  void Accorde_penalite(){
         iCredit.Accorde_penalite();
     }
@@ -240,19 +244,30 @@ EmailService emailService;
 
         iCredit.AffecterCreditAuUser(creditRepository.findById(id).get());
     }
-    @GetMapping("/user/afficherPacks")
+    @GetMapping("/admin/afficherPacksback")
     public List<Credit> afficherPacks(){
+        return creditRepository.afficherCreditPackBack();
+    }
+    @GetMapping("/afficherPacks")
+    public List<Credit> afficherPacksFront(){
         return creditRepository.CreditsPack();
     }
-
+    @GetMapping("/admin/afficherCreditPerso")
+    public List<Credit> afficherCreditPerso(){
+        return creditRepository.afficherCreditPerso();
+    }
     @PostMapping("/user/demanderPack/{idcredit}/{email}")
     void accorderPack(@PathVariable int idcredit, @PathVariable String email){
         Credit credit=creditRepository.findById(idcredit).get();
         credit.setUsers(iUser.getUserByEmail(email));
         iCredit.accorderPack(idcredit);
     }
-    @GetMapping("/user/afficherMesCredit/{email}")
+    @GetMapping("/afficherMesCredit/{email}")
     public List<Credit> afficherMesCredit(@PathVariable String email){
         return creditRepository.afficherMesCredits(email);
+    }
+    @GetMapping("/admin/afficherDemandePack")
+    public List<Credit> afficherCreditsPackDemande(){
+        return creditRepository.afficherCreditsPackDemande();
     }
 }

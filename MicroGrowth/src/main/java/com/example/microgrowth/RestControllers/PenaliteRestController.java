@@ -1,5 +1,6 @@
 package com.example.microgrowth.RestControllers;
 
+import com.example.microgrowth.DAO.Entities.Penalite;
 import com.example.microgrowth.DAO.Entities.User;
 import com.example.microgrowth.DAO.Repositories.CreditRepository;
 import com.example.microgrowth.DAO.Repositories.PenaliteRepository;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 @CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
@@ -25,19 +29,26 @@ public class PenaliteRestController {
     CreditRepository creditRepository;
 
     @GetMapping("/admin/SendPenaliteEmail/{id}")
-    void SendEmailPenalite(@PathVariable int id){
-        int user_id= creditRepository.SelectUserFromCredit(id);
-        User user=userRepository.findById(user_id).get();
+    void SendEmailPenalite(@PathVariable int id) {
+        int user_id = creditRepository.SelectUserFromCredit(id);
+        User user = userRepository.findById(user_id).get();
         System.out.println(user.getEmail());
 
-        if(penaliteRepository.countPenaliteParCredit(id)==1){
+        if (penaliteRepository.countPenaliteParCredit(id) == 1) {
 
-    emailService.sendPenaliteEmail(user.getEmail());
+            emailService.sendPenaliteEmail(user.getEmail());
+        }
+
     }
 
-}
-@GetMapping("/admin/StatistiquePenalite/{mois}")
-    void afficherStatPenalite(@PathVariable int mois){
+    @GetMapping("/admin/StatistiquePenalite/{mois}")
+    double afficherStatPenalite(@PathVariable int mois) {
         System.out.println(iPenalite.statistique_penalite_mois(mois));
-}
+        return (iPenalite.statistique_penalite_mois(mois));
+    }
+
+    @GetMapping("/admin/afficherPenalite")
+    List<Penalite> afficherpenalite() {
+        return (iPenalite.afficherpenalite());
+    }
 }

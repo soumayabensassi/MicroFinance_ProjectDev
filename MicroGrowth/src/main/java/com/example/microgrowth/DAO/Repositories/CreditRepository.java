@@ -44,6 +44,8 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     int SelectUserFromCredit(int i);
     @Query(value ="SELECT credit.* from credit JOIN user on credit.users_id_user=user.id_user JOIN role ON role.idrole=user.roles_idrole WHERE credit.pack=true and role.name='[ROLE_ADMIN]'" ,nativeQuery = true)
     List<Credit> CreditsPack();
+    @Query(value ="SELECT credit.* from credit  WHERE credit.pack=true " ,nativeQuery = true)
+    List<Credit> afficherCreditPackBack();
     @Query(value ="SELECT credit.* from credit WHERE credit.users_id_user=?1" ,nativeQuery = true)
     List<Credit> CreditsParUser(int iduser);
     @Query(value ="SELECT credit.* from credit WHERE credit.state=2" ,nativeQuery = true)
@@ -54,5 +56,8 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> CreditsEnCours();
     @Query(value = "SELECT credit.* from credit JOIN user on credit.users_id_user=user.id_user where user.email=?1",nativeQuery = true)
     List<Credit> afficherMesCredits(String email);
-
+@Query(value="select credit.* from credit where credit.pack=0",nativeQuery = true)
+    List<Credit> afficherCreditPerso();
+@Query(value = "select credit.* from credit JOIN User on credit.users_id_user=user.id_user where credit.pack=1  and user.roles_idrole=1",nativeQuery = true)
+    List<Credit> afficherCreditsPackDemande();
 }

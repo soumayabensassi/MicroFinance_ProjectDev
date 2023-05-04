@@ -7,6 +7,8 @@ import com.example.microgrowth.Service.Interfaces.IPenalite;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class PenaliteService implements IPenalite {
@@ -43,6 +45,11 @@ public class PenaliteService implements IPenalite {
         return ratio;
 
 
+    }
+
+    @Override
+    public List<Penalite> afficherpenalite() {
+        return penaliteRepository.findAll();
     }
 
 
