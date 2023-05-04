@@ -14,6 +14,7 @@ public interface IComplaintService {
     List<Complaint> addAll(List<Complaint> listC);
     void deleteAll(List<Complaint> listC);
     void deleteByState();
+    List<Complaint>  afficherwithuser(String email);
 
 
 }

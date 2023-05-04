@@ -56,7 +56,7 @@ public class RatingRestController {
         rating.setTrainings(event);
         rating.setUsers(user);
         rating.setScore(score);
-        if (rating.getScore()<=5 && rating.getScore()>=0){
+        if (rating.getScore()<=5 && rating.getScore()>=0 && rating!=null){
         ratingRepository.save(rating);
             return ResponseEntity.ok().build();}
         else

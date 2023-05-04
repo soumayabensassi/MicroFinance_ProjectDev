@@ -19,7 +19,8 @@ import java.io.Serializable;
 })*/
 public class Rating implements Serializable {
     @Id
-     int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int idRating;
      int score;
     @ManyToOne
             @JsonIgnore

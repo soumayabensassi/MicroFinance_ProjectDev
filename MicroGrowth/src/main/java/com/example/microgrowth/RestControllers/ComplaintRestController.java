@@ -38,6 +38,11 @@ public class ComplaintRestController {
 
         return iComplaintService.selectAll();
     }
+    @GetMapping("/afficherCwithuser")
+    public List<Complaint> afficherCwithuser(){
+        String email=iMicroGrowth.getCurrentUserName();
+        return iComplaintService.afficherwithuser(email);
+    }
     @PostMapping("/user/ajouterComplaint")
     public Complaint ajouterC(@RequestBody Complaint complaint){
         Date d=new Date();
@@ -82,7 +87,7 @@ public class ComplaintRestController {
     }
 EmailSenderService emailSenderService;
     private final JavaMailSender mailSender;
-    @RequestMapping("/AvisTraitement")
+    @GetMapping("/AvisTraitement")
     public void AvisTraitement() throws MessagingException {
         List<Complaint> reclamation = complaintRepository.selectByState1();
         for(Complaint rec : reclamation){
@@ -95,7 +100,7 @@ EmailSenderService emailSenderService;
             //message.setText((body));
             message.setSubject(subject);
             //Complaint complaint=new Complaint();
-            String htmlBody = "<html><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><body><p>Bonjour,</p><p>Etes-vous satisfait du traitement? :</p><a href=\"https://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/satisfait\" class='button'>OUI</a></body><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><a href=\"https://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/nonsatisfait\" class='button'>NON</a><p>Merci,</p><p>L'équipe de Spring</p></body></html>";
+            String htmlBody = "<html><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #f5f9fc; background-color: #4c87af; border-radius: 5px; border: none;}</style></head><body><p>Bonjour,</p><p>Etes-vous satisfait du traitement? :</p><a href=\"http://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/satisfait\" class='button'>OUI</a></body><head><style>.button {display: inline-block; padding: 10px 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: #FFFFFF; background-color: #4CAF50; border-radius: 5px; border: none;}</style></head><a href=\"https://localhost:8082/MicroGrowth/" + rec.getIdComplaint() + "/nonsatisfait\" class='button'>NON</a><a href=\"http://localhost:4200/signin\" class='button'>Check our web site</a><p>Merci,</p><p>L'équipe de Spring</p></body></html>";
 
             message.setText(htmlBody, true);
 
