@@ -36,7 +36,7 @@ public class User implements Serializable {
     int ancienneteEmploi;
     String typeContratEmploi ;
     int proprietaire;
-    float salaire;
+    float salaire=800;
     Date dateNaissance=new Date();
     boolean historiqueCredit;
     @OneToMany(mappedBy = "users")
