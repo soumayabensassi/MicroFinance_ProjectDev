@@ -41,7 +41,7 @@ public class CreditService implements ICredit {
     IMicroGrowth iMicroGrowth;
     @Autowired
     IUser iUser;
-
+ActivitySectorRepository activitySectorRepository;
 
     @Override
     public String add_credit_user(Credit c) {
@@ -84,6 +84,8 @@ public class CreditService implements ICredit {
     public Credit add_credit_admin(Credit c) {
         c.setPack(true);
 
+        c.setActiviteSecteurs(activitySectorRepository.findById(1).get());
+        c.setState(1);
         return creditRepository.save(c);
     }
 
