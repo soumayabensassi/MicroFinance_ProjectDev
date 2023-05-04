@@ -29,7 +29,11 @@ public class ProjetRestController {
 
          iProjet.add(projet);
     }
-
+    @GetMapping("/afficherProjectbyID/{id}")
+    public Projet AfficherByID(@PathVariable Long id)
+    {
+        return iProjet.selectById(id);
+    }
     @DeleteMapping("/admin/deleteProjetbyID/{id}")
     public void delete(@PathVariable Long id)
     {
