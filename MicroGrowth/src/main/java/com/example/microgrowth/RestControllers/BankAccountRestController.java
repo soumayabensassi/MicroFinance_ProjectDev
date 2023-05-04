@@ -36,7 +36,7 @@ public IBankAccount iBankAccount;
     {
         return iBankAccount.SelectById(id);
     }
-    @GetMapping("/admin/showBankAccountbyuser/{id}")
+    @GetMapping("/user/showBankAccountbyuser/{id}")
     public BankAccount AfficherByIDUser(@PathVariable int id)
     {
         return iBankAccount.SelectByIdUser(id);
