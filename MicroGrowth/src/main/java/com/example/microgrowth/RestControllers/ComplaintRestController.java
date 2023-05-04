@@ -123,4 +123,12 @@ EmailSenderService emailSenderService;
         String nonsatis=Double.toString(nonsatisfait);
         return "Le pourcentage des users satisfaits :"+satis+"%\n Le pourcentage des users non satisfaits"+nonsatis+"%";
     }
+    @GetMapping("/admin/tauxsatisfait")
+    public double tauxsatisfait(){
+        return (complaintRepository.calculsatisfait(RetourComplaint.SATISFAIT)/complaintRepository.totale())*100;
+    }
+    @GetMapping("/admin/tauxinsatisfait")
+    public double tauxinsatisfait(){
+        return (complaintRepository.calculsatisfait(RetourComplaint.NON_SATISFAIT)/complaintRepository.totale())*100;
+    }
 }
