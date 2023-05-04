@@ -69,12 +69,16 @@ public class InvestmentRestControllers  {
         IInvestment.deleteById(id);
     }
 
-    @PutMapping("/admin/modifierInvestment/{id}")
+    @PutMapping("/modifierInvestment/{id}")
     public Investment modif(@RequestBody Investment inv){
 
         return IInvestment.modif(inv);
     }
-
+    @GetMapping("/afficherInvbyID/{id}")
+    public Investment AfficherByID(@PathVariable int id)
+    {
+        return IInvestment.selectById(id);
+    }
     @PostMapping("/admin/interet")
     public double calculerInteret(
             @RequestParam MethodInvestissement methodInvestissement,
