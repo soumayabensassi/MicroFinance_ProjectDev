@@ -51,7 +51,7 @@ public class TransactionRestController {
 
     }
 
-    @GetMapping("/user/showTransaction")
+    @GetMapping("/admin/showTransaction")
     public List<Transaction> afficher()
     {
         return iTransaction.selectAll();
@@ -96,9 +96,8 @@ public class TransactionRestController {
     }
 
     @PostMapping("/user/makeTransfer")
-    public ResponseEntity<String> makeTransfer(@RequestBody Transaction t){
+    public void makeTransfer(@RequestBody Transaction t){
         iTransaction.makeTransfer(t);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Transfer Successful");
     }
 
     @PostMapping("/user/makePayment")

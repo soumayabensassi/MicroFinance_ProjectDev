@@ -45,6 +45,13 @@ public class TransactionService implements ITransaction {
 
     @Override
     public void deleteById(int id) {
+
+        Transaction t =transactionRepository.findById(id).get();
+        System.out.println(t);
+        String rib= t.getRibReceiver();
+        t.setRibReceiver(t.getRibSource());
+        t.setRibSource(rib);
+        makePayment(t);
         transactionRepository.deleteById(id);
     }
 
@@ -87,7 +94,7 @@ public class TransactionService implements ITransaction {
             }
             somme+=t.getAmountTransaction();
             if(t !=null
-                    && somme < bankAccountSource.getMAX_WITHDRAWL_PER_DAY()
+                    && somme < bankAccountSource.getMAX_BANKTRANSFER_PER_DAY()
                     && t.getAmountTransaction()<= bankAccountSource.getAmount()+ bankAccountSource.getCOVER())
             {
                 bankAccountSource.setAmount(bankAccountSource.getAmount()-t.getAmountTransaction());
