@@ -56,7 +56,7 @@ public class Training implements Serializable  {
     @JsonIgnore
     List<Interesse> interesselist;
 
-
+   
     int nombreInteresse;
     int nombreParticiper;
 }
