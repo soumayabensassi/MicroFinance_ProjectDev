@@ -244,7 +244,7 @@ EmailService emailService;
 
         iCredit.AffecterCreditAuUser(creditRepository.findById(id).get());
     }
-    @GetMapping("/afficherPacks")
+    @GetMapping("/admin/afficherPacksback")
     public List<Credit> afficherPacks(){
         return creditRepository.afficherCreditPackBack();
     }
