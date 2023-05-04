@@ -1,7 +1,9 @@
 package com.example.microgrowth.Service.Classe;
 
 import com.example.microgrowth.DAO.Entities.Inssurance;
+import com.example.microgrowth.DAO.Repositories.ActivitySectorRepository;
 import com.example.microgrowth.DAO.Repositories.InsuranceRepository;
+import com.example.microgrowth.DAO.Repositories.UserRepository;
 import com.example.microgrowth.Service.Interfaces.IInsuranceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.List;
 public class InsuranceService implements IInsuranceService {
 
     private InsuranceRepository insuranceRepository;
+    private ActivitySectorRepository activitySectorRepository;
+    private UserRepository userRepository;
 
     @Override
     public Inssurance add(Inssurance inssurance) {
@@ -21,6 +25,8 @@ public class InsuranceService implements IInsuranceService {
 
     @Override
     public Inssurance edit( Inssurance inssurance) {
+        inssurance.setActivitySector(activitySectorRepository.findById(1).get());
+        inssurance.setUsers(userRepository.findById(32).get());
         return insuranceRepository.save(inssurance);
     }
 

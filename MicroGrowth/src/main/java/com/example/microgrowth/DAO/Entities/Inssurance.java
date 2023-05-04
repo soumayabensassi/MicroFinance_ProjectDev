@@ -29,6 +29,6 @@ public class Inssurance implements Serializable {
 
     @ManyToOne
     User users;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     ActivitySector activitySector;
 }
