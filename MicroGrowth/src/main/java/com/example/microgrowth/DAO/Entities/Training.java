@@ -56,7 +56,9 @@ public class Training implements Serializable  {
     @JsonIgnore
     List<Interesse> interesselist;
 
-   
+   float longitude;
+   float latitude;
+   String Local;
     int nombreInteresse;
     int nombreParticiper;
 }
