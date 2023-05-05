@@ -64,7 +64,7 @@ public class TrainingRestController {
     }
         else{
         for(User us : trainingRepository.selectUsers()) {
-            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/HP/Pictures/aff.pdf");
+            senderService.sendEmail(us.getEmail(), " Nouvel Evenement ", "Nouvel Evenement ", "C:/Users/ASUS/OneDrive/Bureau/pidev/logo.pdf");
         }
         iTrainingService.add(training);
         return ResponseEntity.status(HttpStatus.OK).body("ajout done");}

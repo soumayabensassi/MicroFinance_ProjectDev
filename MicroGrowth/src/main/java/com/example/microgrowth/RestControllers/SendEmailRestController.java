@@ -23,7 +23,7 @@ private EmailService emailService;
 
     }
     @GetMapping("/email/reset/{token}/{email}/{password}")
-    public String reset(@PathVariable("token") String token,@PathVariable("email") String email,@PathVariable("password") String password) {
+    public int reset(@PathVariable("token") String token,@PathVariable("email") String email,@PathVariable("password") String password) {
         return emailService.resetPassword(token,email,password);
     }
 }

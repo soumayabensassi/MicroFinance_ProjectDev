@@ -146,4 +146,14 @@ public class UserRestControllers {
         return null;
     }
     }
+    @GetMapping("/verifUser/{email}")
+    public boolean verifUser(@PathVariable String email)
+    { User u=iUser.getUserByEmail(email);
+
+        if (u!=null)
+    {
+        return true;
+    }
+        return false;
+    }
 }

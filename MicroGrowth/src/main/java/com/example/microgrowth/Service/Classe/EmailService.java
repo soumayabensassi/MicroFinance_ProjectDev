@@ -74,20 +74,20 @@ public String forgetpassword(String email) {
     }
 
     @Transactional
-    public String resetPassword(String token,String email,String password) {
+    public int resetPassword(String token,String email,String password) {
         RestPasswordToken resetPasswordToken = passwordTokenService
                 .getToken(token)
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
 
         if (resetPasswordToken .getConfirmedAt() != null) {
-            throw new IllegalStateException("already changed");
+            return -1;
         }
 
         LocalDateTime expiredAt = resetPasswordToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+            return 0;
         }
 
         resetPasswordToken.setConfirmedAt(LocalDateTime.now());
@@ -96,7 +96,7 @@ public String forgetpassword(String email) {
         String encodedPassword = bCryptPasswordEncoder
                 .encode(password);
         userRepo.resetPassword(encodedPassword, email);
-        return "confirmed";
+        return 1;
     }
 
     private String buildEmailReset(String name, String link) {
