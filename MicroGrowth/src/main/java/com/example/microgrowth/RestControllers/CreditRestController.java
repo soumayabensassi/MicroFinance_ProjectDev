@@ -51,9 +51,15 @@ public class CreditRestController {
     }
     @PostMapping("/user/ajouterCreditByuser/{email}")
     public String ajouterCredit_user(@RequestBody Credit credit,@PathVariable String email)
-    {
-        credit.setUsers(iUser.getUserByEmail(email));
-        //credit.setScore_credit(iCredit.scoreCredit(credit.getIdCredit(),email));
+    {   credit.setUsers(iUser.getUserByEmail(email));
+        iCredit.add_credit_user(credit);
+
+        System.out.println("test");
+
+        System.out.println(credit.getIdCredit());
+        int s=iCredit.scoreCredit(credit.getIdCredit(),email);
+        System.out.println(s);
+        credit.setScore_credit(s);
         return iCredit.add_credit_user(credit);
     }
     @PostMapping("/admin/ajouterCreditByadmin/{email}")
