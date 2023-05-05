@@ -23,9 +23,9 @@ public interface ComplaintRepository extends JpaRepository<Complaint,Integer> {
     List<User>  selectUsers();
     Complaint findByIdComplaint(int id);
     @Query( "select count(*)from Complaint c where c.retourComplaint=?1")
-    double calculsatisfait(RetourComplaint r);
+    float calculsatisfait(RetourComplaint r);
     @Query( "select count(*)from Complaint ")
-    double totale();
+    float totale();
     @Query( "select u from Complaint u where u.users.email=?1 ")
     List<Complaint> selectwithcurrentuser(String email);
 }
